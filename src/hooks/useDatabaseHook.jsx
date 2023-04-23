@@ -65,9 +65,12 @@ function useDatabaseHook() {
     function showAllCompanies() {
       onValue(companiesInDB, function(snapshot) {
         let companiesArr = Object.entries(snapshot.val()).map(item => {
-          console.log("item", item[1].companyName)
           return (
-            <p key={item}>{item[1].companyName}</p> 
+            <Link to={`/company/${item[1].companyName}`} key={item}>
+              <p>
+                {item[1].companyName}
+              </p>
+            </Link> 
           )
         })
         setAllCompanies(companiesArr)

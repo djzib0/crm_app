@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import useDatabaseHook from '../hooks/useDatabaseHook'
-import {Routes, Route, Link} from "react-router-dom"
+
+import CompanyForm from './CompanyForm'
 
 function Companies() {
     const {allCompanies} = useDatabaseHook()
-    console.log(allCompanies)
+
 
     return (
         <div>

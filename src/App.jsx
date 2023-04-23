@@ -2,13 +2,18 @@ import { useState } from 'react'
 import { Link, Routes, Route} from 'react-router-dom'
 import './App.css'
 
+import useDatabaseHook from './hooks/useDatabaseHook'
+
 
 // import of components
 import Companies from './components/Companies'
+import Company from './components/Company'
 import CompanyForm from './components/CompanyForm'
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const {allCompanies} = useDatabaseHook()
+  let testProp = "dupka"
 
   return (
       <div>
@@ -19,6 +24,11 @@ function App() {
         <Routes>
           <Route path='/' exact element={<Companies />} />
           <Route path="/add-company" element={<CompanyForm />} />
+          {allCompanies && allCompanies.map(item => {
+            return(
+              <Route key={item} path="/company/:id" element={<Company myProps={testProp}/>} />
+            )
+          })}
         </Routes>
 
       </div>
