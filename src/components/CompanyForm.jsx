@@ -14,8 +14,11 @@ function CompanyForm(props) {
         companyAddressCity: "",
     })
 
+    //form action state (add new client or edit)
+    const [isUpdateForm, setIsUpdateForm] = useState(false)
+
     // custom hook database state
-    const {addCompany} = useDatabaseHook()
+    const {addCompany,} = useDatabaseHook()
 
     // form functions
     function handleFormChange(e) {

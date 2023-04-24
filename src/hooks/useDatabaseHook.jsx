@@ -28,11 +28,10 @@ const clientsInDB = ref(database, "companiesItems/peopleItems")
 
 function useDatabaseHook() {
 
-    const [companyCounter, setCompanyCounter] = useState(1)
-    const [allCompanies, setAllCompanies] = useState()
+    const [allCompaniesData, setAllCompaniesData] = useState()
 
     useEffect(() => {
-      return showAllCompanies()
+      return showAllCompaniesData()
     }, [])
 
     function addCompany(name, street, buildingNumber, zipCode, city) {
@@ -53,13 +52,19 @@ function useDatabaseHook() {
       } )
     }
 
-    function updateClient() {
-      let exactItem = `companiesItems/peopleItems/-NTe3Lnn6ArpjsAA4YYo`
-      set(ref(database, exactItem), {
-        name: "Arturino1",
-        lastName: "Królik",
-        email: "test1@testmail.com"
-      })
+    function updateCompany(id) {
+      console.log("The client", id,  "has been updated")
+      // let exactItem = `companiesItems/peopleItems/-NTe3Lnn6ArpjsAA4YYo`
+      // set(ref(database, exactItem), {
+      //   name: "Arturino1",
+      //   lastName: "Królik",
+      //   email: "test1@testmail.com"
+      // })
+    }
+
+    function fillFormToUpdate(id, name, street, buildingNumber, zipCode, city) {
+      console.log(id, name, street, buildingNumber, zipCode, city)
+
     }
 
     function showAllCompanies() {
@@ -71,18 +76,33 @@ function useDatabaseHook() {
                 {item[1].companyName}
               </p>
             </Link> 
+
           )
         })
-        setAllCompanies(companiesArr)
+        setAllCompaniesData(companiesArr)
+      })
+    }
+
+    function showAllCompaniesData() {
+      onValue(companiesInDB, function(snapshot) {
+        let companiesArr = Object.entries(snapshot.val()).map(item => {
+          return (
+            {
+              ...item
+            }
+          )
+        })
+        setAllCompaniesData(companiesArr)
       })
     }
 
     return {
-      companyCounter, 
       addCompany, 
       addClient, 
-      updateClient, 
-      allCompanies}
+      updateCompany, 
+      allCompaniesData,
+      fillFormToUpdate
+    }
 
 }
 

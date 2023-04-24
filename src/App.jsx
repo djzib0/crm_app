@@ -12,9 +12,49 @@ import CompanyForm from './components/CompanyForm'
 
 function App() {
 
-  const {allCompanies} = useDatabaseHook()
-  let testProp = "dupka"
+  const {allCompaniesData} = useDatabaseHook()
 
+  // let companyArr = allCompaniesData && allCompaniesData.map(item => {
+  //   // destructurization for props
+  //   const { companyName,
+  //           companyAddressStreet, 
+  //           companyAddressBuildingNumber,
+  //           companyAddressZipCode,
+  //           companyAddressCity,
+  //         } = item[1]
+  //   return(
+  //     <Route key={item[0]} path="/company/:id" element={<Company 
+  //       companyName={companyName}
+  //       companyAddressStreet={companyAddressStreet}
+  //       companyAddressBuildingNumber={companyAddressBuildingNumber}
+  //       companyAddressZipCode={companyAddressZipCode}
+  //       companyAddressCity={companyAddressCity}
+  //       companyId={item[0]}
+  //       showItem={console.log(item[1].companyName)}
+  //       />} />
+  //   )
+  // })
+
+  let companyArr = allCompaniesData && allCompaniesData.map(item => {
+    // destructurization for props
+    const { companyName,
+      companyAddressStreet, 
+      companyAddressBuildingNumber,
+      companyAddressZipCode,
+      companyAddressCity,
+    } = item[1]
+    return(
+      <Company 
+                companyName={companyName}
+                companyAddressStreet={companyAddressStreet}
+                companyAddressBuildingNumber={companyAddressBuildingNumber}
+                companyAddressZipCode={companyAddressZipCode}
+                companyAddressCity={companyAddressCity}
+                companyId={item[0]}
+                />
+    )
+  })
+  
   return (
       <div>
         <div className='router-links'>
@@ -24,9 +64,26 @@ function App() {
         <Routes>
           <Route path='/' exact element={<Companies />} />
           <Route path="/add-company" element={<CompanyForm />} />
-          {allCompanies && allCompanies.map(item => {
+          {/* <Route path="/company/:id" element={<Company />} /> */}
+          {allCompaniesData && allCompaniesData.map(item => {
+            // destructurization for props
+            const { companyName,
+                    companyAddressStreet, 
+                    companyAddressBuildingNumber,
+                    companyAddressZipCode,
+                    companyAddressCity,
+                   } = item[1]
+            console.log(item[1])
+
             return(
-              <Route key={item} path="/company/:id" element={<Company myProps={testProp}/>} />
+              <Route key={item[0]} path={`/company/${item[0]}`} element={<Company 
+                companyName={companyName}
+                companyAddressStreet={companyAddressStreet}
+                companyAddressBuildingNumber={companyAddressBuildingNumber}
+                companyAddressZipCode={companyAddressZipCode}
+                companyAddressCity={companyAddressCity}
+                companyId={item[0]}
+                />} />
             )
           })}
         </Routes>
