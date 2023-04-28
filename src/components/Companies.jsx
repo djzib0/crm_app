@@ -13,9 +13,7 @@ function Companies() {
         )
     })
 
-
-
-
+    
     return (
         <div>
             {companiesArr}

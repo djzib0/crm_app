@@ -1,11 +1,13 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 import useDatabaseHook from '../hooks/useDatabaseHook'
 
 function Company(props) {
 
   const {fillFormToUpdate} = useDatabaseHook()
+
+  const { id } = useParams()
 
   const { companyName,
     companyAddressStreet, 
@@ -21,6 +23,7 @@ function Company(props) {
     <div>
       {companyName} {companyAddressStreet}
       <p>Company ID: {companyId}</p>
+      <p>This is useParams id: {id}</p>
       <Link to="/add-company" onClick={
         () => fillFormToUpdate(companyId, 
           companyName,

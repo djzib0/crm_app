@@ -3,8 +3,8 @@ import { Link, Routes, Route} from 'react-router-dom'
 
 
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getDatabase, ref, push, onValue, remove, set } from 'firebase/database'
+import { initializeApp, setLogLevel } from "firebase/app";
+import { getDatabase, ref, push, onValue, remove, set, get } from 'firebase/database'
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -29,9 +29,19 @@ const clientsInDB = ref(database, "companiesItems/peopleItems")
 function useDatabaseHook() {
 
     const [allCompaniesData, setAllCompaniesData] = useState()
-
+   
     useEffect(() => {
-      return showAllCompaniesData()
+ 
+      function fetchData() {
+        const data = showAllCompaniesData()
+      }
+
+      // async function fetchData() {
+      //   const snapshot = await get(companiesInDB)
+      //   const data = await snapshot.val()
+      // }
+
+    fetchData()
     }, [])
 
     function addCompany(name, street, buildingNumber, zipCode, city) {
@@ -67,23 +77,7 @@ function useDatabaseHook() {
 
     }
 
-    function showAllCompanies() {
-      onValue(companiesInDB, function(snapshot) {
-        let companiesArr = Object.entries(snapshot.val()).map(item => {
-          return (
-            <Link to={`/company/${item[1].companyName}`} key={item}>
-              <p>
-                {item[1].companyName}
-              </p>
-            </Link> 
-
-          )
-        })
-        setAllCompaniesData(companiesArr)
-      })
-    }
-
-    function showAllCompaniesData() {
+    async function showAllCompaniesData() {
       onValue(companiesInDB, function(snapshot) {
         let companiesArr = Object.entries(snapshot.val()).map(item => {
           return (
@@ -91,17 +85,20 @@ function useDatabaseHook() {
               ...item
             }
           )
+        
         })
         setAllCompaniesData(companiesArr)
-      })
+      }, {onlyOnce: true})
     }
-
+ 
     return {
       addCompany, 
       addClient, 
       updateCompany, 
       allCompaniesData,
-      fillFormToUpdate
+      setAllCompaniesData,
+      fillFormToUpdate,
+      showAllCompaniesData,
     }
 
 }

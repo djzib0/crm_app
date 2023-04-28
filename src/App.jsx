@@ -8,6 +8,7 @@ import useDatabaseHook from './hooks/useDatabaseHook'
 // import of components
 import Companies from './components/Companies'
 import Company from './components/Company'
+import CompanyTest from './components/CompanyTest'
 import CompanyForm from './components/CompanyForm'
 
 function App() {
@@ -35,25 +36,7 @@ function App() {
   //   )
   // })
 
-  let companyArr = allCompaniesData && allCompaniesData.map(item => {
-    // destructurization for props
-    const { companyName,
-      companyAddressStreet, 
-      companyAddressBuildingNumber,
-      companyAddressZipCode,
-      companyAddressCity,
-    } = item[1]
-    return(
-      <Company 
-                companyName={companyName}
-                companyAddressStreet={companyAddressStreet}
-                companyAddressBuildingNumber={companyAddressBuildingNumber}
-                companyAddressZipCode={companyAddressZipCode}
-                companyAddressCity={companyAddressCity}
-                companyId={item[0]}
-                />
-    )
-  })
+
   
   return (
       <div>
@@ -65,7 +48,7 @@ function App() {
           <Route path='/' exact element={<Companies />} />
           <Route path="/add-company" element={<CompanyForm />} />
           {/* <Route path="/company/:id" element={<Company />} /> */}
-          {allCompaniesData && allCompaniesData.map(item => {
+          {/* {allCompaniesData && allCompaniesData.map(item => {
             // destructurization for props
             const { companyName,
                     companyAddressStreet, 
@@ -85,7 +68,8 @@ function App() {
                 companyId={item[0]}
                 />} />
             )
-          })}
+          })} */}
+          <Route path="/company/:id" element={<CompanyTest />} />
         </Routes>
 
       </div>
