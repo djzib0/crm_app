@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
+import { Link } from 'react-router-dom'
+
 import useDatabaseHook from '../hooks/useDatabaseHook'
 
 // Import the functions you need from the SDKs you need
 import { initializeApp, setLogLevel } from "firebase/app";
-import { getDatabase, ref, push, onValue, remove, set, get } from 'firebase/database'
+import { getDatabase, ref, get } from 'firebase/database'
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -38,7 +40,6 @@ function CompanyTest() {
         async function fetchData() {
             const snapshot = await get(ref(database, `companiesItems/${id}`))
             const data = await snapshot.val()
-            console.log(data)
             // const {companyAddressStreet} = data
             setSelectedCompany(data)
         }
@@ -49,17 +50,22 @@ function CompanyTest() {
     let companyAddressBuildingNumber
     let companyName
     let companyAddressCity
+    let companyAddressZipCode
 
     if (selectedCompany) {
         companyName = selectedCompany.companyName
         companyAddressStreet = selectedCompany.companyAddressStreet
         companyAddressBuildingNumber = selectedCompany.companyAddressBuildingNumber
         companyAddressCity = selectedCompany.companyAddressCity
+        companyAddressZipCode = selectedCompany.companyAddressZipCode
     }
 
     return (
         <div>
-            {selectedCompany && companyName} {selectedCompany && companyAddressStreet} {selectedCompany && companyAddressBuildingNumber} {selectedCompany && companyAddressCity}
+            <p>{selectedCompany && companyName}</p>
+            <p>ul.{selectedCompany && companyAddressStreet} {selectedCompany && companyAddressBuildingNumber}</p>
+            <p>{selectedCompany && companyAddressZipCode} {selectedCompany && companyAddressCity}</p>
+            <Link to={`/edit-company/${id}`}>Edit</Link>
         </div>
     )
 }

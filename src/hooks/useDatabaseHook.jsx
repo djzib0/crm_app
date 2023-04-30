@@ -62,19 +62,20 @@ function useDatabaseHook() {
       } )
     }
 
-    function updateCompany(id) {
+    function updateCompany(id, name, street, buildingNumber, zipCode, city) {
       console.log("The client", id,  "has been updated")
-      // let exactItem = `companiesItems/peopleItems/-NTe3Lnn6ArpjsAA4YYo`
-      // set(ref(database, exactItem), {
-      //   name: "Arturino1",
-      //   lastName: "Królik",
-      //   email: "test1@testmail.com"
-      // })
+      let exactItem = `companiesItems/${id}`
+      set(ref(database, exactItem), {
+        companyName: name,
+        companyAddressStreet: street,
+        companyAddressBuildingNumber: buildingNumber,
+        companyAddressZipCode: zipCode,
+        companyAddressCity: city,
+      })
     }
 
-    function fillFormToUpdate(id, name, street, buildingNumber, zipCode, city) {
+    function fillCompanyFormToUpdate(id, name, street, buildingNumber, zipCode, city) {
       console.log(id, name, street, buildingNumber, zipCode, city)
-
     }
 
     async function showAllCompaniesData() {
@@ -97,7 +98,7 @@ function useDatabaseHook() {
       updateCompany, 
       allCompaniesData,
       setAllCompaniesData,
-      fillFormToUpdate,
+      fillCompanyFormToUpdate,
       showAllCompaniesData,
     }
 

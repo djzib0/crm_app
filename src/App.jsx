@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, Routes, Route} from 'react-router-dom'
+import { Link, Routes, Route, useParams} from 'react-router-dom'
 import './App.css'
 
 import useDatabaseHook from './hooks/useDatabaseHook'
@@ -47,6 +47,7 @@ function App() {
         <Routes>
           <Route path='/' exact element={<Companies />} />
           <Route path="/add-company" element={<CompanyForm />} />
+          <Route path="/edit-company/:companyId" element={<CompanyForm />} />
           {/* <Route path="/company/:id" element={<Company />} /> */}
           {/* {allCompaniesData && allCompaniesData.map(item => {
             // destructurization for props
