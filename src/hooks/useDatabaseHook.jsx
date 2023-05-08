@@ -23,15 +23,17 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app)
 const companiesInDB = ref(database, "companiesItems")
-const clientsInDB = ref(database, "companiesItems/peopleItems")
+const clientsInDB = ref(database, "peopleItems")
 
 
 function useDatabaseHook() {
 
     const [allCompaniesData, setAllCompaniesData] = useState()
+    const [allClientsData, setAllClientsData] = useState()
+    const [clientsData, setClientsData] = useState()
    
     useEffect(() => {
- 
+
       function fetchData() {
         const data = showAllCompaniesData()
       }
@@ -54,13 +56,29 @@ function useDatabaseHook() {
         })
     }
 
-    function addClient() {
+    function addClient(
+      companyId,
+      title,
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      lastContactDate,
+      nextContactDate,
+    ) {
       push(clientsInDB, {
-        name: "Artur",
-        lastName: "Król",
-        email: "test@testmail.com"
+        companyId: companyId,
+        title: title,
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        phoneNumber: phoneNumber,
+        lastContactDate: lastContactDate,
+        nextContactDate: nextContactDate,
       } )
     }
+
+ 
 
     function updateCompany(id, name, street, buildingNumber, zipCode, city) {
       console.log("The client", id,  "has been updated")

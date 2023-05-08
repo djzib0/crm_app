@@ -10,6 +10,7 @@ import Companies from './components/Companies'
 import Company from './components/Company'
 import CompanyTest from './components/CompanyTest'
 import CompanyForm from './components/CompanyForm'
+import ClientForm from './components/ClientForm'
 
 function App() {
 
@@ -71,6 +72,7 @@ function App() {
             )
           })} */}
           <Route path="/company/:id" element={<CompanyTest />} />
+          <Route path="/add-client" element={<ClientForm />} />
         </Routes>
 
       </div>
