@@ -1,0 +1,36 @@
+.menu-container {
+    display: flex;
+    gap: .2rem;
+}
+
+.menu-element-container {
+    color: white; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: var(--menu-element-height);
+    width: 100px;
+    padding: .2rem;
+    overflow: hidden;
+    /* margin: 0 .2rem; */
+}
+
+.menu-element-container.companies {
+    background-color: #0d3b66;
+}
+
+.menu-element-container.clients {
+    background-color: #f95738;
+}
+
+.menu-element-container.projects {
+    background-color: #ee964b;
+}
+
+.menu-element-bg-icon {
+    position: relative;
+    scale: 300%;
+    right: .3rem;
+    top: calc( .08 * var(--menu-element-height));
+    opacity: 30%;
+}

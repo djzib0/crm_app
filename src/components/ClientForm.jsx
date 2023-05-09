@@ -15,6 +15,7 @@ export default function ClientForm() {
     phoneNumber: "",
     lastContactDate: "",
     nextContactDate: "",
+    isContactDateExceeded: false,
   })
 
   function handleChange(e) {
@@ -39,6 +40,7 @@ export default function ClientForm() {
            phoneNumber,
            lastContactDate,
            nextContactDate,
+           isContactDateExceeded
     } = formData
 
     addClient(
@@ -50,6 +52,7 @@ export default function ClientForm() {
       phoneNumber,
       lastContactDate,
       nextContactDate,
+      isContactDateExceeded
     )
 
     // reset form
@@ -62,6 +65,7 @@ export default function ClientForm() {
       phoneNumber: "",
       lastContactDate: "",
       nextContactDate: "",
+      isContactDateExceeded: false,
     })
   }
 
