@@ -9,8 +9,9 @@ import useDatabaseHook from './hooks/useDatabaseHook'
 import Menu from './components/Menu'
 import Companies from './components/Companies'
 import Company from './components/Company'
-import CompanyTest from './components/CompanyTest'
+import CompanyTest from './components/Company'
 import CompanyForm from './components/CompanyForm'
+import Clients from './components/Clients'
 import ClientForm from './components/clientForm'
 
 function App() {
@@ -23,17 +24,13 @@ function App() {
         <nav className='navbar menu-top'>
           <Menu />
         </nav>
-        <div className='router-links'>
-          <Link to="/add-company">Add Company</Link>
-          <Link to="/add-client">Add Client</Link>
-        </div>
         <Routes>
-          <Route path='/' exact element={<Menu />} />
           <Route path='/companies' exact element={<Companies />} />
           <Route path="/add-company" element={<CompanyForm />} />
           <Route path="/edit-company/:companyId" element={<CompanyForm />} />
-          <Route path="/company/:id" element={<CompanyTest />} />
-          <Route path="/add-client" element={<ClientForm />} />
+          <Route path="/company/:id" element={<Company />} />
+          <Route path="/add-client/:companyId" element={<ClientForm />} />
+          <Route path='clients' element={<Clients />} />
         </Routes>
 
       </div>

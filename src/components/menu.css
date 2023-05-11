@@ -12,7 +12,12 @@
     width: 100px;
     padding: .2rem;
     overflow: hidden;
-    /* margin: 0 .2rem; */
+    text-decoration: none;
+}
+
+.menu-element-container:hover {
+    color: white;
+    opacity: 80%;
 }
 
 .menu-element-container.companies {

@@ -1,13 +1,16 @@
 import React, { useState } from 'react'
 
 import useDatabaseHook from '../hooks/useDatabaseHook'
+import { useParams } from 'react-router-dom'
 
 export default function ClientForm() {
 
   const {addClient} = useDatabaseHook()
 
+  const {companyId} = useParams()
+
   const [formData, setFormData] = useState({
-    companyId: "", // foreign key - client can work in one company
+    companyId: companyId, // foreign key - client can work in one company
     title: "mr",
     firstName: "",
     lastName: "",

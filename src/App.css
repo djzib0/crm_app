@@ -3,12 +3,7 @@
   margin: 0 auto;
 }
 
-.router-links {
-  display: flex;
-  margin-bottom: .2rem;
-  gap: .2rem;
-  font-size: .7rem;
-}
+
 
 .router-links a {
   display: flex;
