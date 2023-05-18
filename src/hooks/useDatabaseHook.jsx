@@ -33,17 +33,16 @@ function useDatabaseHook() {
     const [clientsData, setClientsData] = useState()
    
     useEffect(() => {
-
       function fetchData() {
         const data = showAllCompaniesData()
       }
 
-      // async function fetchData() {
-      //   const snapshot = await get(companiesInDB)
-      //   const data = await snapshot.val()
-      // }
+      function fetchClientsData() {
+        const data = showAllClientsData()
+      }
 
     fetchData()
+    fetchClientsData()
     }, [])
 
     function addCompany(name, street, buildingNumber, zipCode, city) {
@@ -109,10 +108,28 @@ function useDatabaseHook() {
         setAllCompaniesData(companiesArr)
       }, {onlyOnce: true})
     }
+
+    async function showAllClientsData() {
+      onValue(clientsInDB, function(snapshot) {
+        let clientsArr = Object.entries(snapshot.val()).map(item => {
+          return (
+            {
+              ...item
+            }
+          )
+        
+        })
+        setAllClientsData(clientsArr)
+      }, {onlyOnce: true})
+    }
+
+    console.log(allClientsData)
+    console.log(allCompaniesData)
  
     return {
       addCompany, 
-      addClient, 
+      addClient,
+      allClientsData, 
       updateCompany, 
       allCompaniesData,
       setAllCompaniesData,

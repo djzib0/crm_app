@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import useDatabaseHook from '../hooks/useDatabaseHook'
 import { Link } from 'react-router-dom'
+import { nanoid } from 'nanoid'
 
 import CompanyForm from './CompanyForm'
 
 // import styles
 import './companies.css'
+import { update } from 'firebase/database'
 
 function Companies() {
     const {allCompaniesData} = useDatabaseHook()
@@ -24,14 +26,24 @@ function Companies() {
         )
     })
 
-
-    let CITIES = allCompaniesData && allCompaniesData.map(item => {
+    // creates list of all companies cities
+    let cities = allCompaniesData && allCompaniesData.map(item => {
         let city = item[1].companyAddressCity
         return (
-            <option key={item[0]} value={city}>{city}</option>
+            city
         )
     })
-  
+
+    // sets a new list with unique cities 
+    // new array is used in filter form
+    let uniqueCitiesOptions = []
+    allCompaniesData && [...new Set(cities.sort())].forEach(city => {
+        if (!uniqueCitiesOptions.includes(city)) {
+            uniqueCitiesOptions.push(<option key={nanoid()} value={city}>{city}</option>)
+        }
+    })
+
+
     function filterData() {
         // for each filter input create a new array with filter method
         let filteredArr = allCompaniesData.filter(item => {
@@ -40,8 +52,6 @@ function Companies() {
                 item[1].companyAddressCity.toLowerCase().includes(filterForm.filterByCity.toLowerCase())
             )
         })
-
-
 
         return filteredArr
     }
@@ -57,8 +67,7 @@ function Companies() {
         })
     }
 
-    console.log(filterForm.filterByCity)
-    
+ 
     return (
         <div>
             <form>
@@ -75,7 +84,7 @@ function Companies() {
                         onChange={handleChange}
                 >
                 <option value=''>-</option>
-                {CITIES}
+                {uniqueCitiesOptions}
                 </select>
                 
             </form>

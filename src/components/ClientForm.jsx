@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-
 import useDatabaseHook from '../hooks/useDatabaseHook'
 import { useParams } from 'react-router-dom'
 
