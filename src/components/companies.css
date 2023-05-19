@@ -1,5 +1,51 @@
-.company-container {
+.company__container {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.filter__form {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+}
+
+.filter__form p {
+    margin-right: 2rem;
+}
+
+.filter__form form {
+    display: inline;
+    flex-direction: row;
+    outline: none;
+    margin-right: .5rem;
+}
+
+.filter__form input, select {
+    height: 1.8rem;
+    border : 1px #ccc solid;
+    margin-right: 4rem;
+    border-radius: .3rem;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box; 
+}
+
+.filter__form input:focus,
+.filter__form select:focus {
+    outline: none;
+}
+
+.filter__form label {
+    margin-right: .5rem;
+}
+
+.input__company-name {
+    width: 250px;
+}
+
+.input__company-city {
+    width: 150px;
 }

@@ -18,10 +18,21 @@ function Companies() {
     })
 
     let companiesArr = allCompaniesData && filterData().map(item => {
+        const {
+            companyName,
+            companyAddressStreet,
+            companyAddressBuildingNumber,
+            companyAddressCity,
+            companyAddressZipCode,
+        } = item[1]
         return (
-            <div key={item[0]} className='container company-container'>
-                 <Link to={`/company/${item[0]}`}><p>{item[1].companyName}</p></Link>
-                 <Link to={`/add-client/${item[0]}`} className='link-btn btn-small'>Add client</Link>
+            <div key={item[0]} className='container company__container'>
+                <Link className='container company__container' to={`/company/${item[0]}`}>
+                    <p>{companyName}</p>
+                    <p>{companyAddressStreet} {companyAddressBuildingNumber} {companyAddressZipCode} {companyAddressCity}</p>
+                    <p>0</p>
+                </Link>
+                <Link to={`/add-client/${item[0]}`} className='link-btn btn-small'>Add client</Link>
             </div>
         )
     })
@@ -70,25 +81,38 @@ function Companies() {
  
     return (
         <div>
-            <form>
-                <input type='text'
-                       className=''
-                       name='filterByCompanyName'
-                       value={filterForm.filterByCompanyName}
-                       placeholder='Search by company name'
-                       onChange={handleChange}
-                       />
-                <select className=''
-                        name='filterByCity'
-                        value={filterForm.filterByCity}
+            <div className='filter__form'>
+                <p>Filter by:</p>
+                <form>
+                    <input type='text'
+                        className='input__company-name'
+                        id='company-name'
+                        name='filterByCompanyName'
+                        value={filterForm.filterByCompanyName}
+                        placeholder='Search by company name'
                         onChange={handleChange}
-                >
-                <option value=''>-</option>
-                {uniqueCitiesOptions}
-                </select>
-                
-            </form>
-            <Link to="/add-company" className='link-btn'>Add Company</Link>
+                        />
+                    <label htmlFor='city-select'>City</label>
+                    <select className='input__company-city'
+                            name='filterByCity'
+                            id='city-select'
+                            value={filterForm.filterByCity}
+                            onChange={handleChange}
+                    >
+                    <option value=''>-</option>
+                    {uniqueCitiesOptions}
+                    </select>
+                    
+                </form>
+            </div>
+
+            <Link to="/add-company" className='link-btn'>ADD COMPANY</Link>
+            <div className='container company__container headers'>
+                <p>Company name</p>
+                <p>Company address</p>
+                <p>No of clients</p>
+                <p>Action</p>
+            </div>
             {companiesArr}
         </div>
     )
