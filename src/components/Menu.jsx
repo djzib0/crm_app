@@ -9,10 +9,16 @@ import './menu.css'
 import {MdFactory} from 'react-icons/md'
 import {MdPerson} from 'react-icons/md'
 import {MdListAlt} from 'react-icons/md'
+import {MdHome} from 'react-icons/md'
 
 export default function Menu() {
   return (
     <div className='menu-container'>
+      <Link to='/' 
+              className='menu-element-container home'>
+            <p className='menu-element-description'>Home</p>
+            <MdHome className='menu-element-bg-icon'/>
+        </Link>
         <Link to='/companies' 
               className='menu-element-container companies'>
             <p className='menu-element-description'>Companies</p>

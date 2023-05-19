@@ -123,9 +123,6 @@ function useDatabaseHook() {
       }, {onlyOnce: true})
     }
 
-    console.log(allClientsData)
-    console.log(allCompaniesData)
- 
     return {
       addCompany, 
       addClient,

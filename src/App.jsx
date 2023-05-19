@@ -20,7 +20,7 @@ function App() {
 
   
   return (
-      <div>
+      <div className='container'>
         <nav className='navbar menu-top'>
           <Menu />
         </nav>
