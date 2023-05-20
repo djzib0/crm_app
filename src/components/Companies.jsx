@@ -7,17 +7,21 @@ import CompanyForm from './CompanyForm'
 
 // import styles
 import './companies.css'
-import { update } from 'firebase/database'
+
 
 function Companies() {
-    const {allCompaniesData} = useDatabaseHook()
+    const {allCompaniesData, allClientsData} = useDatabaseHook()
 
     const [filterForm, setFilterForm] = useState({
         filterByCompanyName: "",
         filterByCity: "",
     })
 
-    let companiesArr = allCompaniesData && filterData().map(item => {
+    // counts clients for each company
+    let countedClients = allClientsData && countCompanyClients(allClientsData)
+
+
+    let companiesArr = allCompaniesData && allClientsData && filterData().map(item => {
         const {
             companyName,
             companyAddressStreet,
@@ -26,13 +30,15 @@ function Companies() {
             companyAddressZipCode,
         } = item[1]
         return (
-            <div key={item[0]} className='container company__container'>
-                <Link className='container company__container' to={`/company/${item[0]}`}>
+            <div key={item[0]} className='container company__container headers hover'>
+                <Link className='container company__container-data headers' to={`/company/${item[0]}`}>
                     <p>{companyName}</p>
                     <p>{companyAddressStreet} {companyAddressBuildingNumber} {companyAddressZipCode} {companyAddressCity}</p>
-                    <p>0</p>
+                    <p>{countedClients[item[0]] > 0 ? countedClients[item[0]] : 0 }</p>
                 </Link>
-                <Link to={`/add-client/${item[0]}`} className='link-btn btn-small'>Add client</Link>
+                <div className='company__container-cta'>
+                    <Link to={`/add-client/${item[0]}`} className='link-btn btn-small'>Add client</Link>
+                </div>
             </div>
         )
     })
@@ -54,7 +60,23 @@ function Companies() {
         }
     })
 
+    // function which counts clients for each company
+    // TIP from me: move function to separate utils file???
+    function countCompanyClients(arr) {
+        let clientsCount = {}
+        arr.forEach(item => {
+            const {companyId} = item[1]
+            if (!clientsCount[companyId]) {
+                clientsCount[companyId] = 1
+            } else (
+                clientsCount[companyId] += 1
+            )
+        })
+        return clientsCount
+    }
 
+
+    // *** Filtering Data ***
     function filterData() {
         // for each filter input create a new array with filter method
         let filteredArr = allCompaniesData.filter(item => {
@@ -107,13 +129,22 @@ function Companies() {
             </div>
 
             <Link to="/add-company" className='link-btn'>ADD COMPANY</Link>
-            <div className='container company__container headers'>
-                <p>Company name</p>
-                <p>Company address</p>
-                <p>No of clients</p>
-                <p>Action</p>
+
+            <div className='container'>
+                <div className='container company__container headers'>
+                    <div className='container company__container-data'>
+                        <p>Company name</p>
+                        <p>Company address</p>
+                        <p>No of clients</p>
+                    </div>
+                    <div className='company__container-cta'>
+                        <p className=''>Action</p>
+                    </div>
+
+                </div>
+                {companiesArr}
             </div>
-            {companiesArr}
+
         </div>
     )
 }

@@ -78,7 +78,6 @@ function useDatabaseHook() {
     }
 
  
-
     function updateCompany(id, name, street, buildingNumber, zipCode, city) {
       console.log("The client", id,  "has been updated")
       let exactItem = `companiesItems/${id}`
@@ -129,11 +128,8 @@ function useDatabaseHook() {
       allClientsData, 
       updateCompany, 
       allCompaniesData,
-      setAllCompaniesData,
       fillCompanyFormToUpdate,
-      showAllCompaniesData,
     }
-
 }
 
 export default useDatabaseHook

@@ -2,6 +2,26 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: .2rem;
+}
+
+.company__container.hover:hover {
+    background-color: whitesmoke;
+}
+
+.company__container-data {
+    display: grid;
+    grid-template-columns: 300px 50% 90px;
+}
+
+.company__container-cta {
+    display: flex;
+    width: 100px;
+}
+
+.test-btn {
+    padding:0;
+    margin: 0;
 }
 
 .filter__form {
