@@ -29,6 +29,7 @@ function Companies() {
             companyAddressCity,
             companyAddressZipCode,
         } = item[1]
+
         return (
             <div key={item[0]} className='container company__container headers hover'>
                 <Link className='container company__container-data headers' to={`/company/${item[0]}`}>
@@ -37,7 +38,7 @@ function Companies() {
                     <p>{countedClients[item[0]] > 0 ? countedClients[item[0]] : 0 }</p>
                 </Link>
                 <div className='company__container-cta'>
-                    <Link to={`/add-client/${item[0]}`} className='link-btn btn-small'>Add client</Link>
+                    <Link to={`/add-client/${item[0]}`} className='link-btn btn-small'>ADD CLIENT</Link>
                 </div>
             </div>
         )
@@ -64,14 +65,22 @@ function Companies() {
     // TIP from me: move function to separate utils file???
     function countCompanyClients(arr) {
         let clientsCount = {}
-        arr.forEach(item => {
-            const {companyId} = item[1]
+
+        // for each client in array
+        arr.forEach(clientObj => {
+            // destructuring client object
+            const {companyId} = clientObj[1]
+            // if in clientsCount object is no key with 
+            // company id, it's created with 1 count
             if (!clientsCount[companyId]) {
                 clientsCount[companyId] = 1
+            // if there is a key it's incrementing by one
             } else (
                 clientsCount[companyId] += 1
             )
         })
+        // return object with each clients id and count
+        // how many clients in each companies are in database
         return clientsCount
     }
 
@@ -131,14 +140,14 @@ function Companies() {
             <Link to="/add-company" className='link-btn'>ADD COMPANY</Link>
 
             <div className='container'>
-                <div className='container company__container headers'>
+                <div className='container company__container headers' id='headers'>
                     <div className='container company__container-data'>
                         <p>Company name</p>
                         <p>Company address</p>
                         <p>No of clients</p>
                     </div>
                     <div className='company__container-cta'>
-                        <p className=''>Action</p>
+                        <p className=''></p>
                     </div>
 
                 </div>

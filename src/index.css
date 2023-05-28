@@ -46,6 +46,7 @@ a:hover {
 }
 
 .btn-small {
+  font-size: .8rem;
   width: fit-content;
 }
 

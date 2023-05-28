@@ -1,8 +1,12 @@
+.container {
+    margin-top: 1rem;
+}
+
 .company__container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: .2rem;
+    padding: .1rem;
 }
 
 .company__container.hover:hover {
@@ -11,7 +15,9 @@
 
 .company__container-data {
     display: grid;
-    grid-template-columns: 300px 50% 90px;
+    grid-template-columns: 300px 50% 130px;
+    margin: 0;
+    padding: 0;
 }
 
 .company__container-cta {
@@ -68,4 +74,18 @@
 
 .input__company-city {
     width: 150px;
+}
+
+.headers {
+    font-weight: 700;
+    padding: 0;
+    margin: 0;
+}
+
+#headers {
+    background-color: whitesmoke;
+}
+
+.headers > p {
+    font-weight: 300;
 }
