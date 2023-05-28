@@ -12,6 +12,7 @@ import Company from './components/Company'
 import CompanyTest from './components/Company'
 import CompanyForm from './components/CompanyForm'
 import Clients from './components/Clients'
+import Client from './components/Client'
 import ClientForm from './components/clientForm'
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
           <Route path="/company/:id" element={<Company />} />
           <Route path="/add-client/:companyId" element={<ClientForm />} />
           <Route path='clients' element={<Clients />} />
+          <Route path='client/:clientId' element={<Client />}/>
         </Routes>
 
       </div>
