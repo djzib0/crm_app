@@ -20,26 +20,40 @@ export function formatPhoneNumber(str) {
     return newString
 }
 
-// check if date is older than today
+// check if date is exceeded
 // if yes return class name to highlight 
 // exceeded contact date
-export function isDateExceeded(date) {
+export function isDateExceeded(date, delta=0) {
+
     let dateArr = date.split("-")
+
+    // removing zero if exists in day or month 
     let month = removeZero(dateArr[1])
+    let day = removeZero(dateArr[2])
 
+    //today
     let today = new Date()
-    let expDate = new Date(dateArr[0], month - 1, dateArr[2])
+    // date to be checked
+    let expDate = new Date(dateArr[0], month - 1, day)
 
-    // if date is exceeded return true
+    // result in miliseconds
+    let difference = expDate - today.setHours(0,0,0,0)
+
+    // converting miliseconds to days
+    let totalDays = Math.ceil(difference / (1000 * 3600 * 24))
+
+    // total days difference should be less than delta and 
+    // more than 0, otherwise it means date is exceeded
+    // if there are exceeded days return true
     // else return false
-    if (today.setHours(0, 0, 0, 0) > expDate.setHours(0, 0, 0, 0)) {
+    if (Number(totalDays) <= delta && Number(totalDays) >= 0 ) {
         return false
     } else {
         return true
     }
     
-    // function to remove 0 from the beginning of month number
-    // example: string 04 (represents April) - return 4
+    // function to remove 0 from the beginning of month/day number
+    // example: string 04 (represents April) - returns 4
     function removeZero(str) {
         // check first letter in string
         // if it's a "0", remove it

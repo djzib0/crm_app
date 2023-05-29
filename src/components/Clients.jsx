@@ -29,8 +29,8 @@ export default function Clients() {
                 <p>{formatPhoneNumber(item[1].phoneNumber)}</p>
                 <p>{allCompaniesData && getClientCompanyName(allCompaniesData, item[1].companyId)}</p>
                 <div className={`contact__date 
-                ${isDateExceeded(item[1].nextContactDate) ? 'green-mark' : 'red-mark' }`}>
-                  {item[1].nextContactDate} {isDateExceeded(item[1].nextContactDate) ? <HiCheckCircle /> : <HiExclamationCircle /> }
+                ${allClientsData && isDateExceeded(item[1].nextContactDate, 14) != true ? 'green-mark' : 'red-mark' }`}>
+                  {item[1].nextContactDate} {isDateExceeded(item[1].nextContactDate, 14) != true ? <HiCheckCircle /> : <HiExclamationCircle /> }
                 </div>
               </Link>
               <div className='cta__container'>
