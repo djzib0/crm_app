@@ -1,0 +1,40 @@
+.clients-container {
+    display: grid;
+    grid-template-columns: 1fr .1fr;
+    align-items: center;
+}
+
+#header {
+    background-color: whitesmoke;
+}
+
+.clients__container-headers,
+.clients__container-data {
+    display: grid;
+    grid-template-columns: .35fr 1fr 1fr 1.5fr 1fr 1fr 1fr 1fr;
+    font-size: .65rem;
+    align-items: center;
+    padding: .2rem;
+}
+
+.clients__container-headers {
+    font-weight: 700;
+    background-color: whitesmoke;
+}
+
+.clients__container-data:hover {
+    background-color: whitesmoke;
+}
+
+.red-mark {
+    color: red;
+    display: flex;
+    align-items: center;
+}
+
+.green-mark {
+    color: rgb(0, 190, 0);
+    display: flex;
+    align-items: center;
+}
+
