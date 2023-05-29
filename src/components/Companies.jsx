@@ -133,7 +133,6 @@ function Companies() {
                     <option value=''>-</option>
                     {uniqueCitiesOptions}
                     </select>
-                    
                 </form>
             </div>
 
