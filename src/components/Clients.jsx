@@ -62,13 +62,25 @@ export default function Clients() {
   }
 
   function filterClients() {
+    // set array with filtered companies that matches form company name
+    const companiesArr = allCompaniesData.filter(company => {
+      return company[1].companyName.toLowerCase().includes(filterForm.filterByCompanyName.toLowerCase())
+    })
+
+    // set array of companies Id - if clients companyId matches any from the array
+    // it will be displayed
+    const companiesIdArr = companiesArr.map(company => {
+      return company[0]
+    })
+
+
     let filteredArr = allClientsData.filter(client => {
       return (
         client[1].firstName.toLowerCase().includes(filterForm.filterByFirstName.toLowerCase()) &&
         client[1].lastName.toLowerCase().includes(filterForm.filterByLastName.toLowerCase()) &&
         client[1].email.toLowerCase().includes(filterForm.filterByEmail.toLowerCase()) &&
         client[1].phoneNumber.toLowerCase().includes(filterForm.filterByPhoneNumber.toLowerCase()) &&
-        client[1].companyId.toLowerCase().includes(filterForm.filterByCompanyName.toLowerCase())
+        companiesIdArr.includes(client[1].companyId)
       )
     })
     return filteredArr
