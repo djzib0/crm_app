@@ -5,7 +5,8 @@
     margin-bottom: 1rem;
 }
 
-.menu-element-container {
+.menu-element-container,
+.menu-element-container:visited {
     color: white; 
     display: flex;
     justify-content: space-between;
@@ -17,7 +18,8 @@
     text-decoration: none;
 }
 
-.menu-element-container:hover {
+.menu-element-container:hover,
+.menu-element-container:active {
     color: white;
     opacity: 80%;
 }
