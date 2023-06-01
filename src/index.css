@@ -14,7 +14,9 @@
   -webkit-text-size-adjust: 100%;
 
   --menu-element-height: 2rem;
-  --font-color-dark: #353535
+  --font-color-dark: #353535;
+  --color-correct-green: #00be00;
+  --color-incorrect-red: #ff0000;
 }
 
 a, 

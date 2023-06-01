@@ -86,8 +86,6 @@ export default function Clients() {
     return filteredArr
   }
 
-  console.log(filterForm)
-
   function getClientCompanyName(companiesArr, companyId) {
     // filter through companies Arr and find the one which
     // id matches clients company id
@@ -104,53 +102,59 @@ export default function Clients() {
         <div className='filter__form'>
             <p>Filter by:</p>
             <form>
-                <input type='text'
-                    className='input__first-name'
-                    id='first-name'
-                    name='filterByFirstName'
-                    placeholder='First name'
-                    value={filterForm.filterByFirstName}
-                    onChange={handleFilterChange}
-                    />
-                <input type='text'
-                    className='input__last-name'
-                    id='last-name'
-                    name='filterByLastName'
-                    placeholder='Last name'
-                    value={filterForm.filterByLastName}
-                    onChange={handleFilterChange}
-                    />
-                <input type='text'
-                    className='input__email'
-                    id='email'
-                    name='filterByEmail'
-                    placeholder='Email'
-                    value={filterForm.filterByEmail}
-                    onChange={handleFilterChange}
-                    />
-                <input type='text'
-                    className='input__phone-number'
-                    id='phone-number'
-                    name='filterByPhoneNumber'
-                    placeholder='Phone number'
-                    value={filterForm.filterByPhoneNumber}
-                    onChange={handleFilterChange}
-                    />
-                <input type='text'
-                    className='input__company-name'
-                    id='company-name'
-                    name='filterByCompanyName'
-                    placeholder='Company name'
-                    value={filterForm.filterByCompanyName}
-                    onChange={handleFilterChange}
-                    />
-                <label htmlFor='city-select'>City</label>
-                <select className='input__company-city'
-                        name='filterByCity'
-                        id='city-select'
-                >
-                <option value=''>-</option>
-                </select>
+              <div className='form__clients wrapper'>
+                  <div className='wrapper'>
+                    <input type='text'
+                        className='input__client first-name'
+                        id='first-name'
+                        name='filterByFirstName'
+                        placeholder='First name'
+                        value={filterForm.filterByFirstName}
+                        onChange={handleFilterChange}
+                        />
+                  </div>
+                  <div className='wrapper'>
+                    <input type='text'
+                        className='input__client last-name'
+                        id='last-name'
+                        name='filterByLastName'
+                        placeholder='Last name'
+                        value={filterForm.filterByLastName}
+                        onChange={handleFilterChange}
+                        />
+                  </div>
+                  <div className='wrapper'>
+                    <input type='text'
+                        className='input__client email'
+                        id='email'
+                        name='filterByEmail'
+                        placeholder='Email'
+                        value={filterForm.filterByEmail}
+                        onChange={handleFilterChange}
+                        />
+                  </div>
+                  <div className='wrapper'>
+                    <input type='text'
+                      className='input__client phone-number'
+                      id='phone-number'
+                      name='filterByPhoneNumber'
+                      placeholder='Phone number'
+                      value={filterForm.filterByPhoneNumber}
+                      onChange={handleFilterChange}
+                      />
+                  </div>
+                  <div className='wrapper'>
+                    <input type='text'
+                        className='input__client company-name'
+                        id='company-name'
+                        name='filterByCompanyName'
+                        placeholder='Company name'
+                        value={filterForm.filterByCompanyName}
+                        onChange={handleFilterChange}
+                        />
+                  </div>
+              </div>
+                
             </form>
         </div>
         <div className='clients-container' id="header">
