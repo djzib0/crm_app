@@ -129,6 +129,8 @@ function useDatabaseHook() {
       updateCompany, 
       allCompaniesData,
       fillCompanyFormToUpdate,
+      database,
+      clientsInDB
     }
 }
 

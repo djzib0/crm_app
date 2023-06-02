@@ -17,6 +17,8 @@
   --font-color-dark: #353535;
   --color-correct-green: #00be00;
   --color-incorrect-red: #ff0000;
+  --color-gray-light: #d8d8d8;
+  --color-blue-light: #0095ff;
 }
 
 a, 
@@ -55,9 +57,11 @@ a:hover {
 body {
   margin: 0;
   margin: 0 auto;
+  background-color: whitesmoke;
   color: #353535;
   min-width: 320px;
   min-height: 100vh;
+  box-sizing: border-box;
 }
 
 h1 {

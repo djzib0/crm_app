@@ -5,8 +5,11 @@ import { Link } from 'react-router-dom'
 
 import useDatabaseHook from '../hooks/useDatabaseHook'
 
+import { getClientCompanyName } from './utils/utils'
+
+
 // Import the functions you need from the SDKs you need
-import { initializeApp, setLogLevel } from "firebase/app";
+import { initializeApp } from "firebase/app";
 import { getDatabase, ref, get } from 'firebase/database'
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -25,9 +28,6 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app)
-const companiesInDB = ref(database, "companiesItems")
-const clientsInDB = ref(database, "companiesItems/peopleItems")
-
 
 function Company() {
 
@@ -40,18 +40,20 @@ function Company() {
         async function fetchData() {
             const snapshot = await get(ref(database, `companiesItems/${id}`))
             const data = await snapshot.val()
-            // const {companyAddressStreet} = data
             setSelectedCompany(data)
         }
         fetchData()
     }, [])
 
+    // declaring variable without value
     let companyAddressStreet
     let companyAddressBuildingNumber
     let companyName
     let companyAddressCity
     let companyAddressZipCode
 
+    // if selectedCompany is set (fetched with useEffect)
+    // set fetched data to variables
     if (selectedCompany) {
         companyName = selectedCompany.companyName
         companyAddressStreet = selectedCompany.companyAddressStreet

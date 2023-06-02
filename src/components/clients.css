@@ -23,7 +23,7 @@
 }
 
 .clients__container-data:hover {
-    background-color: whitesmoke;
+    background-color: var(--color-gray-light);
 }
 
 .red-mark {

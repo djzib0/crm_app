@@ -65,3 +65,15 @@ export function isDateExceeded(date, delta=0) {
     }
 }
 
+
+export function getClientCompanyName(companiesArr, companyId) {
+    // filter through companies Arr and find the one which
+    // id matches clients company id
+    // must be only one correct result
+    const clientCompany = companiesArr.filter( company => {
+      return company[0] === companyId
+    })
+    // returns company name to display next to client details
+    return clientCompany[0][1].companyName
+  }
+
