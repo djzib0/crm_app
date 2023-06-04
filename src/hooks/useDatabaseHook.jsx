@@ -4,7 +4,7 @@ import { Link, Routes, Route} from 'react-router-dom'
 
 // Import the functions you need from the SDKs you need
 import { initializeApp, setLogLevel } from "firebase/app";
-import { getDatabase, ref, push, onValue, remove, set, get } from 'firebase/database'
+import { getDatabase, ref, push, onValue, remove, set, get, update } from 'firebase/database'
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -77,11 +77,30 @@ function useDatabaseHook() {
       } )
     }
 
+    function updateClient(clientId,
+                          title, 
+                          firstName,
+                          lastName,
+                          email,
+                          phoneNumber,
+                          ) {
+      console.log("the client", clientId, "has been updated")
+      const exactItem = `peopleItems/${clientId}`
+      update(ref(database, exactItem), {
+        
+        title: title,
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        phoneNumber: phoneNumber
+      })
+    }
+
  
     function updateCompany(id, name, street, buildingNumber, zipCode, city) {
-      console.log("The client", id,  "has been updated")
+      console.log("The company", id,  "has been updated")
       let exactItem = `companiesItems/${id}`
-      set(ref(database, exactItem), {
+      update(ref(database, exactItem), {
         companyName: name,
         companyAddressStreet: street,
         companyAddressBuildingNumber: buildingNumber,
@@ -125,6 +144,7 @@ function useDatabaseHook() {
     return {
       addCompany, 
       addClient,
+      updateClient,
       allClientsData, 
       updateCompany, 
       allCompaniesData,

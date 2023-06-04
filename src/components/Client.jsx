@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import useDatabaseHook from '../hooks/useDatabaseHook';
 
+
+// react-router components import
+import { Link } from 'react-router-dom';
+
 // styles import
 import './client.css'
 
@@ -38,7 +42,7 @@ const database = getDatabase(app)
 
 function Client() {
 
-  //client's Id taken from Params
+  //client's Id taken from useParams
   const {clientId} = useParams()
 
   const [selectedClient, setSelectedClient] = useState()
@@ -95,7 +99,7 @@ function Client() {
 
             {/* "absolute" container to fix position of icon */}
             <div className='icon-white' id='edit__btn-client-data'>
-              {<TiEdit />}
+              <Link to={`/edit-client/${clientId}`} >{<TiEdit />}</Link>
             </div>
 
             {/* replace below code with an <img> */}

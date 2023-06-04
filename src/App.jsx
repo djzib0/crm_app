@@ -31,6 +31,7 @@ function App() {
           <Route path="/edit-company/:companyId" element={<CompanyForm />} />
           <Route path="/company/:id" element={<Company />} />
           <Route path="/add-client/:companyId" element={<ClientForm />} />
+          <Route path='edit-client/:clientId' element={<ClientForm />} />
           <Route path='clients' element={<Clients />} />
           <Route path='client/:clientId' element={<Client />}/>
         </Routes>

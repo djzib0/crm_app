@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useDatabaseHook from "../hooks/useDatabaseHook";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import "./companyForm.css"
 
@@ -33,6 +33,8 @@ function CompanyForm(props) {
 
     const {companyId} = useParams()
 
+    const navigation = useNavigate()
+
     // form state
     const [formData, setFormData] = useState({
         companyName: "",
@@ -48,7 +50,6 @@ function CompanyForm(props) {
     // if there is an companyId from useParams() it means that the user
     // wants to update the company data
     // it has to be found in database and set form with data
-
     useEffect(() => {
         if (companyId) {
             //find item in database
@@ -98,7 +99,7 @@ function CompanyForm(props) {
         } = formData
 
         // invokes function addCompany from useDatabaseHook.jsx
-        // and adds new company data to database only if there is no id
+        // and adds new company data to database only if there is no companyId
         // if there is an id it means that the user wants to edit chosen company data
         if (companyId) {
             updateCompany(
@@ -109,6 +110,7 @@ function CompanyForm(props) {
                 companyAddressZipCode,
                 companyAddressCity
             )
+            navigate(`company/${companyId}`)
         } else {
             addCompany(
                 companyName,
@@ -117,9 +119,12 @@ function CompanyForm(props) {
                 companyAddressZipCode,
                 companyAddressCity
                 )
+            navigate('companies/')
         }
  
         // reset form
+        // can be deleted because now after submit
+        // reacto-router navigates to different view
         setFormData({
             companyName: "",
             companyAddressStreet: "",
