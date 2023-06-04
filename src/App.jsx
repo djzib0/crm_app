@@ -13,7 +13,7 @@ import CompanyTest from './components/Company'
 import CompanyForm from './components/CompanyForm'
 import Clients from './components/Clients'
 import Client from './components/Client'
-import ClientForm from './components/clientForm'
+import ClientForm from './components/ClientForm'
 
 function App() {
 
