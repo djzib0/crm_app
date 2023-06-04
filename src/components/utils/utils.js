@@ -42,11 +42,15 @@ export function isDateExceeded(date, delta=0) {
     // converting miliseconds to days
     let totalDays = Math.ceil(difference / (1000 * 3600 * 24))
 
+    console.log(totalDays, "total days")
+
     // total days difference should be less than delta and 
     // more than 0, otherwise it means date is exceeded
     // if there are exceeded days return true
     // else return false
     if (Number(totalDays) <= delta && Number(totalDays) >= 0 ) {
+        return false
+    } else if (Number(totalDays) > delta && Number(totalDays) >= 0) {
         return false
     } else {
         return true
