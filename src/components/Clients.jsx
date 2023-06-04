@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 
 import './clients.css'
 
+
 // import of utils
 import { capitalizeFirstLetter,
          formatPhoneNumber,

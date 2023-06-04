@@ -3,6 +3,7 @@
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 400px 200px;
     gap: .5rem;
+
 }
 
 .client__grid-element {
@@ -15,6 +16,7 @@
     display: flex;
     /* justify-content: ; */
     align-items: center;
+    position: relative;
     background-color: var(--color-blue-light);
     height: 8rem;
     padding: 2rem;
@@ -54,6 +56,19 @@
 
 #client__email {
     font-size: .8rem;
+}
+
+#edit__btn-client-data {
+    position: absolute;
+    top: .5rem;
+    /* left: 20px; */
+    right: .5rem;
+    transition: var(--transition);
+}
+
+#edit__btn-client-data:hover {
+    font-size: 1.2rem;
+    scale: 120%;
 }
 
 

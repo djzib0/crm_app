@@ -19,6 +19,9 @@
   --color-incorrect-red: #ff0000;
   --color-gray-light: #d8d8d8;
   --color-blue-light: #0095ff;
+  --color-blue-lighter: #c8e8ff;
+
+  --transition: all 400ms ease;
 }
 
 a, 
@@ -99,4 +102,12 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+
+/* Other */
+.icon-white {
+  color: var(--color-blue-lighter);
+  font-size: 1.2rem;
+  cursor: pointer;
 }

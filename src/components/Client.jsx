@@ -2,8 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import useDatabaseHook from '../hooks/useDatabaseHook';
 
+// styles import
 import './client.css'
 
+// icons import
+import { TiEdit } from 'react-icons/ti'
+
+// utils import
 import { getClientCompanyName,
          capitalizeFirstLetter,
          formatPhoneNumber,
@@ -83,10 +88,16 @@ function Client() {
   
   return (
     <div className='client__container'>
-      <div className='client__details-container'>
 
+      <div className='client__details-container'>
         <div className='client__info-container client__grid-element'>
           <div className='client__info-container-top'>
+
+            {/* "absolute" container to fix position of icon */}
+            <div className='icon-white' id='edit__btn-client-data'>
+              {<TiEdit />}
+            </div>
+
             {/* replace below code with an <img> */}
             <div className='client__avatar-img'></div> 
             <div className='client__info-container-top-data'>
@@ -95,7 +106,7 @@ function Client() {
                   ${selectedClient && capitalizeFirstLetter(lastName)}`}
               </p>
               <p id='client__company-name'>{allCompaniesData && selectedClient && getClientCompanyName(allCompaniesData, companyId).toUpperCase()}</p>
-              <p id='client__email'>{selectedClient && email}</p>
+              <a href={`mailto: ${email}`} id='client__email'>{selectedClient && email}</a> 
               <p id='client__phone-number'>{selectedClient && formatPhoneNumber(phoneNumber)}</p>
             </div>
           </div>
