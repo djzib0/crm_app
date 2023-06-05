@@ -9,11 +9,11 @@ import useDatabaseHook from './hooks/useDatabaseHook'
 import Menu from './components/Menu'
 import Companies from './components/Companies'
 import Company from './components/Company'
-import CompanyTest from './components/Company'
 import CompanyForm from './components/CompanyForm'
 import Clients from './components/Clients'
 import Client from './components/Client'
 import ClientForm from './components/ClientForm'
+import Leads from './components/Leads'
 
 function App() {
 
@@ -26,7 +26,7 @@ function App() {
           <Menu />
         </nav>
         <Routes>
-          <Route path='/companies' exact element={<Companies />} />
+          <Route path='/companies' element={<Companies />} />
           <Route path="/add-company" element={<CompanyForm />} />
           <Route path="/edit-company/:companyId" element={<CompanyForm />} />
           <Route path="/company/:id" element={<Company />} />
@@ -34,6 +34,7 @@ function App() {
           <Route path='edit-client/:clientId' element={<ClientForm />} />
           <Route path='clients' element={<Clients />} />
           <Route path='client/:clientId' element={<Client />}/>
+          <Route path='leads' element={<Leads />} />
         </Routes>
 
       </div>

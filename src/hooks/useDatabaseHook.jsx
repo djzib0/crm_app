@@ -24,12 +24,14 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app)
 const companiesInDB = ref(database, "companiesItems")
 const clientsInDB = ref(database, "peopleItems")
+const leadsInDB = ref(database, "leadsItems")
 
 
 function useDatabaseHook() {
 
     const [allCompaniesData, setAllCompaniesData] = useState()
     const [allClientsData, setAllClientsData] = useState()
+    const [allLeadsData, setAllLeadsData] = useState()
     const [clientsData, setClientsData] = useState()
    
     useEffect(() => {
@@ -53,6 +55,18 @@ function useDatabaseHook() {
           companyAddressZipCode: zipCode,
           companyAddressCity: city,
         })
+    }
+
+    function updateCompany(id, name, street, buildingNumber, zipCode, city) {
+      console.log("The company", id,  "has been updated")
+      let exactItem = `companiesItems/${id}`
+      update(ref(database, exactItem), {
+        companyName: name,
+        companyAddressStreet: street,
+        companyAddressBuildingNumber: buildingNumber,
+        companyAddressZipCode: zipCode,
+        companyAddressCity: city,
+      })
     }
 
     function addClient(
@@ -96,21 +110,11 @@ function useDatabaseHook() {
       })
     }
 
- 
-    function updateCompany(id, name, street, buildingNumber, zipCode, city) {
-      console.log("The company", id,  "has been updated")
-      let exactItem = `companiesItems/${id}`
-      update(ref(database, exactItem), {
-        companyName: name,
-        companyAddressStreet: street,
-        companyAddressBuildingNumber: buildingNumber,
-        companyAddressZipCode: zipCode,
-        companyAddressCity: city,
-      })
-    }
-
-    function fillCompanyFormToUpdate(id, name, street, buildingNumber, zipCode, city) {
-      console.log(id, name, street, buildingNumber, zipCode, city)
+    function addLead() {
+      console.log("kliknięto addLead()")
+      // push (leadsInDB, {
+      //   clientId: "haha"
+      // })
     }
 
     async function showAllCompaniesData() {
@@ -141,14 +145,29 @@ function useDatabaseHook() {
       }, {onlyOnce: true})
     }
 
+    async function showAllLeadsData() {
+      onValue(leadsInDB, function(snapshot) {
+        let leadsArr = Object.entries(snapshot.val()).map(item => {
+          return (
+            {
+              ...item
+            }
+          )
+        
+        })
+        setAllLeadsData(leadsArr)
+      }, {onlyOnce: true})
+    }
+
     return {
       addCompany, 
+      updateCompany,
       addClient,
       updateClient,
+      addLead,
       allClientsData, 
-      updateCompany, 
       allCompaniesData,
-      fillCompanyFormToUpdate,
+      allLeadsData,
       database,
       clientsInDB
     }

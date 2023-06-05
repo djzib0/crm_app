@@ -29,8 +29,9 @@ export default function Menu() {
             <p className='menu-element-description '>Clients</p>
             <MdPerson className='menu-element-bg-icon'/>
         </Link>
-        <Link className='menu-element-container projects'>
-            <p className='menu-element-description '>Projects</p>
+        <Link to='/leads'
+              className='menu-element-container projects'>
+            <p className='menu-element-description '>Leads</p>
             <MdListAlt className='menu-element-bg-icon'/>
         </Link>
     </div>
