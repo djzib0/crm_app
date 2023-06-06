@@ -42,8 +42,6 @@ export function isDateExceeded(date, delta=0) {
     // converting miliseconds to days
     let totalDays = Math.ceil(difference / (1000 * 3600 * 24))
 
-    console.log(totalDays, "total days")
-
     // total days difference should be less than delta and 
     // more than 0, otherwise it means date is exceeded
     // if there are exceeded days return true
@@ -80,4 +78,31 @@ export function getClientCompanyName(companiesArr, companyId) {
     // returns company name to display next to client details
     return clientCompany[0][1].companyName
   }
+
+  // returns today's date
+  export function getToday() {
+    const date = new Date()
+    const year = date.getFullYear()
+    const day = date.getDate()
+    const month = date.getMonth()
+
+
+    console.log(formatDate(`${year}-${month + 1}-${day}`))
+    return (formatDate(`${year}-${month + 1}-${day}`))
+  }
+
+  // formats date
+  function formatDate(date) {
+    const dateArr = date.split("-")
+    // if month is September or earlier, function adds
+    // zero before the month number
+    const month = dateArr[1].length < 2 ? `0${dateArr[1]}` : dateArr[1]
+    // if day is more than ninth, function adds
+    // zero before the day number
+    const day = dateArr[2].length < 2 ? `0${dateArr[2]}` : dateArr[2]
+    return (`${dateArr[0]}-${month}-${day}`)
+  }
+
+  
+  
 

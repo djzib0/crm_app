@@ -45,7 +45,7 @@ export default function Clients() {
               </Link>
               <div className='cta__container'>
                   <Link>EDIT</Link>
-                  <Link>LEADS</Link>
+                  <Link>+</Link>
                 </div>
 
         </div>

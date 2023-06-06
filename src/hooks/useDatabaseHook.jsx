@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Link, Routes, Route} from 'react-router-dom'
 
+// utilities import
+import { getToday } from '../components/utils/utils';
+
 
 // Import the functions you need from the SDKs you need
 import { initializeApp, setLogLevel } from "firebase/app";
@@ -110,12 +113,20 @@ function useDatabaseHook() {
       })
     }
 
-    function addLead() {
+    function addLead(projectTitle, clientId, companyId, projectValue) {
       console.log("kliknięto addLead()")
-      // push (leadsInDB, {
-      //   clientId: "haha"
-      // })
+      push (leadsInDB, {
+        projectTitle: projectTitle,
+        clientId: clientId,
+        companyId: companyId,
+        dateCreated: getToday(),
+        nextContactDate: 'default now + 14 days (from settings? REDUX)',
+        potential: 'medium',
+        isSold: false,
+        status: 'open'
+      })
     }
+
 
     async function showAllCompaniesData() {
       onValue(companiesInDB, function(snapshot) {
