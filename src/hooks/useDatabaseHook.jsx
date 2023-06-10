@@ -113,17 +113,28 @@ function useDatabaseHook() {
       })
     }
 
-    function addLead(projectTitle, clientId, companyId, projectValue) {
-      console.log("kliknięto addLead()")
+    function addLead(
+        clientId,
+        companyId,
+        projectTitle,
+        clientProjectNumber,
+        projectValue,
+        nextContactDate,
+        projectPotential
+      ) {
+      
       push (leadsInDB, {
-        projectTitle: projectTitle,
         clientId: clientId,
         companyId: companyId,
+        projectTitle: projectTitle,
+        clientProjectNumber: clientProjectNumber,
+        projectValue: projectValue,
         dateCreated: getToday(),
-        nextContactDate: 'default now + 14 days (from settings? REDUX)',
-        potential: 'medium',
+        nextContactDate: nextContactDate,
+        // nextContactDate: 'default now + 14 days (from settings? REDUX)',
+        projectPotential: projectPotential,
         isSold: false,
-        status: 'open'
+        isClosed: false,
       })
     }
 
