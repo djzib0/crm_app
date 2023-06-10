@@ -46,8 +46,13 @@ function useDatabaseHook() {
         const data = showAllClientsData()
       }
 
+      function fetchLeadsData() {
+        const data = showAllLeadsData()
+      }
+
     fetchData()
     fetchClientsData()
+    fetchLeadsData()
     }, [])
 
     function addCompany(name, street, buildingNumber, zipCode, city) {
@@ -138,6 +143,16 @@ function useDatabaseHook() {
       })
     }
 
+    async function changeIsSold(leadId) {
+      const exactItem = `leadsItems/${leadId}`
+      const snapshot =  await get(ref(database, exactItem))
+      const data = await snapshot.val()
+      const prevData = data.isSold
+       update(ref(database, exactItem), {
+        isSold: !prevData
+      })
+    } 
+
 
     async function showAllCompaniesData() {
       onValue(companiesInDB, function(snapshot) {
@@ -191,7 +206,9 @@ function useDatabaseHook() {
       allCompaniesData,
       allLeadsData,
       database,
-      clientsInDB
+      clientsInDB,
+      // CRUD - Leads
+      changeIsSold
     }
 }
 
