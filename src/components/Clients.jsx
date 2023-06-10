@@ -45,7 +45,7 @@ export default function Clients() {
               </Link>
               <div className='cta__container'>
                   <Link>EDIT</Link>
-                  <Link>+</Link>
+                  <Link to={`../add-lead/${item[0]}`}>+</Link>
                 </div>
 
         </div>
