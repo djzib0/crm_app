@@ -1,0 +1,10 @@
+.leads-container {
+    display: grid;
+    grid-template-columns: 90% 10%;
+}
+
+.leads__container-headers,
+.leads__container-content {
+    display: grid;
+    grid-template-columns:  1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr  1fr;
+}

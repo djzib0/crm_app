@@ -35,7 +35,6 @@ function useDatabaseHook() {
     const [allCompaniesData, setAllCompaniesData] = useState()
     const [allClientsData, setAllClientsData] = useState()
     const [allLeadsData, setAllLeadsData] = useState()
-    const [clientsData, setClientsData] = useState()
    
     useEffect(() => {
       function fetchData() {
@@ -151,7 +150,18 @@ function useDatabaseHook() {
        update(ref(database, exactItem), {
         isSold: !prevData
       })
-    } 
+    }
+
+    async function changeNextContactDate(leadId, value) {
+      console.log("działa", value)
+      // const exactItem = `leadsItems/${leadId}`
+      // const snapshot =  await get(ref(database, exactItem))
+      // const data = await snapshot.val()
+      // const prevData = data.isSold
+      //  update(ref(database, exactItem), {
+      //   isSold: !prevData
+      // })
+    }
 
 
     async function showAllCompaniesData() {
@@ -208,7 +218,8 @@ function useDatabaseHook() {
       database,
       clientsInDB,
       // CRUD - Leads
-      changeIsSold
+      changeIsSold,
+      changeNextContactDate
     }
 }
 

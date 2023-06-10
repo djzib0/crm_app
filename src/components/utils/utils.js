@@ -79,8 +79,19 @@ export function getClientCompanyName(companiesArr, companyId) {
     return clientCompany[0][1].companyName
   }
 
-  // returns today's date
-  export function getToday() {
+
+export function getClientName(clientsArr, clientId) {
+    // filter through clients array, returns formatted first and
+    // last name
+    const client = clientsArr.filter(client => {
+        return client[0] === clientId
+    })
+    
+    return capitalizeFirstLetter(client[0][1].firstName) + " " + capitalizeFirstLetter(client[0][1].lastName)
+}
+
+// returns today's date
+export function getToday() {
     const date = new Date()
     const year = date.getFullYear()
     const day = date.getDate()
