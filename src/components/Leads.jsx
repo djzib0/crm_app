@@ -3,12 +3,20 @@ import useDatabaseHook from '../hooks/useDatabaseHook'
 
 function Leads() {
 
-    const { addLead } = useDatabaseHook()
+    const { addLead, allLeadsData, changeIsSold } = useDatabaseHook()
+
+    const leadsArr = allLeadsData && allLeadsData.map(item => {
+        return (
+            <div key={item[0]}>
+                <button onClick={() => changeIsSold(item[0])}>Change Sold</button>
+            </div>
+        )
+    })
 
     return (
         <div>
-            <button onClick={addLead} style={{color: "white", background: "blue"}} >Add new Lead TEST</button>
-        
+            {leadsArr}
+
         </div>
     )
 }
