@@ -1,22 +1,18 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import useDatabaseHook from '../hooks/useDatabaseHook'
+import { Link } from 'react-router-dom'
 
 import './leads.css'
 
 //import utils
 import { getClientCompanyName, getClientName, } from './utils/utils'
 
+//import icons
+import { AiFillFolderOpen } from 'react-icons/ai'
+
 function Leads() {
 
     const { allLeadsData, changeIsSold, allClientsData, allCompaniesData} = useDatabaseHook()
-
-    const [changeStateToRefreshPage, setChangeStateToRefreshPage] = useState(true)
-
-    function testChange(leadId) {
-        changeIsSold(leadId)
-        setChangeStateToRefreshPage(prevData => !prevData)
-    }
-    console.log("state is changed to", changeStateToRefreshPage)
 
     const leadsArr = allLeadsData && allLeadsData.map(item => {
         return (
@@ -33,8 +29,14 @@ function Leads() {
                         <p>{item[1].isSold ? "YES" : "NO"}</p>
                         <p>{item[1].isOpen ? "CLOSED" : "OPEN"}</p>
                     </div>
+                    <div className='cta__container'>
+                        <p>
+                            <Link to={`/lead/${item[0]}`}>
+                                <AiFillFolderOpen />
+                            </Link>
+                        </p>
+                    </div>
                 </div>
-                <button onClick={() => testChange(item[0])}>Change Sold</button>
             </div>
         )
     })
@@ -51,15 +53,13 @@ function Leads() {
                     <p>DATE CREATED</p>
                     <p>NEXT CONTACT DATE</p>
                     <p>SOLD</p>
-                    <p>CLOSED</p>
+                    <p>STATUS</p>
                 </div>
                 <div className='cta__container'>
-                    <p></p>
-                    <p></p>
+                    
                 </div>
         </div>
             {leadsArr}
-
         </div>
     )
 }

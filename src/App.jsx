@@ -15,6 +15,7 @@ import Client from './components/Client'
 import ClientForm from './components/ClientForm'
 import Leads from './components/Leads'
 import LeadForm from './components/LeadForm'
+import Lead from './components/Lead'
 
 function App() {
 
@@ -37,6 +38,7 @@ function App() {
           <Route path='client/:clientId' element={<Client />}/>
           <Route path='leads' element={<Leads />} />
           <Route path='add-lead/:clientId' element={<LeadForm />} />
+          <Route path='lead/:leadId' element={<Lead />} />
         </Routes>
 
       </div>

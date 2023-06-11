@@ -20,6 +20,7 @@ export function formatPhoneNumber(str) {
     return newString
 }
 
+
 // check if date is exceeded
 // if yes return class name to highlight 
 // exceeded contact date
