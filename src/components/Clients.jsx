@@ -30,8 +30,9 @@ export default function Clients() {
 
   let clientsArr = allClientsData && allCompaniesData && filterClients(allClientsData).map(item => {
     return (
+      <div className='clients__data-row'>
         <div key={item[0]} className='clients-container'>
-             <Link to={`/client/${item[0]}`} className='clients__container-data'>
+              <Link to={`/client/${item[0]}`} className='clients__container-data'>
                 <p>{capitalizeFirstLetter(item[1].title)}</p>
                 <p>{capitalizeFirstLetter(item[1].firstName)}</p>
                 <p>{capitalizeFirstLetter(item[1].lastName)}</p>
@@ -43,12 +44,12 @@ export default function Clients() {
                   {item[1].nextContactDate} {isDateExceeded(item[1].nextContactDate, 14) != true ? <HiCheckCircle /> : <HiExclamationCircle /> }
                 </div>
               </Link>
-              <div className='cta__container'>
-                  <Link>EDIT</Link>
-                  <Link to={`../add-lead/${item[0]}`}>+</Link>
-                </div>
-
+              <div className='clients__cta-container'>
+                  <Link className='edit-btn btn-small'>EDIT</Link>
+                  <Link className='edit-btn btn-small' to={`../add-lead/${item[0]}`}>ADD LEAD</Link>
+              </div>
         </div>
+      </div>
       )
   })
 
@@ -147,7 +148,6 @@ export default function Clients() {
                         />
                   </div>
               </div>
-                
             </form>
         </div>
         <div className='clients-container' id="header">
