@@ -110,6 +110,66 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* Form styles */
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+input {
+  font-size: .7rem;
+  width: 90%;
+  padding: .1rem;
+  margin: 0;
+}
+
+input[type=number]::-webkit-outer-spin-button, 
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: inner-spin-button !important;
+  width: 25px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+}
+
+.filter__form {
+  display: flex;
+}
+
+.filter__form > p {
+  font-size: 1rem;
+  align-self: flex-start
+}
+
+.form__clients.wrapper {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.form__leads.wrapper {
+  grid-template-columns: 25% 25% 25% 25%;
+  gap: 0;
+}
+
+.form__clients.wrapper,
+.form__leads.wrapper {
+  display: grid;
+  text-align: center;
+  margin-bottom: 1rem;
+  width: 900px;
+}
+
+.input__client {
+  width: 90%
+}
+
+.wrapper {
+  display: inline-block;
+  margin: .2rem;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -133,3 +193,9 @@ button:focus-visible {
   font-size: .6rem;
   margin-bottom: 2px;
 }
+
+.no-border-btn {
+  background-color: transparent;
+}
+
+

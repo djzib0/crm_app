@@ -10,6 +10,7 @@ import { getClientCompanyName, getClientName, isDateExceeded} from './utils/util
 //import icons
 import { FcOpenedFolder } from 'react-icons/fc'
 import { HiCheckCircle, HiExclamationCircle} from 'react-icons/hi'
+import { BiShow, BiHide } from 'react-icons/bi'
 
 function Leads() {
 
@@ -20,9 +21,12 @@ function Leads() {
         filterByClient: "",
         filterByCompanyName: "",
         filterByClientProjectNumber: "",
+        filterByValue: 0,
         filterByDateCreated: "",
         filterShowSold: true,
-        filterIsOpen: true,
+        filterShowNotSold: true,
+        filterShowOpen: true,
+        filterShowClosed: true,
     })
 
     function handleFilterChange(e) {
@@ -34,6 +38,48 @@ function Leads() {
             }
         })
     }
+
+    // functions to change visibility state for filtering displayed
+    // items
+    function handleShowSoldChange() {
+        setFilterForm(prevData => {
+            return {
+                ...prevData,
+                filterShowSold: !prevData.filterShowSold
+            }
+        })
+    }
+
+    function handleShowNotSoldChange() {
+        setFilterForm(prevData => {
+            return {
+                ...prevData,
+                filterShowNotSold: !prevData.filterShowNotSold
+            }
+        })
+    }
+
+    function handleShowOpenChange() {
+        setFilterForm(prevData => {
+            return {
+                ...prevData,
+                filterShowOpen: !prevData.filterShowOpen
+            }
+        })
+    }
+
+    function handleShowClosedChange() {
+        setFilterForm(prevData => {
+            return {
+                ...prevData,
+                filterShowClosed: !prevData.filterShowClosed
+            }
+        })
+    }
+
+
+
+
 
     const leadsArr = allLeadsData && allLeadsData.map(item => {
         return (
@@ -72,7 +118,17 @@ function Leads() {
             <div className='filter__form'>
             <p>Filter by:</p>
             <form>
-                <div className='form__clients wrapper'>
+                <div className='form__leads wrapper'>
+                    <div className='wrapper'>
+                        <input type='text'
+                            className='input__lead title'
+                            id='title'
+                            name='filterByTitle'
+                            placeholder='Title'
+                            value={filterForm.filterByTitle}
+                            onChange={handleFilterChange}
+                        />
+                    </div>
                     <div className='wrapper'>
                         <input type='text'
                             className='input__lead client-name '
@@ -95,24 +151,49 @@ function Leads() {
                     </div>
                     <div className='wrapper'>
                         <input type='text'
-                            className='input__client email'
-                            id='email'
-                            name='filterByEmail'
-                            placeholder='Email'
-                            value={filterForm.filterByEmail}
-                            onChange={handleFilterChange}
-                        />
-                    </div>
-                    <div className='wrapper'>
-                        <input type='text'
-                        className='input__client phone-number'
-                        id='phone-number'
-                        name='filterByPhoneNumber'
-                        placeholder='Phone number'
-                        value={filterForm.filterByPhoneNumber}
+                        className='input__leads client-project'
+                        id='client-project'
+                        name='filterByClientProjectNumber'
+                        placeholder='Project number'
+                        value={filterForm.filterByClientProjectNumber}
                         onChange={handleFilterChange}
                         />
                     </div>
+                    <div className='wrapper'>
+                        <input type='number'
+                        className='input__leads project-value'
+                        id='project-value'
+                        name='filterByValue'
+                        placeholder='0'
+                        min={0}
+                        value={filterForm.filterByValue}
+                        onChange={handleFilterChange}
+                        />
+                    </div>
+                    <div className='filter-btns__container'>
+                        <div className='filter-btn__container'>
+                            <div className='filter-btn'>
+                                <button type='button' className='show-hide-btn no-border-btn' onClick={handleShowSoldChange}>{filterForm.filterShowSold ? "HIDE SOLD" : "SHOW SOLD"}</button>
+                                {filterForm.filterShowSold ? <BiShow onClick={handleShowSoldChange} /> : <BiHide onClick={handleShowSoldChange} />}
+                            </div>
+                            <div className='filter-btn'>
+                                <button type='button' className='show-hide-btn no-border-btn' onClick={handleShowNotSoldChange}>{filterForm.filterShowNotSold ? "HIDE NOT SOLD" : "SHOW NOT SOLD"}</button>
+                                {filterForm.filterShowNotSold ? <BiShow onClick={handleShowNotSoldChange}/> : <BiHide onClick={handleShowNotSoldChange}/>}
+                            </div>
+                        </div>
+                        <div className='filter-btn__container'>
+                            <div className='filter-btn'>
+                                <button type='button' className='show-hide-btn no-border-btn' onClick={handleShowOpenChange}>{filterForm.filterShowOpen ? "HIDE OPEN" : "SHOW OPEN"}</button>
+                                {filterForm.filterShowOpen ? <BiShow onClick={handleShowOpenChange} /> : <BiHide onClick={handleShowOpenChange} />}
+                            </div>
+                            <div className='filter-btn'>
+                                <button type='button' className='show-hide-btn no-border-btn' onClick={handleShowClosedChange}>{filterForm.filterShowClosed ? "HIDE NOT SOLD" : "SHOW NOT SOLD"}</button>
+                                {filterForm.filterShowClosed ? <BiShow onClick={handleShowClosedChange}/> : <BiHide onClick={handleShowClosedChange}/>}
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
                 </div>
             </form>
         </div>

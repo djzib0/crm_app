@@ -32,5 +32,24 @@
     align-items: center;
     color: red;
     scale: 150%;
-    
 }
+
+.filter-btns__container,
+.filter-btn__container,
+.filter-btn {
+    display: flex;
+}
+
+.filter-btn__container {
+    flex-direction: row;
+}
+
+.filter-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: .4rem;
+    width: 100px;
+}
+
+
