@@ -78,10 +78,62 @@ function Leads() {
     }
 
 
+    function filterLeads() {
+        // set new array with client id and formatted fullName
+        const clientsFullNameArr = allClientsData.map(client => {
+            return {
+                clientId: client[0],
+                clientFullName: client[1].firstName + " " + client[1].lastName
+            }
+        })
+
+        // set new array with filtered from array with clients maching 
+        // form input
+        const filteredClientsArr = clientsFullNameArr.filter(client => {
+            return client.clientFullName.toLowerCase().includes(filterForm.filterByClient.toLowerCase())
+        })
+
+        // set new array only with the id's of matching clients
+        // if leadItem.clientId is in below array, it will be displayed
+        const filteredClientsId = filteredClientsArr.map(item => {
+            return item.clientId
+        })
+
+        // set new array with companies matching form company name
+        const companiesArr = allCompaniesData.filter(company => {
+            return company[1].companyName.toLowerCase().includes(filterForm.filterByCompanyName)
+        })
+
+        // set array of companies Id - if clients companyId matches any from the array
+        // it will be displayed
+        const companiesIdArr = companiesArr.map(company => {
+            return company[0]
+        })
+
+        const filteredLeadsData = allLeadsData.filter(item => {
+            return (
+                item[1].projectTitle.toLowerCase().includes(filterForm.filterByTitle.toLowerCase()) &&
+                filteredClientsId.includes(item[1].clientId) &&
+                companiesIdArr.includes(item[1].companyId) &&
+                item[1].clientProjectNumber.toLowerCase().includes(filterForm.filterByClientProjectNumber) &&
+                Number(item[1].projectValue) >= Number(filterForm.filterByValue) &&
+                (filterForm.filterShowOpen ? !item[1].isClosed : "") &&
+                (filterForm.filterShowClosed ? item[1].isClosed : "")
+                // filterForm.filterShowOpen && !item[1].isClosed ||
+                // filterForm.filterShowClosed && item[1].isClosed 
+
+                // item[1].isClosed === filterForm.filterShowOpen
+
+                // item[1].projectTitle.includes(filterForm.filterByTitle) &&
+
+            )
+        })
+        return filteredLeadsData
+    }
 
 
 
-    const leadsArr = allLeadsData && allLeadsData.map(item => {
+    const leadsArr = allLeadsData && allClientsData && allCompaniesData && filterLeads().map(item => {
         return (
             <div key={item[0]}>
                 <div className='leads__data-row'>
@@ -98,7 +150,7 @@ function Leads() {
                                 {item[1].nextContactDate} {isDateExceeded(item[1].nextContactDate, 14) != true ? <HiCheckCircle /> : <HiExclamationCircle /> }
                             </div>
                             <p>{item[1].isSold ? "YES" : "NO"}</p>
-                            <p>{item[1].isOpen ? "CLOSED" : "OPEN"}</p>
+                            <p>{item[1].isClosed ? "CLOSED" : "OPEN"}</p>
                         </div>
                         <div className='leads__cta-container'>
                             <p>
@@ -119,7 +171,7 @@ function Leads() {
             <p>Filter by:</p>
             <form>
                 <div className='form__leads wrapper'>
-                    <div className='wrapper'>
+                    <div className='input-wrapper'>
                         <input type='text'
                             className='input__lead title'
                             id='title'
@@ -129,9 +181,9 @@ function Leads() {
                             onChange={handleFilterChange}
                         />
                     </div>
-                    <div className='wrapper'>
+                    <div className='input-wrapper'>
                         <input type='text'
-                            className='input__lead client-name '
+                            className='input__leads client-name '
                             id='client-name'
                             name='filterByClient'
                             placeholder="Client"
@@ -139,9 +191,9 @@ function Leads() {
                             onChange={handleFilterChange}
                         />
                     </div>
-                    <div className='wrapper'>
+                    <div className='input-wrapper'>
                         <input type='text'
-                            className='input__lead company-name'
+                            className='input__leads company-name'
                             id='company-name'
                             name='filterByCompanyName'
                             placeholder='Company name'
@@ -149,7 +201,7 @@ function Leads() {
                             onChange={handleFilterChange}
                         />
                     </div>
-                    <div className='wrapper'>
+                    <div className='input-wrapper'>
                         <input type='text'
                         className='input__leads client-project'
                         id='client-project'
@@ -159,7 +211,8 @@ function Leads() {
                         onChange={handleFilterChange}
                         />
                     </div>
-                    <div className='wrapper'>
+                    <div className='input-wrapper'>
+                        <label className='label-sm' htmlFor='project-value'>Value &gt; €</label>
                         <input type='number'
                         className='input__leads project-value'
                         id='project-value'
@@ -167,6 +220,18 @@ function Leads() {
                         placeholder='0'
                         min={0}
                         value={filterForm.filterByValue}
+                        onChange={handleFilterChange}
+                        />
+                    </div>
+                    <div className='input-wrapper'>
+                        <label className='label-sm' htmlFor='date-created'>Date &gt;</label>
+                        <input type='date'
+                        className='input__leads project-value'
+                        id='date-created'
+                        name='filterByDateCreated'
+                        placeholder='0'
+                        min={0}
+                        value={filterForm.filterByDateCreated}
                         onChange={handleFilterChange}
                         />
                     </div>
@@ -187,7 +252,7 @@ function Leads() {
                                 {filterForm.filterShowOpen ? <BiShow onClick={handleShowOpenChange} /> : <BiHide onClick={handleShowOpenChange} />}
                             </div>
                             <div className='filter-btn'>
-                                <button type='button' className='show-hide-btn no-border-btn' onClick={handleShowClosedChange}>{filterForm.filterShowClosed ? "HIDE NOT SOLD" : "SHOW NOT SOLD"}</button>
+                                <button type='button' className='show-hide-btn no-border-btn' onClick={handleShowClosedChange}>{filterForm.filterShowClosed ? "HIDE CLOSED" : "SHOW CLOSED"}</button>
                                 {filterForm.filterShowClosed ? <BiShow onClick={handleShowClosedChange}/> : <BiHide onClick={handleShowClosedChange}/>}
                             </div>
                         </div>

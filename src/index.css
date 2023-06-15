@@ -156,7 +156,6 @@ input[type=number]::-webkit-inner-spin-button {
 .form__clients.wrapper,
 .form__leads.wrapper {
   display: grid;
-  text-align: center;
   margin-bottom: 1rem;
   width: 900px;
 }
@@ -165,9 +164,21 @@ input[type=number]::-webkit-inner-spin-button {
   width: 90%
 }
 
-.wrapper {
-  display: inline-block;
-  margin: .2rem;
+.input__leads {
+  width: 100%;
+}
+
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  margin: .2rem .5rem;
+  width: 250px;
+}
+
+.label-sm {
+  width: 50%;
+  font-size: .75rem;
 }
 
 @media (prefers-color-scheme: light) {
