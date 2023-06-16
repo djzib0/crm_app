@@ -110,22 +110,78 @@ function Leads() {
             return company[0]
         })
 
-        const filteredLeadsData = allLeadsData.filter(item => {
+
+        //create the array of leads based on checked filterForm attributes:
+        // filterShowSold, filterShowNotSold, filterShowOpen, filterShowClosed
+
+        let selectedLeads = []
+        
+        if (filterForm.filterShowOpen && filterForm.filterShowSold) {
+            allLeadsData.forEach(item => {
+                if (!item[1].isClosed && item[1].isSold && !selectedLeads.includes(item)) {
+                    selectedLeads.push(item)
+                }
+            })
+        }
+        if (filterForm.filterShowOpen && filterForm.filterShowNotSold) {
+            allLeadsData.forEach(item => {
+                if (!item[1].isClosed && !item[1].isSold && !selectedLeads.includes(item)) {
+                    selectedLeads.push(item)
+                }
+            })
+        }
+        if (filterForm.filterShowClosed && filterForm.filterShowSold) {
+            allLeadsData.forEach(item => {
+                if (item[1].isClosed && item[1].isSold && !selectedLeads.includes(item)) {
+                    selectedLeads.push(item)
+                }
+            })
+        }
+        if (filterForm.filterShowClosed && filterForm.filterShowNotSold) {
+            allLeadsData.forEach(item => {
+                if (item[1].isClosed && !item[1].isSold && !selectedLeads.includes(item)) {
+                    selectedLeads.push(item)
+                }
+            })
+        }
+
+
+            
+            // if (filterForm.filterShowOpen) {
+            //    if (!item[1].isClosed && filterForm.filterShowSold) {
+            //     selectedLeads.push(item)
+            //    } 
+            //    if (!item[1].isClosed && filterForm.filterShowNotSold) {
+            //     selectedLeads.push(item)
+            //    }
+            // }
+            // if (filterForm.filterShowClosed) {
+            //     if (item[1].isClosed) {
+            //         selectedLeads.push(item)
+            //     }
+            // }
+            // if (filterForm.filterShowSold) {
+            //     if (item[1].isSold && !selectedLeads.includes(item)) {
+            //         selectedLeads.push(item)
+            //     }
+            // }
+            // if (filterForm.filterShowNotSold) {
+            //     if (!item[1].isSold && !selectedLeads.includes(item)) {
+            //         selectedLeads.push(item)
+            //     }
+            // }
+
+        const selectedLeadsWithoutDupes = [...new Set(selectedLeads)]
+        console.log(selectedLeads)
+        console.log(selectedLeadsWithoutDupes)
+
+        const filteredLeadsData = selectedLeadsWithoutDupes.filter(item => {
             return (
                 item[1].projectTitle.toLowerCase().includes(filterForm.filterByTitle.toLowerCase()) &&
                 filteredClientsId.includes(item[1].clientId) &&
                 companiesIdArr.includes(item[1].companyId) &&
                 item[1].clientProjectNumber.toLowerCase().includes(filterForm.filterByClientProjectNumber) &&
-                Number(item[1].projectValue) >= Number(filterForm.filterByValue) &&
-                (filterForm.filterShowOpen ? !item[1].isClosed : "") &&
-                (filterForm.filterShowClosed ? item[1].isClosed : "")
-                // filterForm.filterShowOpen && !item[1].isClosed ||
-                // filterForm.filterShowClosed && item[1].isClosed 
-
-                // item[1].isClosed === filterForm.filterShowOpen
-
-                // item[1].projectTitle.includes(filterForm.filterByTitle) &&
-
+                Number(item[1].projectValue) >= Number(filterForm.filterByValue)
             )
         })
         return filteredLeadsData
