@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
 import useDatabaseHook from '../hooks/useDatabaseHook';
 
 
 // react-router components import
 import { Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom'
 
 // styles import
 import './client.css'
@@ -26,13 +26,13 @@ import { getDatabase, ref, get } from 'firebase/database'
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCyId9D2ZgN8QXzA68k3MEV02m50Jivqsk",
-  authDomain: "realtime-database-903af.firebaseapp.com",
-  databaseURL: "https://realtime-database-903af-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "realtime-database-903af",
-  storageBucket: "realtime-database-903af.appspot.com",
-  messagingSenderId: "658938276512",
-  appId: "1:658938276512:web:ee6fe1b71c842d428e37c5"
+    apiKey: "AIzaSyCyId9D2ZgN8QXzA68k3MEV02m50Jivqsk",
+    authDomain: "realtime-database-903af.firebaseapp.com",
+    databaseURL: "https://realtime-database-903af-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "realtime-database-903af",
+    storageBucket: "realtime-database-903af.appspot.com",
+    messagingSenderId: "658938276512",
+    appId: "1:658938276512:web:ee6fe1b71c842d428e37c5"
 };
 
 // Initialize Firebase
@@ -46,6 +46,7 @@ function Client() {
   const {clientId} = useParams()
 
   const [selectedClient, setSelectedClient] = useState()
+  const [selectedCompany, setSelectedCompany] = useState()
 
   const { allCompaniesData } = useDatabaseHook()
 
@@ -54,78 +55,54 @@ function Client() {
     async function fetchData() {
       const snapshot = await get(ref(database, `peopleItems/${clientId}`))
       const data = await snapshot.val()
+      const companySnapshot = await get(ref(database, `companiesItems/${data.companyId}`))
+      const companyData = await companySnapshot.val()
       setSelectedClient(data)
+      setSelectedCompany(companyData)
     }
     fetchData()
   }, [])
 
-  // declaring variable without value
-  let companyId
-  let title
-  let firstName
-  let lastName
-  let email
-  let phoneNumber
-  let lastContactDate
-  let nextContactDate
-  let isContactDateExceeded
 
-  // if selectedCompany is set (fetched with useEffect)
-  // set fetched data to variables
-  if (selectedClient) {
-    companyId = selectedClient.companyId
-    title = selectedClient.title
-    firstName = selectedClient.firstName
-    lastName = selectedClient.lastName
-    email = selectedClient.email
-    phoneNumber = selectedClient.phoneNumber
-    lastContactDate = selectedClient.lastContactDate
-    nextContactDate = selectedClient.nextContactDate
-    isContactDateExceeded = selectedClient.isContactDateExceeded
-  }
+  if (selectedClient, selectedCompany) {
+    return (
+      <div className='client__container'>
 
-  //search for the company where the client is working in
-  const clientCompany = allCompaniesData && allCompaniesData.filter(item => {
-    return item[0] === companyId
-  })
-
+        <div className='details__content-container' id='client-details__content-container'>
+          <div className='info-container details__content-grid-element'>
+            <div className='info-container-top'>
   
-  return (
-    <div className='client__container'>
-
-      <div className='client__details-container'>
-        <div className='client__info-container client__grid-element'>
-          <div className='client__info-container-top'>
-
-            {/* "absolute" container to fix position of icon */}
-            <div className='icon-white' id='edit__btn-client-data'>
-              <Link to={`/edit-client/${clientId}`} >{<TiEdit />}</Link>
-            </div>
-
-            {/* replace below code with an <img> */}
-            <div className='client__avatar-img'></div> 
-            <div className='client__info-container-top-data'>
-              <p id='client__name'>{`${selectedClient && capitalizeFirstLetter(title)}
-                  ${selectedClient && capitalizeFirstLetter(firstName)}
-                  ${selectedClient && capitalizeFirstLetter(lastName)}`}
-              </p>
-              <p id='client__company-name'>{allCompaniesData && selectedClient && getClientCompanyName(allCompaniesData, companyId).toUpperCase()}</p>
-              <a href={`mailto: ${email}`} id='client__email'>{selectedClient && email}</a> 
-              <p id='client__phone-number'>{selectedClient && formatPhoneNumber(phoneNumber)}</p>
+              {/* "absolute" container to fix position of icon */}
+              <div className='icon-white' id='edit__btn-client-data'>
+                <Link to={`/edit-client/${clientId}`} >{<TiEdit />}</Link>
+              </div>
+  
+              {/* replace below code with an <img> */}
+              <div className='details__avatar-img'></div> 
+              <div className='details__info-container-top-data'>
+                <p id='client__name'>{`${capitalizeFirstLetter(selectedClient.title)}
+                    ${capitalizeFirstLetter(selectedClient.firstName)}
+                    ${capitalizeFirstLetter(selectedClient.lastName)}`}
+                </p>
+                <p id='client__company-name'>{selectedCompany.companyName.toUpperCase()}</p>
+                <a href={`mailto: ${selectedClient.email}`} id='client__email'>{selectedClient.email}</a> 
+                <p id='client__phone-number'>{formatPhoneNumber(selectedClient.phoneNumber)}</p>
+              </div>
             </div>
           </div>
-        </div>
-
-        <div className='client__events-container client__grid-element'>
-          Tutaj będą nadchodzące eventy
-        </div>
-
-        <div className='client__charts-container client__grid-element'>
-          Tutaj będą wykresy?
+  
+          <div className='details__content-grid-element'>
+            Tutaj będą nadchodzące eventy
+          </div>
+  
+          <div className='details__content-grid-element'>
+            Tutaj będą wykresy?
+          </div>
         </div>
       </div>
-    </div>
-  )
+    )
+  }
+ 
 }
 
 export default Client

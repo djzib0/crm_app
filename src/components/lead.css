@@ -1,0 +1,18 @@
+#lead-details__content-container {
+    grid-template-columns: 3fr 1fr;
+    grid-template-rows: 400px 200px;
+    gap: .5rem;
+    grid-template-areas: 
+    "main messages"
+    "charts messages";
+}
+
+#lead-comments__container {
+    grid-area: messages;
+}
+
+#lead__title {
+    font-size: 2rem;
+    color: var(--color-white)
+}
+

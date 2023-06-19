@@ -30,8 +30,8 @@ export default function Clients() {
 
   let clientsArr = allClientsData && allCompaniesData && filterClients(allClientsData).map(item => {
     return (
-      <div className='clients__data-row'>
-        <div key={item[0]} className='clients-container'>
+      <div key={item[0]} className='clients__data-row'>
+        <div className='clients-container'>
               <Link to={`/client/${item[0]}`} className='clients__container-data'>
                 <p>{capitalizeFirstLetter(item[1].title)}</p>
                 <p>{capitalizeFirstLetter(item[1].firstName)}</p>

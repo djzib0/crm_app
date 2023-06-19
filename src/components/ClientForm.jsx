@@ -47,32 +47,32 @@ export default function ClientForm(props) {
 		isContactDateExceeded: false,
 	})
 
-		// if there is an clientId from useParams() it means that the user
-		// wants to update the client's data
-		// it has to be found in database and set form with data
-		useEffect(() => {
-			if (clientId) {
-					//find item in database
-					async function fetchData() {
-							const snapshot = await get(ref(database, `peopleItems/${clientId}`))
-							const data = await snapshot.val()
-							console.log(data, 'w companyForm')
-							// set form with fetched company data
-							setFormData(prevData => {
-									return (
-											{
-													...prevData,
-													title: data.title,
-													firstName: data.firstName,
-													lastName: data.lastName,
-													email: data.email,
-													phoneNumber: data.phoneNumber
-											}
-									)
-							})
-					}
-					fetchData()
-			}
+	// if there is an clientId from useParams() it means that the user
+	// wants to update the client's data
+	// it has to be found in database and set form with data
+	useEffect(() => {
+		if (clientId) {
+				//find item in database
+				async function fetchData() {
+						const snapshot = await get(ref(database, `peopleItems/${clientId}`))
+						const data = await snapshot.val()
+						console.log(data, 'w companyForm')
+						// set form with fetched company data
+						setFormData(prevData => {
+								return (
+										{
+												...prevData,
+												title: data.title,
+												firstName: data.firstName,
+												lastName: data.lastName,
+												email: data.email,
+												phoneNumber: data.phoneNumber
+										}
+								)
+						})
+				}
+				fetchData()
+		}
 	}, [])
 
 	function handleChange(e) {
