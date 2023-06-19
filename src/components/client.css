@@ -3,3 +3,8 @@
     grid-template-rows: 400px 200px;
     gap: .5rem;
 }
+
+.data__container-row h4 {
+    font-weight: 300;
+    /* height: 3rem; */
+}

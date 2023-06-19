@@ -142,13 +142,33 @@ function useDatabaseHook() {
       })
     }
 
+    async function changeIsClosed(leadId) {
+      const exactItem = `leadsItems/${leadId}`
+      const snapshot =  await get(ref(database, exactItem))
+      const data = await snapshot.val()
+      const prevData = data.isClosed
+      update(ref(database, exactItem), {
+        isClosed: !prevData
+      })
+    }
+
     async function changeIsSold(leadId) {
       const exactItem = `leadsItems/${leadId}`
       const snapshot =  await get(ref(database, exactItem))
       const data = await snapshot.val()
       const prevData = data.isSold
-       update(ref(database, exactItem), {
+      update(ref(database, exactItem), {
         isSold: !prevData
+      })
+    }
+
+    async function changePotential(leadId, potential) {
+      const exactItem = `leadsItems/${leadId}`
+      const snapshot =  await get(ref(database, exactItem))
+      const data = await snapshot.val()
+      console.log(data, "tutaj jestem")
+      update(ref(database, exactItem), {
+        projectPotential: potential
       })
     }
 
@@ -218,7 +238,9 @@ function useDatabaseHook() {
       database,
       clientsInDB,
       // CRUD - Leads
+      changeIsClosed,
       changeIsSold,
+      changePotential,
       changeNextContactDate
     }
 }

@@ -8,6 +8,7 @@ import './lead.css'
 
 // icons import
 import { FaArrowLeft } from 'react-icons/fa'
+import { ImLock, ImUnlocked, ImCheckmark, ImCross} from 'react-icons/im'
 
 // utils import
 import { 
@@ -39,12 +40,16 @@ const database = getDatabase(app)
 
 function Lead() {
 
-  const { allCompaniesData } = useDatabaseHook()
+  // this state is only to force DOM to re-render after DB is changed
+  const [updateState, setUpdateState] = useState()
+
+  const { allCompaniesData, changeIsClosed, changeIsSold, changePotential} = useDatabaseHook()
 
   const { leadId } = useParams()
 
-  const [formData, setFormData] = useState({
-  })
+  // const [formData, setFormData] = useState({
+  //   projectPotential: "",
+  // })
 
   const [selectedLead, setSelectedLead] = useState()
   const [selectedClient, setSelectedClient] = useState()
@@ -55,8 +60,6 @@ function Lead() {
     async function fetchLeadData() {
       const snapshot = await get(ref(database, `leadsItems/${leadId}`))
       const data = await snapshot.val()
-      console.log(data, "data")
-      console.log(data.clientId)
       const clientSnapshot = await get(ref(database, `peopleItems/${data.clientId}`))
       const clientData = await clientSnapshot.val()
       const companySnapshot = await get(ref(database, `companiesItems/${data.companyId}`))
@@ -64,10 +67,18 @@ function Lead() {
       setSelectedLead(data)
       setSelectedClient(clientData)
       setSelectedCompany(companyData)
-    }
-    fetchLeadData()
-    }, [])
-  
+      // setFormData({
+      //   projectPotential: data.projectPotential
+      // })
+  }
+  fetchLeadData()
+  }, [updateState]) 
+
+  async function updateData(leadId, func, event) {
+    await func(leadId, event.target.value)
+    // changing updateState to re-render DOM
+    setUpdateState(prevData => !prevData)
+  }
 
   if (selectedClient, selectedLead, selectedClient) {
     return (
@@ -88,12 +99,62 @@ function Lead() {
                   ${capitalizeFirstLetter(selectedClient.lastName)}`}
                 </p>
                 <p id='client__company-name'>{selectedCompany.companyName.toUpperCase()}</p>
-                <a href={`mailto: ${selectedClient.email}`} id='client__email'>{selectedClient && selectedClient.email}</a> 
+                <a href={`mailto: ${selectedClient.email}`} id='client__email'>{selectedClient.email}</a> 
                 <p id='client__phone-number'>{selectedClient && formatPhoneNumber(selectedClient.phoneNumber)}</p>
               </div>
             </div>
     
-            <div>Jestem tutaj</div>
+            <div className='data__container'>
+
+              <div className='data__container-column-50-left'>
+                <div className='data__container-row'>
+                  <h4>Lead status:</h4>
+                  <h5>{!selectedLead.isClosed ? `OPEN` : `CLOSED`}</h5>
+                  <h5 className='icon-btn' onClick={(e) => updateData(leadId, changeIsClosed, e)}>
+                    {!selectedLead.isClosed ? <ImUnlocked/> : <ImLock />}
+                  </h5>
+                </div>
+                <div className='data__container-row'>
+                  <h4>Sold status:</h4>
+                  <h5>{!selectedLead.isSold ? `NOT SOLD` : `SOLD`}</h5>
+                  <h5 className='icon-btn' onClick={(e) => updateData(leadId, changeIsSold, e)}>
+                    {!selectedLead.isSold ? <ImCheckmark/> : <ImCross />}
+                  </h5>
+                </div>
+                <div className='data__container-row'>
+                  <h4>Lead potential:</h4>
+                  <h5 className='icon-btn'>
+                    <select name='projectPotential'
+                      id='project-potential'
+                      value={selectedLead.projectPotential}
+                      onChange={(e) => updateData(leadId, changePotential, e)}
+                      >
+                      <option value='low'>Low</option>
+                      <option value='medium'>Medium</option>
+                      <option value='high'>High</option>
+                  </select>
+                  </h5>
+                </div>
+              </div>
+
+              <div className='data__container-column-50-right'>
+                <div className='data__container-row'>
+                  <h4>Lead value:</h4>
+                  <h5>{selectedLead.projectValue} €</h5>
+                  <h5 className='icon-btn' onClick={() => updateData(leadId, changeIsClosed)}>
+                    {!selectedLead.isClosed ? <ImUnlocked/> : <ImLock />}
+                  </h5>
+                </div>
+                <div className='data__container-row'>
+                  <h4>Sold status:</h4>
+                  <h5>{!selectedLead.isSold ? `NOT SOLD` : `SOLD`}</h5>
+                  <h5 className='icon-btn' onClick={() => updateData(leadId, changeIsSold)}>
+                    {!selectedLead.isSold ? <ImCheckmark/> : <ImCross />}
+                  </h5>
+                </div>
+              </div>
+
+            </div>
         </div>
     
         <div className='details__content-grid-element' id='lead-comments__container'>
