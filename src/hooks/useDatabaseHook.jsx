@@ -166,21 +166,22 @@ function useDatabaseHook() {
       const exactItem = `leadsItems/${leadId}`
       const snapshot =  await get(ref(database, exactItem))
       const data = await snapshot.val()
-      console.log(data, "tutaj jestem")
       update(ref(database, exactItem), {
         projectPotential: potential
       })
     }
 
-    async function changeNextContactDate(leadId, value) {
-      console.log("działa", value)
-      // const exactItem = `leadsItems/${leadId}`
-      // const snapshot =  await get(ref(database, exactItem))
-      // const data = await snapshot.val()
-      // const prevData = data.isSold
-      //  update(ref(database, exactItem), {
-      //   isSold: !prevData
-      // })
+    async function changeNextContactDate(leadId, newDate) {
+      // checks the newDate is defined and not null
+      // otherwise it won't update
+      if (newDate) {
+        const exactItem = `leadsItems/${leadId}`
+        const snapshot =  await get(ref(database, exactItem))
+        const data = await snapshot.val()
+         update(ref(database, exactItem), {
+          nextContactDate: newDate
+        })
+      }
     }
 
 
@@ -241,7 +242,7 @@ function useDatabaseHook() {
       changeIsClosed,
       changeIsSold,
       changePotential,
-      changeNextContactDate
+      changeNextContactDate,
     }
 }
 

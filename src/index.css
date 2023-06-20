@@ -270,20 +270,23 @@ input[type=number]::-webkit-inner-spin-button {
   display: grid;
   grid-template-columns: 1fr 1fr;
   padding: .5em 2rem;
-  align-items: center;
 }
 
 .data__container-row {
   display: grid;
-  grid-template-columns: 100px 100px 50px;
+  grid-template-columns: 110px 100px 50px;
+  height: auto;
   align-items: center;
-  text-align: center;
   padding: 0;
 }
 
 .data__container-column-50-left, 
 .data__container-column-50-right {
   width: 50%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  align-items: flex-start;
 }
 
 #client__name {
@@ -303,7 +306,6 @@ input[type=number]::-webkit-inner-spin-button {
 #edit__btn-client-data {
   position: absolute;
   top: .5rem;
-  /* left: 20px; */
   right: .5rem;
   transition: var(--transition);
 }
@@ -311,5 +313,27 @@ input[type=number]::-webkit-inner-spin-button {
 #edit__btn-client-data:hover {
   font-size: 1.2rem;
   scale: 120%;
+}
+
+/* animations */
+
+.anim-shake {
+  transition: var(--transition);
+  background-color: transparent;
+}
+
+.anim-shake:hover {
+  scale: 120%;
+  animation-name: tilt-shaking;
+  animation-duration: 2s;
+  text-shadow: 10px 5px 5px #0095ff;
+}
+
+@keyframes tilt-shaking {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(10deg); }
+  50% { transform: rotate(0deg); }
+  75% { transform: rotate(-10deg); }
+  100% { transform: rotate(0deg); }
 }
 

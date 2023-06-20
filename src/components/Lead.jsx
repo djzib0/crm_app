@@ -43,13 +43,16 @@ function Lead() {
   // this state is only to force DOM to re-render after DB is changed
   const [updateState, setUpdateState] = useState()
 
-  const { allCompaniesData, changeIsClosed, changeIsSold, changePotential} = useDatabaseHook()
+  const { 
+    allCompaniesData, 
+    changeIsClosed, 
+    changeIsSold, 
+    changePotential,
+    changeNextContactDate,
+  } = useDatabaseHook()
 
   const { leadId } = useParams()
 
-  // const [formData, setFormData] = useState({
-  //   projectPotential: "",
-  // })
 
   const [selectedLead, setSelectedLead] = useState()
   const [selectedClient, setSelectedClient] = useState()
@@ -111,14 +114,14 @@ function Lead() {
                   <h4>Lead status:</h4>
                   <h5>{!selectedLead.isClosed ? `OPEN` : `CLOSED`}</h5>
                   <h5 className='icon-btn' onClick={(e) => updateData(leadId, changeIsClosed, e)}>
-                    {!selectedLead.isClosed ? <ImUnlocked/> : <ImLock />}
+                    {!selectedLead.isClosed ? <ImUnlocked className='anim-shake'/> : <ImLock className='anim-shake' />}
                   </h5>
                 </div>
                 <div className='data__container-row'>
                   <h4>Sold status:</h4>
                   <h5>{!selectedLead.isSold ? `NOT SOLD` : `SOLD`}</h5>
                   <h5 className='icon-btn' onClick={(e) => updateData(leadId, changeIsSold, e)}>
-                    {!selectedLead.isSold ? <ImCheckmark/> : <ImCross />}
+                    {!selectedLead.isSold ? <ImCheckmark className='anim-shake'/> : <ImCross className='anim-shake' />}
                   </h5>
                 </div>
                 <div className='data__container-row'>
@@ -129,9 +132,9 @@ function Lead() {
                       value={selectedLead.projectPotential}
                       onChange={(e) => updateData(leadId, changePotential, e)}
                       >
-                      <option value='low'>Low</option>
-                      <option value='medium'>Medium</option>
-                      <option value='high'>High</option>
+                    <option value='low'>Low</option>
+                    <option value='medium'>Medium</option>
+                    <option value='high'>High</option>
                   </select>
                   </h5>
                 </div>
@@ -141,16 +144,19 @@ function Lead() {
                 <div className='data__container-row'>
                   <h4>Lead value:</h4>
                   <h5>{selectedLead.projectValue} €</h5>
-                  <h5 className='icon-btn' onClick={() => updateData(leadId, changeIsClosed)}>
-                    {!selectedLead.isClosed ? <ImUnlocked/> : <ImLock />}
-                  </h5>
                 </div>
                 <div className='data__container-row'>
-                  <h4>Sold status:</h4>
-                  <h5>{!selectedLead.isSold ? `NOT SOLD` : `SOLD`}</h5>
-                  <h5 className='icon-btn' onClick={() => updateData(leadId, changeIsSold)}>
-                    {!selectedLead.isSold ? <ImCheckmark/> : <ImCross />}
-                  </h5>
+                  <h4>Next contact:</h4>
+                  <input name='nextContactDate'
+                    type='date'
+                    id='next-contact-date'
+                    value={selectedLead.nextContactDate}
+                    onChange={(e) => updateData(leadId, changeNextContactDate, e)}
+                    />
+                </div>
+                <div className='data__container-row'>
+                  <h4>Lead value:</h4>
+                  <h5>{selectedLead.projectValue} €</h5>
                 </div>
               </div>
 

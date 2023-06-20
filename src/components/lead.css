@@ -16,3 +16,19 @@
     color: var(--color-white)
 }
 
+select#project-potential,
+select#project-potential:active,
+#next-contact-date {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    padding: 0;
+}
+
+select#project-potential:hover {
+    background-color: var(--color-blue-lighter);
+}
+
+
+
+
