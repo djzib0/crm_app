@@ -49,6 +49,7 @@ function Lead() {
     changeIsSold, 
     changePotential,
     changeNextContactDate,
+    changeProjectValue,
   } = useDatabaseHook()
 
   const { leadId } = useParams()
@@ -57,6 +58,24 @@ function Lead() {
   const [selectedLead, setSelectedLead] = useState()
   const [selectedClient, setSelectedClient] = useState()
   const [selectedCompany, setSelectedCompany] = useState()
+
+  const [newProjectValue, setNewProjectValue] = useState()
+  const [confirmBtnDisplay, setConfirmBtnDisplay] = useState(false)
+
+
+
+  function changeNewProjectValue(e) {
+    const newValue = e.target.value
+    if (newValue.slice(-1) === '€') {
+      newValue.slice(0, -1) === selectedLead.projectValue ? setConfirmBtnDisplay(false) : setConfirmBtnDisplay(true)
+    }
+    if (newValue.slice(-1) != '€') {
+      // this is to always display € currency after the value
+      setNewProjectValue(newValue + '€')
+    } else {
+      setNewProjectValue(newValue)
+    }
+  }
 
   //fetching lead's data
   useEffect(() => {
@@ -70,6 +89,7 @@ function Lead() {
       setSelectedLead(data)
       setSelectedClient(clientData)
       setSelectedCompany(companyData)
+      setNewProjectValue(data.projectValue + "€")
       // setFormData({
       //   projectPotential: data.projectPotential
       // })
@@ -81,6 +101,14 @@ function Lead() {
     await func(leadId, event.target.value)
     // changing updateState to re-render DOM
     setUpdateState(prevData => !prevData)
+  }
+
+  async function updateValueData(leadId, func, value) {
+    await func(leadId, value)
+    // changing updateState to re-render DOM
+    setUpdateState(prevData => !prevData)
+    setConfirmBtnDisplay(false)
+
   }
 
   if (selectedClient, selectedLead, selectedClient) {
@@ -143,7 +171,15 @@ function Lead() {
               <div className='data__container-column-50-right'>
                 <div className='data__container-row'>
                   <h4>Lead value:</h4>
-                  <h5>{selectedLead.projectValue} €</h5>
+                  <input
+                  className=''
+                    type='text'
+                    name='projectValue'
+                    id='project-value'
+                    value={newProjectValue}
+                    onChange={changeNewProjectValue}
+                  />
+                  {confirmBtnDisplay ? <p onClick={() => updateValueData(leadId, changeProjectValue, newProjectValue)}>Confirm</p> : ""}
                 </div>
                 <div className='data__container-row'>
                   <h4>Next contact:</h4>
@@ -153,10 +189,6 @@ function Lead() {
                     value={selectedLead.nextContactDate}
                     onChange={(e) => updateData(leadId, changeNextContactDate, e)}
                     />
-                </div>
-                <div className='data__container-row'>
-                  <h4>Lead value:</h4>
-                  <h5>{selectedLead.projectValue} €</h5>
                 </div>
               </div>
 

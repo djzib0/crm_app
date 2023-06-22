@@ -184,6 +184,17 @@ function useDatabaseHook() {
       }
     }
 
+    async function changeProjectValue(leadId, newValue) {
+      if (newValue) {
+        const exactItem = `leadsItems/${leadId}`
+        const snapshot =  await get(ref(database, exactItem))
+        const data = await snapshot.val()
+         update(ref(database, exactItem), {
+          projectValue: newValue.slice(0, -1)
+        })
+      }
+    }
+
 
     async function showAllCompaniesData() {
       onValue(companiesInDB, function(snapshot) {
@@ -243,6 +254,7 @@ function useDatabaseHook() {
       changeIsSold,
       changePotential,
       changeNextContactDate,
+      changeProjectValue,
     }
 }
 

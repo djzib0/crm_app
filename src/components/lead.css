@@ -18,11 +18,20 @@
 
 select#project-potential,
 select#project-potential:active,
-#next-contact-date {
+#next-contact-date,
+.data__container-row input#project-value {
     background-color: transparent;
     border: none;
     outline: none;
     padding: 0;
+}
+
+.data__container-row input#project-value {
+    display: inline-block;
+    width: 80px;
+    font-size: 1rem;
+    font-weight: 700;
+
 }
 
 select#project-potential:hover {
