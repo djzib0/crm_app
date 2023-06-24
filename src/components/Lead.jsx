@@ -12,9 +12,10 @@ import { ImLock, ImUnlocked, ImCheckmark, ImCross} from 'react-icons/im'
 
 // utils import
 import { 
-	getClientCompanyName,
 	capitalizeFirstLetter,
 	formatPhoneNumber,
+  isNumber,
+  convertComaToDot,
 } from './utils/utils'
 
 // Import the functions you need from the SDKs you need
@@ -67,11 +68,11 @@ function Lead() {
   function changeNewProjectValue(e) {
     const newValue = e.target.value
     if (newValue.slice(-1) === '€') {
-      newValue.slice(0, -1) === selectedLead.projectValue ? setConfirmBtnDisplay(false) : setConfirmBtnDisplay(true)
+      newValue.slice(0, -1) === selectedLead.projectValue.replace(",", ".") ? setConfirmBtnDisplay(false) : setConfirmBtnDisplay(true)
     }
     if (newValue.slice(-1) != '€') {
       // this is to always display € currency after the value
-      setNewProjectValue(newValue + '€')
+      setNewProjectValue(newValue.replace("€", "") + '€')
     } else {
       setNewProjectValue(newValue)
     }
@@ -104,12 +105,17 @@ function Lead() {
   }
 
   async function updateValueData(leadId, func, value) {
-    await func(leadId, value)
+    
     // changing updateState to re-render DOM
-    setUpdateState(prevData => !prevData)
-    setConfirmBtnDisplay(false)
-
+    if (isNumber(value.slice(0, -1).replace(",", "."))) {
+      await func(leadId, value.slice(0, -1))
+      setUpdateState(prevData => !prevData)
+      setConfirmBtnDisplay(false)
+    } else {
+      console.log("showing modal that value is not a number")
+    }
   }
+
 
   if (selectedClient, selectedLead, selectedClient) {
     return (
@@ -176,7 +182,7 @@ function Lead() {
                     type='text'
                     name='projectValue'
                     id='project-value'
-                    value={newProjectValue}
+                    value={newProjectValue.replace(".", ",")}
                     onChange={changeNewProjectValue}
                   />
                   {confirmBtnDisplay ? <p onClick={() => updateValueData(leadId, changeProjectValue, newProjectValue)}>Confirm</p> : ""}

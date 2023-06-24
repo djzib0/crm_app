@@ -91,6 +91,27 @@ export function getClientName(clientsArr, clientId) {
     return capitalizeFirstLetter(client[0][1].firstName) + " " + capitalizeFirstLetter(client[0][1].lastName)
 }
 
+
+  // convert coma to dot
+export function convertComaToDot(string) {
+    let testString = "235.1"
+    return testString.replace(",", ".")
+}
+
+
+// checks wheter data is a number
+export function isNumber(data) {
+    console.log(data)
+    if (Number(data)) {
+        return true
+    } else {
+        return false
+    }
+}
+
+
+  
+
 // returns today's date
 export function getToday() {
     const date = new Date()
@@ -115,6 +136,4 @@ export function getToday() {
     return (`${dateArr[0]}-${month}-${day}`)
   }
 
-  
-  
 

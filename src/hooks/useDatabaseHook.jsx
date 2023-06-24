@@ -185,12 +185,13 @@ function useDatabaseHook() {
     }
 
     async function changeProjectValue(leadId, newValue) {
+      console.log("dają do zmiany newValue", newValue)
       if (newValue) {
         const exactItem = `leadsItems/${leadId}`
         const snapshot =  await get(ref(database, exactItem))
         const data = await snapshot.val()
          update(ref(database, exactItem), {
-          projectValue: newValue.slice(0, -1)
+          projectValue: parseFloat(newValue.replace(",", ".")).toFixed(2)
         })
       }
     }
