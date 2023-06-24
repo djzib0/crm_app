@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
+import Modal from './Modal';
 import useDatabaseHook from '../hooks/useDatabaseHook';
 
 
@@ -63,7 +64,11 @@ function Lead() {
   const [newProjectValue, setNewProjectValue] = useState()
   const [confirmBtnDisplay, setConfirmBtnDisplay] = useState(false)
 
-
+  const [modal, setModal] = useState({
+    isActive: false,
+    messageTitle: "",
+    messageText: "",
+  })
 
   function changeNewProjectValue(e) {
     const newValue = e.target.value
@@ -76,6 +81,16 @@ function Lead() {
     } else {
       setNewProjectValue(newValue)
     }
+  }
+
+  function resetModal() {
+    setModal(prevData => {
+      return {
+        isActive: false,
+        messageTitle: "",
+        messageText: "",
+      }
+    })
   }
 
   //fetching lead's data
@@ -112,7 +127,13 @@ function Lead() {
       setUpdateState(prevData => !prevData)
       setConfirmBtnDisplay(false)
     } else {
-      console.log("showing modal that value is not a number")
+      setModal(prevData => {
+        return {
+          isActive: true,
+          messageTitle: "Incorrect value",
+          messageText: "Please enter correct number value"
+        }
+      })
     }
   }
 
@@ -209,6 +230,10 @@ function Lead() {
           Tutaj będą wykresy?
         </div>
         </div>
+        {modal.isActive && <Modal
+          messageTitle={modal.messageTitle}
+          messageText={modal.messageText}
+          onClose={resetModal}/>}
       </div>
       )
   }
