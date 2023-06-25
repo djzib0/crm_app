@@ -68,6 +68,7 @@ function Lead() {
     isActive: false,
     messageTitle: "",
     messageText: "",
+    isError: ""
   })
 
   function changeNewProjectValue(e) {
@@ -89,6 +90,7 @@ function Lead() {
         isActive: false,
         messageTitle: "",
         messageText: "",
+        isError: ""
       }
     })
   }
@@ -130,8 +132,9 @@ function Lead() {
       setModal(prevData => {
         return {
           isActive: true,
-          messageTitle: "Incorrect value",
-          messageText: "Please enter correct number value"
+          messageTitle: "Incorrect value!",
+          messageText: "Please enter correct value.",
+          isError: true
         }
       })
     }
@@ -233,6 +236,7 @@ function Lead() {
         {modal.isActive && <Modal
           messageTitle={modal.messageTitle}
           messageText={modal.messageText}
+          isError={modal.isError}
           onClose={resetModal}/>}
       </div>
       )

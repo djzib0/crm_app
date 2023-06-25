@@ -1,12 +1,24 @@
 import React from 'react'
+import { BsExclamationOctagonFill, BsFillInfoCircleFill } from 'react-icons/bs'
 
 function Modal(props) {
+  const {messageTitle, messageText, isError} = props
+
   return (
     <div className='modal__container'>
-      {props.messageTitle}
-      {props.messageText}
-      Dać tutaj ikonę błędu
-      <button onClick={props.onClose}>OK</button>
+      <div className={`modal__container-top ${
+        isError ? 'modal-error' : 'modal-info'
+      }`} >
+        {isError ? 
+        <BsExclamationOctagonFill className='modal-icon' /> 
+        : <BsFillInfoCircleFill className='modal-icon' />}
+      </div>
+      <h3 id='modal__message-text'>{messageTitle}</h3>
+      <p id='modal__message-text'>
+        {messageText}
+      </p>
+
+      <button id='modal__btn' onClick={props.onClose}>OK</button>
     </div>
   )
 }
