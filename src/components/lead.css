@@ -16,6 +16,10 @@
     color: var(--color-white)
 }
 
+#lead__title-edit-icon {
+    margin-left: .4rem;
+}
+
 select#project-potential,
 select#project-potential:active,
 #next-contact-date,

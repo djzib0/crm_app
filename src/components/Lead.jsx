@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import Modal from './Modal';
+import EditValueModal from './EditValueModal';
+import useModalHook from '../hooks/useModalHook';
 import useDatabaseHook from '../hooks/useDatabaseHook';
 
 
@@ -10,13 +12,14 @@ import './lead.css'
 // icons import
 import { FaArrowLeft } from 'react-icons/fa'
 import { ImLock, ImUnlocked, ImCheckmark, ImCross} from 'react-icons/im'
+import { AiTwotoneEdit } from 'react-icons/ai'
+
 
 // utils import
 import { 
 	capitalizeFirstLetter,
 	formatPhoneNumber,
   isNumber,
-  convertComaToDot,
 } from './utils/utils'
 
 // Import the functions you need from the SDKs you need
@@ -54,8 +57,15 @@ function Lead() {
     changeProjectValue,
   } = useDatabaseHook()
 
-  const { leadId } = useParams()
+  const {
+    modalEditValue,
+    setModalEditValue,
+    handleEditValueModal,
+    closeEditValueModal,
+    showEditValueModal,
+  } = useModalHook()
 
+  const { leadId } = useParams()
 
   const [selectedLead, setSelectedLead] = useState()
   const [selectedClient, setSelectedClient] = useState()
@@ -71,10 +81,12 @@ function Lead() {
     isError: ""
   })
 
+
+
   function changeNewProjectValue(e) {
     const newValue = e.target.value
     if (newValue.slice(-1) === '€') {
-      newValue.slice(0, -1) === selectedLead.projectValue.replace(",", ".") ? setConfirmBtnDisplay(false) : setConfirmBtnDisplay(true)
+      newValue.slice(0, -1).replace(",", ".") === selectedLead.projectValue.replace(",", ".") ? setConfirmBtnDisplay(false) : setConfirmBtnDisplay(true)
     }
     if (newValue.slice(-1) != '€') {
       // this is to always display € currency after the value
@@ -129,6 +141,7 @@ function Lead() {
       setUpdateState(prevData => !prevData)
       setConfirmBtnDisplay(false)
     } else {
+      // resets modal
       setModal(prevData => {
         return {
           isActive: true,
@@ -139,6 +152,8 @@ function Lead() {
       })
     }
   }
+
+
 
 
   if (selectedClient, selectedLead, selectedClient) {
@@ -154,7 +169,15 @@ function Lead() {
                 <Link>BACK {<FaArrowLeft />}</Link>
               </div>
               <div className='details__info-container-top-data'>
-                <p id='lead__title'>{selectedLead.projectTitle}</p>
+                <h4 id='lead__title'>
+                  {selectedLead.projectTitle}
+                  <AiTwotoneEdit className='icon-btn anim-shake' id='lead__title-edit-icon'
+                  onClick={() => showEditValueModal(
+                    "Enter new lead title",
+                    "",
+                  )}
+                  />
+                </h4>
                 <p id='client__name'>{`${capitalizeFirstLetter(selectedClient.title)}
                   ${capitalizeFirstLetter(selectedClient.firstName)}
                   ${capitalizeFirstLetter(selectedClient.lastName)}`}
@@ -238,6 +261,12 @@ function Lead() {
           messageText={modal.messageText}
           isError={modal.isError}
           onClose={resetModal}/>}
+        {modalEditValue.isActive && selectedLead && <EditValueModal
+          closeEditValueModal={closeEditValueModal}
+          handleEditValueModal={handleEditValueModal}
+          leadId={leadId}
+          currentTitle={selectedLead.projectTitle}
+        />}
       </div>
       )
   }

@@ -18,7 +18,7 @@ function Modal(props) {
         {messageText}
       </p>
 
-      <button id='modal__btn' onClick={props.onClose}>OK</button>
+      <button className='confirm__btn' onClick={props.onClose}>OK</button>
     </div>
   )
 }

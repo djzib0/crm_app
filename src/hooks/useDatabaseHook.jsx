@@ -142,6 +142,15 @@ function useDatabaseHook() {
       })
     }
 
+    async function changeLeadTitle(leadId, newTitle) {
+      const exactItem = `leadsItems/${leadId}`
+      const snapshot = await get(ref(database, exactItem))
+      const data = await snapshot.val()
+      update(ref(database, exactItem), {
+        projectTitle: newTitle
+      })
+    }
+
     async function changeIsClosed(leadId) {
       const exactItem = `leadsItems/${leadId}`
       const snapshot =  await get(ref(database, exactItem))
@@ -251,6 +260,7 @@ function useDatabaseHook() {
       database,
       clientsInDB,
       // CRUD - Leads
+      changeLeadTitle,
       changeIsClosed,
       changeIsSold,
       changePotential,

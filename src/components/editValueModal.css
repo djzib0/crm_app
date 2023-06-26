@@ -1,0 +1,12 @@
+#btn__container {
+    display: flex;
+    justify-content: space-around;
+}
+
+#btn__container button {
+    margin: 1rem .2rem;
+}
+
+#btn__container button:hover {
+    margin: 1rem .2rem;
+}
