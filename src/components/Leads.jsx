@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import useDatabaseHook from '../hooks/useDatabaseHook'
+import useSortLeadsHook from '../hooks/useSortLeadsHook'
 import { Link } from 'react-router-dom'
 
 import './leads.css'
@@ -14,7 +15,13 @@ import { BiShow, BiHide } from 'react-icons/bi'
 
 function Leads() {
 
+    // this state is only to force DOM to re-render 
+    // after DB or sorting is changed
+    const [updateState, setUpdateState] = useState()
+
+
     const { allLeadsData, allClientsData, allCompaniesData} = useDatabaseHook()
+    const { sortData, toggleSort } = useSortLeadsHook()
 
     const [filterForm, setFilterForm] = useState({
         filterByTitle: "",
@@ -29,6 +36,11 @@ function Leads() {
         filterShowClosed: true,
     })
 
+    function handleSortChange(propertyName) {
+        toggleSort(propertyName)
+        setUpdateState(prevData => !prevData)
+    }
+
     function handleFilterChange(e) {
         const { name, value} = e.target
         setFilterForm(prevFormData => {
@@ -39,8 +51,7 @@ function Leads() {
         })
     }
 
-    // functions to change visibility state for filtering displayed
-    // items
+    // functions to change visibility of filtered items
     function handleShowSoldChange() {
         setFilterForm(prevData => {
             return {
@@ -115,6 +126,32 @@ function Leads() {
         // filterShowSold, filterShowNotSold, filterShowOpen, filterShowClosed
 
         let selectedLeads = []
+
+        allLeadsData.sort((a, b) => {
+            if (sortData.sortByTitle) {
+                if (a[1].projectTitle.toLowerCase() > b[1].projectTitle.toLowerCase()) {
+                    return 1
+                } else {
+                    return -1
+                }
+            } else {
+                if (a[1].projectTitle.toLowerCase() < b[1].projectTitle.toLowerCase()) {
+                    return 1
+                } else {
+                    return -1
+                }
+            } 
+        })
+
+        // how to make below code working as the one above??
+        // allLeadsData.sort((a, b) => {
+        //     return (
+        //         (a[1].projecTitle < b[1].projecTitle ? 1: -1)            
+        //     )
+
+        // })
+
+
         
         allLeadsData.forEach(item => {
             if (filterForm.filterShowOpen && filterForm.filterShowSold) {
@@ -151,6 +188,7 @@ function Leads() {
                 item[1].dateCreated > filterForm.filterByDateCreated
             )
         })
+
         return filteredLeadsData
     }
 
@@ -287,7 +325,7 @@ function Leads() {
 
             <div className='leads-container' id="leads-header">
                 <div className='leads__container-headers'>
-                    <p>TITLE</p>
+                    <p onClick={() => handleSortChange("sortByTitle")}>TITLE</p>
                     <p>CLIENT</p>
                     <p>COMPANY</p>
                     <p>CLIENT PROJECT NO</p>
