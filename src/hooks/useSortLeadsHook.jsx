@@ -18,18 +18,80 @@ function useSortLeadsHook() {
     })
 
 
-    function toggleSort(propertyName) {
-        // check object has property named propertyName
-        if (propertyName in sortData) {
-            // if yes, set property value to reverse false or true
+    // function toggleSort(propertyName) {
+    //     // check object has property named propertyName
+    //     console.log(sortData)
+    //     for (const key of Object.keys(sortData)) {
+    //         console.log(key)
+    //     }
+    //     if (propertyName in sortData) {
+    //         // if yes, set property value to reverse false or true
+    //         setSortData(prevData => {
+    //             return {
+    //                 ...prevData,
+    //                 [propertyName]: !prevData[propertyName]
+    //             }
+    //         })
+    //     }
+    //     console.log(sortData.sortByTitle)
+    // }
+
+    function toggleSort(sortPropertyName) {
+        Object.keys(sortData).forEach(key => {
             setSortData(prevData => {
-                return {
-                    ...prevData,
-                    [propertyName]: !prevData[propertyName]
+                if (key === sortPropertyName) {
+
+                    return {
+                        ...prevData,
+                        [key]: !prevData[sortPropertyName]
+                    }
+                } else {
+                    console.log(key, "vs", sortPropertyName )
+                    return {
+                        ...prevData,
+                        [key]: false
+                    }
                 }
             })
-        }
-        console.log(sortData.sortByTitle)
+        })
+    }
+
+
+    function sortList(arr, sortPropertyName, propertyName) {
+        const sortedLeads = arr.sort((a, b) => {
+            try {
+                if (sortData[sortPropertyName]) {
+                    if (a[1][propertyName].toLowerCase() > b[1][propertyName].toLowerCase()) {
+                        return 1
+                    } else {
+                        return -1
+                    }
+                } else {
+                    if (a[1][propertyName].toLowerCase() < b[1][propertyName].toLowerCase()) {
+                        return 1
+                    } else {
+                        return -1
+                    }
+                } 
+            } 
+            catch {
+                if (sortData[sortPropertyName]) {
+                    if (a[1][propertyName] > b[1][propertyName]) {
+                        return 1
+                    } else {
+                        return -1
+                    }
+                } else {
+                    if (a[1][propertyName] < b[1][propertyName]) {
+                        return 1
+                    } else {
+                        return -1
+                    }
+                } 
+            }
+            
+        })
+        return sortedLeads
     }
 
 
@@ -38,6 +100,7 @@ function useSortLeadsHook() {
     return {
         sortData,
         toggleSort,
+        sortList
     }
 }
 

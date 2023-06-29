@@ -18,10 +18,14 @@ function Leads() {
     // this state is only to force DOM to re-render 
     // after DB or sorting is changed
     const [updateState, setUpdateState] = useState()
+    const [currentSort, setCurrentSort] = useState({
+        sortPropertyName: "sortByTitle",
+        propertyName: "projectTitle"
+    })
 
 
     const { allLeadsData, allClientsData, allCompaniesData} = useDatabaseHook()
-    const { sortData, toggleSort } = useSortLeadsHook()
+    const { sortData, toggleSort, sortList } = useSortLeadsHook()
 
     const [filterForm, setFilterForm] = useState({
         filterByTitle: "",
@@ -36,8 +40,14 @@ function Leads() {
         filterShowClosed: true,
     })
 
-    function handleSortChange(propertyName) {
-        toggleSort(propertyName)
+    function handleSortChange(sortPropertyName, propertyName, ) {
+        setCurrentSort(prevData => {
+            return {
+                sortPropertyName: sortPropertyName,
+                propertyName: propertyName,
+            }
+        })
+        toggleSort(sortPropertyName, propertyName)
         setUpdateState(prevData => !prevData)
     }
 
@@ -126,33 +136,7 @@ function Leads() {
         // filterShowSold, filterShowNotSold, filterShowOpen, filterShowClosed
 
         let selectedLeads = []
-
-        allLeadsData.sort((a, b) => {
-            if (sortData.sortByTitle) {
-                if (a[1].projectTitle.toLowerCase() > b[1].projectTitle.toLowerCase()) {
-                    return 1
-                } else {
-                    return -1
-                }
-            } else {
-                if (a[1].projectTitle.toLowerCase() < b[1].projectTitle.toLowerCase()) {
-                    return 1
-                } else {
-                    return -1
-                }
-            } 
-        })
-
-        // how to make below code working as the one above??
-        // allLeadsData.sort((a, b) => {
-        //     return (
-        //         (a[1].projecTitle < b[1].projecTitle ? 1: -1)            
-        //     )
-
-        // })
-
-
-        
+     
         allLeadsData.forEach(item => {
             if (filterForm.filterShowOpen && filterForm.filterShowSold) {
                 if (!item[1].isClosed && item[1].isSold && !selectedLeads.includes(item)) {
@@ -176,9 +160,29 @@ function Leads() {
             }
         })
 
+        //remove duplicates
         const selectedLeadsWithoutDupes = [...new Set(selectedLeads)]
 
-        const filteredLeadsData = selectedLeadsWithoutDupes.filter(item => {
+        const sortedLeads = sortList(selectedLeads, currentSort.sortPropertyName, currentSort.propertyName)
+
+        // selectedLeadsWithoutDupes.sort((a, b) => {
+        //     if (sortData["sortByTitle"]) {
+        //         if (a[1].projectTitle.toLowerCase() > b[1].projectTitle.toLowerCase()) {
+        //             return 1
+        //         } else {
+        //             return -1
+        //         }
+        //     } else {
+        //         if (a[1].projectTitle.toLowerCase() < b[1].projectTitle.toLowerCase()) {
+        //             return 1
+        //         } else {
+        //             return -1
+        //         }
+        //     } 
+        // })
+
+
+        const filteredLeadsData = sortedLeads.filter(item => {
             return (
                 item[1].projectTitle.toLowerCase().includes(filterForm.filterByTitle.toLowerCase()) &&
                 filteredClientsId.includes(item[1].clientId) &&
@@ -325,14 +329,14 @@ function Leads() {
 
             <div className='leads-container' id="leads-header">
                 <div className='leads__container-headers'>
-                    <p onClick={() => handleSortChange("sortByTitle")}>TITLE</p>
+                    <p onClick={() => handleSortChange("sortByTitle", "projectTitle")}>TITLE</p>
                     <p>CLIENT</p>
                     <p>COMPANY</p>
-                    <p>CLIENT PROJECT NO</p>
-                    <p>VALUE</p>
-                    <p>DATE CREATED</p>
-                    <p>NEXT CONTACT DATE</p>
-                    <p>SOLD</p>
+                    <p onClick={() => handleSortChange("sortByClientProjectNumber", "clientProjectNumber")} >CLIENT PROJECT NO</p>
+                    <p onClick={() => handleSortChange("sortByValue", "projectValue")}>VALUE</p>
+                    <p onClick={() => handleSortChange("sortByDateCreated", "dateCreated")}>DATE CREATED</p>
+                    <p onClick={() => handleSortChange("sortByNextContactDate", "nextContactDate")}>NEXT CONTACT DATE</p>
+                    <p onClick={() => handleSortChange("sortBySold", "isSold")}>SOLD</p>
                     <p>STATUS</p>
                 </div>
                 <div className='cta__container'>
