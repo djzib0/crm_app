@@ -99,6 +99,7 @@ function Leads() {
     }
 
 
+
     function filterLeads() {
         // set new array with client id and formatted fullName
         const clientsFullNameArr = allClientsData.map(client => {
@@ -163,26 +164,8 @@ function Leads() {
         //remove duplicates
         const selectedLeadsWithoutDupes = [...new Set(selectedLeads)]
 
-        const sortedLeads = sortList(selectedLeads, currentSort.sortPropertyName, currentSort.propertyName)
-
-        // selectedLeadsWithoutDupes.sort((a, b) => {
-        //     if (sortData["sortByTitle"]) {
-        //         if (a[1].projectTitle.toLowerCase() > b[1].projectTitle.toLowerCase()) {
-        //             return 1
-        //         } else {
-        //             return -1
-        //         }
-        //     } else {
-        //         if (a[1].projectTitle.toLowerCase() < b[1].projectTitle.toLowerCase()) {
-        //             return 1
-        //         } else {
-        //             return -1
-        //         }
-        //     } 
-        // })
-
-
-        const filteredLeadsData = sortedLeads.filter(item => {
+        
+        const filteredLeadsData = selectedLeadsWithoutDupes.filter(item => {
             return (
                 item[1].projectTitle.toLowerCase().includes(filterForm.filterByTitle.toLowerCase()) &&
                 filteredClientsId.includes(item[1].clientId) &&
@@ -193,19 +176,35 @@ function Leads() {
             )
         })
 
-        return filteredLeadsData
+        // map new array with additional properties taken from database
+        // companyName and clientFullName
+        const filteredLeads = filteredLeadsData.map(item => {
+            return {
+                ...item, 
+                1: {...item[1], 
+                    clientFullName: getClientName(allClientsData, item[1].clientId),
+                    companyName: getClientCompanyName(allCompaniesData, item[1].companyId)
+                }
+            }
+        })
+
+        //sort list by given property
+        const sortedLeads = sortList(filteredLeads, currentSort.sortPropertyName, currentSort.propertyName)
+        
+        return sortedLeads
     }
 
     // creating array of leads to be displayed on screen
     const leadsArr = allLeadsData && allClientsData && allCompaniesData && filterLeads().map(item => {
+        console.log(item, "itemmmm")
         return (
             <div key={item[0]}>
                 <div className='leads__data-row'>
                     <div className='leads-container'>
                         <div className='leads__container-content'>
                             <p>{item[1].projectTitle}</p>
-                            <p>{allClientsData && getClientName(allClientsData, item[1].clientId)}</p>
-                            <p>{allCompaniesData && getClientCompanyName(allCompaniesData, item[1].companyId)}</p>
+                            <p>{allClientsData && item["1"].clientFullName}</p>
+                            <p>{allCompaniesData && item["1"].companyName}</p>
                             <p>{item[1].clientProjectNumber}</p>
                             <p>{item[1].projectValue}€</p>
                             <p>{item[1].dateCreated}</p>
@@ -330,14 +329,14 @@ function Leads() {
             <div className='leads-container' id="leads-header">
                 <div className='leads__container-headers'>
                     <p onClick={() => handleSortChange("sortByTitle", "projectTitle")}>TITLE</p>
-                    <p>CLIENT</p>
-                    <p>COMPANY</p>
+                    <p onClick={() => handleSortChange("sortByClient", "clientFullName")}>CLIENT</p>
+                    <p onClick={() => handleSortChange("sortByCompany", "companyName")}>COMPANY</p>
                     <p onClick={() => handleSortChange("sortByClientProjectNumber", "clientProjectNumber")} >CLIENT PROJECT NO</p>
                     <p onClick={() => handleSortChange("sortByValue", "projectValue")}>VALUE</p>
                     <p onClick={() => handleSortChange("sortByDateCreated", "dateCreated")}>DATE CREATED</p>
                     <p onClick={() => handleSortChange("sortByNextContactDate", "nextContactDate")}>NEXT CONTACT DATE</p>
                     <p onClick={() => handleSortChange("sortBySold", "isSold")}>SOLD</p>
-                    <p>STATUS</p>
+                    <p onClick={() => handleSortChange("sortByStatus", "isClosed")}>STATUS</p>
                 </div>
                 <div className='cta__container'>
                 </div>
