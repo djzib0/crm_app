@@ -3,6 +3,16 @@ import useDatabaseHook from '../hooks/useDatabaseHook'
 import useSortLeadsHook from '../hooks/useSortLeadsHook'
 import { Link } from 'react-router-dom'
 
+//import icons
+import {
+    BsSortNumericDown, 
+    BsSortNumericUpAlt,
+    BsSortAlphaDown,
+    BsSortAlphaUpAlt,
+    BsSortDownAlt,
+    BsSortUpAlt
+    } from 'react-icons/bs'
+
 import './leads.css'
 
 //import utils
@@ -19,8 +29,8 @@ function Leads() {
     // after DB or sorting is changed
     const [updateState, setUpdateState] = useState()
     const [currentSort, setCurrentSort] = useState({
-        sortPropertyName: "sortByTitle",
-        propertyName: "projectTitle"
+        sortPropertyName: "sortByDateCreated",
+        propertyName: "dateCreated"
     })
 
 
@@ -39,6 +49,7 @@ function Leads() {
         filterShowOpen: true,
         filterShowClosed: true,
     })
+    
 
     function handleSortChange(sortPropertyName, propertyName, ) {
         setCurrentSort(prevData => {
@@ -228,6 +239,8 @@ function Leads() {
         )
     })
 
+    console.log(currentSort.propertyName, "propertyName")
+
     return (
         <div>
             <div className='filter__form'>
@@ -328,15 +341,70 @@ function Leads() {
 
             <div className='leads-container' id="leads-header">
                 <div className='leads__container-headers'>
-                    <p onClick={() => handleSortChange("sortByTitle", "projectTitle")}>TITLE</p>
-                    <p onClick={() => handleSortChange("sortByClient", "clientFullName")}>CLIENT</p>
-                    <p onClick={() => handleSortChange("sortByCompany", "companyName")}>COMPANY</p>
-                    <p onClick={() => handleSortChange("sortByClientProjectNumber", "clientProjectNumber")} >CLIENT PROJECT NO</p>
-                    <p onClick={() => handleSortChange("sortByValue", "projectValue")}>VALUE</p>
-                    <p onClick={() => handleSortChange("sortByDateCreated", "dateCreated")}>DATE CREATED</p>
-                    <p onClick={() => handleSortChange("sortByNextContactDate", "nextContactDate")}>NEXT CONTACT DATE</p>
-                    <p onClick={() => handleSortChange("sortBySold", "isSold")}>SOLD</p>
-                    <p onClick={() => handleSortChange("sortByStatus", "isClosed")}>STATUS</p>
+                        <div onClick={() => handleSortChange("sortByTitle", "projectTitle")} className='leads__container-headers-title'>
+                            <p>TITLE</p>
+                            {currentSort.propertyName === "projectTitle" && sortData.sortByTitle &&
+                            <BsSortAlphaDown className='leads__container-headers-icon'/>}
+                            {currentSort.propertyName === "projectTitle" && !sortData.sortByTitle &&
+                            <BsSortAlphaUpAlt className='leads__container-headers-icon'/>}
+                        </div>
+
+                        <div onClick={() => handleSortChange("sortByClient", "clientFullName")} className='leads__container-headers-title'>
+                            <p>CLIENT</p>
+                            {currentSort.propertyName === "clientFullName" && sortData.sortByClient &&
+                            <BsSortAlphaDown className='leads__container-headers-icon'/>}
+                            {currentSort.propertyName === "clientFullName" && !sortData.sortByClient &&
+                            <BsSortAlphaUpAlt className='leads__container-headers-icon'/>}
+                        </div>
+                        <div onClick={() => handleSortChange("sortByCompany", "companyName")} className='leads__container-headers-title'>
+                            <p>COMPANY</p>
+                            {currentSort.propertyName === "companyName" && sortData.sortByCompany &&
+                            <BsSortAlphaDown className='leads__container-headers-icon'/>}
+                            {currentSort.propertyName === "companyName" && !sortData.sortByCompany &&
+                            <BsSortAlphaUpAlt className='leads__container-headers-icon'/>}
+                        </div>
+                        <div onClick={() => handleSortChange("sortByClientProjectNumber", "clientProjectNumber")}  className='leads__container-headers-title'>
+                            <p>CLIENT PROJECT NO</p>
+                            {currentSort.propertyName === "clientProjectNumber" && sortData.sortByClientProjectNumber &&
+                            <BsSortAlphaDown className='leads__container-headers-icon'/>}
+                            {currentSort.propertyName === "clientProjectNumber" && !sortData.sortByClientProjectNumber &&
+                            <BsSortAlphaUpAlt className='leads__container-headers-icon'/>}
+                        </div>
+                        <div onClick={() => handleSortChange("sortByValue", "projectValue")} className='leads__container-headers-title'>
+                            <p>VALUE</p>
+                            {currentSort.propertyName === "projectValue" && sortData.sortByValue &&
+                            <BsSortNumericDown className='leads__container-headers-icon'/>}
+                            {currentSort.propertyName === "projectValue" && !sortData.sortByValue &&
+                            <BsSortNumericUpAlt className='leads__container-headers-icon'/>}
+                        </div>            
+                        <div onClick={() => handleSortChange("sortByDateCreated", "dateCreated")} className='leads__container-headers-title'>
+                            <p>DATE CREATED</p>
+                            {currentSort.propertyName === "dateCreated" && sortData.sortByDateCreated &&
+                            <BsSortNumericDown className='leads__container-headers-icon'/>}
+                            {currentSort.propertyName === "dateCreated" && !sortData.sortByDateCreated &&
+                            <BsSortNumericUpAlt className='leads__container-headers-icon'/>}
+                        </div>
+                        <div onClick={() => handleSortChange("sortByNextContactDate", "nextContactDate")} className='leads__container-headers-title'>
+                            <p>NEXT CONTACT DATE</p>
+                            {currentSort.propertyName === "nextContactDate" && sortData.sortByNextContactDate &&
+                            <BsSortNumericDown className='leads__container-headers-icon'/>}
+                            {currentSort.propertyName === "nextContactDate" && !sortData.sortByNextContactDate &&
+                            <BsSortNumericUpAlt className='leads__container-headers-icon'/>}
+                        </div> 
+                        <div onClick={() => handleSortChange("sortBySold", "isSold")} className='leads__container-headers-title'>
+                            <p>SOLD</p>
+                            {currentSort.propertyName === "isSold" && sortData.sortBySold &&
+                            <BsSortDownAlt className='leads__container-headers-icon'/>}
+                            {currentSort.propertyName === "isSold" && !sortData.sortBySold &&
+                            <BsSortUpAlt className='leads__container-headers-icon'/>}
+                        </div> 
+                        <div onClick={() => handleSortChange("sortByStatus", "isClosed")} className='leads__container-headers-title'>
+                            <p>STATUS</p>
+                            {currentSort.propertyName === "isClosed" && sortData.sortByStatus &&
+                            <BsSortDownAlt className='leads__container-headers-icon'/>}
+                            {currentSort.propertyName === "isClosed" && !sortData.sortByStatus &&
+                            <BsSortUpAlt className='leads__container-headers-icon'/>}
+                        </div>   
                 </div>
                 <div className='cta__container'>
                 </div>

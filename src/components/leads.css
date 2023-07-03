@@ -21,8 +21,23 @@
     cursor:default;
 }
 
-.leads__container-headers {
+.leads__container-headers-title {
+    font-size: .9em;
     font-weight: 700;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.leads__container-headers-title:hover {
+    background-color: var(--color-gray-light);
+    transition: var(--transition);
+}
+
+.leads__container-headers-icon {
+    /* right: 2%; */
+    margin-left: .1rem;
+    font-size: 1rem;
 }
 
 .leads__cta-container {
