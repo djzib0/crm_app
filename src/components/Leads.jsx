@@ -37,7 +37,9 @@ function Leads() {
     const { allLeadsData, allClientsData, allCompaniesData} = useDatabaseHook()
     const { sortData, toggleSort, sortList } = useSortLeadsHook()
 
-    const [filterForm, setFilterForm] = useState({
+    // object with "empty" properties, 
+    // to be use to clear form and to set initial form state
+    const filterFormEmptyData = {
         filterByTitle: "",
         filterByClient: "",
         filterByCompanyName: "",
@@ -48,7 +50,9 @@ function Leads() {
         filterShowNotSold: true,
         filterShowOpen: true,
         filterShowClosed: true,
-    })
+    }
+
+    const [filterForm, setFilterForm] = useState(filterFormEmptyData)
     
 
     function handleSortChange(sortPropertyName, propertyName, ) {
@@ -244,7 +248,14 @@ function Leads() {
     return (
         <div>
             <div className='filter__form'>
-            <p>Filter by:</p>
+            <div className='filter__form-container-left'>
+                <p>Filter by:</p>
+                <button 
+                    onClick={() => setFilterForm(filterFormEmptyData)}
+                    type='button' 
+                    className='filter-btn edit-btn no-border-btn'>CLEAR FORM</button>
+            </div>
+
             <form>
                 <div className='form__leads wrapper'>
                     <div className='input-wrapper'>
@@ -288,7 +299,7 @@ function Leads() {
                         />
                     </div>
                     <div className='input-wrapper'>
-                        <label className='label-sm' htmlFor='project-value'>Value &gt; €</label>
+                        <label className='label-sm' htmlFor='project-value'>Value &gt;= €</label>
                         <input type='number'
                         className='input__leads project-value'
                         id='project-value'

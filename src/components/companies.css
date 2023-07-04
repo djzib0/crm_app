@@ -30,17 +30,6 @@
     margin: 0;
 }
 
-.filter__form {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 0;
-    margin: 0;
-}
-
-.filter__form p {
-    margin-right: 2rem;
-}
 
 .filter__form form {
     display: inline;

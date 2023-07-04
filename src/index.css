@@ -181,9 +181,17 @@ input[type=number]::-webkit-inner-spin-button {
   display: flex;
 }
 
-.filter__form > p {
-  font-size: 1rem;
-  align-self: flex-start
+.filter__form-container-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  padding-bottom: 1rem;
+}
+
+.filter__form-container-left > p {
+  /* display: inline; */
+  margin: 0;
 }
 
 .form__clients.wrapper {
@@ -192,7 +200,7 @@ input[type=number]::-webkit-inner-spin-button {
 
 .form__leads.wrapper {
   grid-template-columns: 25% 25% 25% 25%;
-  gap: 0;
+  gap: .5rem;
 }
 
 .form__clients.wrapper,
