@@ -24,7 +24,7 @@ select#project-potential,
 select#project-potential:active,
 #next-contact-date,
 .data__container-row input#project-value {
-    background-color: transparent;
+    /* background-color: transparent; */
     border: none;
     outline: none;
     padding: 0;

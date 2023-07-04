@@ -16,7 +16,12 @@ import {
 import './leads.css'
 
 //import utils
-import { getClientCompanyName, getClientName, isDateExceeded} from './utils/utils'
+import { 
+    getClientCompanyName, 
+    getClientName, 
+    isDateExceeded,
+    convertNumberToPotential,
+} from './utils/utils'
 
 //import icons
 import { FcOpenedFolder } from 'react-icons/fc'
@@ -25,9 +30,10 @@ import { BiShow, BiHide } from 'react-icons/bi'
 
 function Leads() {
 
-    // this state is only to force DOM to re-render 
+    // this below state is only to force DOM to re-render 
     // after DB or sorting is changed
     const [updateState, setUpdateState] = useState()
+
     const [currentSort, setCurrentSort] = useState({
         sortPropertyName: "sortByDateCreated",
         propertyName: "dateCreated"
@@ -46,6 +52,7 @@ function Leads() {
         filterByClientProjectNumber: "",
         filterByValue: 0,
         filterByDateCreated: "",
+        filterByPotential: "",
         filterShowSold: true,
         filterShowNotSold: true,
         filterShowOpen: true,
@@ -187,7 +194,8 @@ function Leads() {
                 companiesIdArr.includes(item[1].companyId) &&
                 item[1].clientProjectNumber.toLowerCase().includes(filterForm.filterByClientProjectNumber) &&
                 Number(item[1].projectValue) >= Number(filterForm.filterByValue) &&
-                item[1].dateCreated > filterForm.filterByDateCreated
+                item[1].dateCreated > filterForm.filterByDateCreated &&
+                String(item[1].projectPotential).includes(filterForm.filterByPotential)
             )
         })
 
@@ -211,7 +219,6 @@ function Leads() {
 
     // creating array of leads to be displayed on screen
     const leadsArr = allLeadsData && allClientsData && allCompaniesData && filterLeads().map(item => {
-        console.log(item, "itemmmm")
         return (
             <div key={item[0]}>
                 <div className='leads__data-row'>
@@ -229,6 +236,7 @@ function Leads() {
                             </div>
                             <p>{item[1].isSold ? "YES" : "NO"}</p>
                             <p>{item[1].isClosed ? "CLOSED" : "OPEN"}</p>
+                            <p>{convertNumberToPotential(item[1].projectPotential)}</p>
                         </div>
                         <div className='leads__cta-container'>
                             <p>
@@ -242,8 +250,6 @@ function Leads() {
             </div>
         )
     })
-
-    console.log(currentSort.propertyName, "propertyName")
 
     return (
         <div>
@@ -343,7 +349,20 @@ function Leads() {
                                 {filterForm.filterShowClosed ? <BiShow onClick={handleShowClosedChange}/> : <BiHide onClick={handleShowClosedChange}/>}
                             </div>
                         </div>
-                        
+                    </div>
+                    <div className='input-wrapper'>
+                        <select 
+                            id="project-potential" 
+                            value={filterForm.filterByPotential}
+                            className='input__leads project-value'
+                            onChange={handleFilterChange}
+                            name="filterByPotential"
+                        >
+                            <option value=''>All</option>
+                            <option value={0}>Low</option>
+                            <option value={1}>Medium</option>
+                            <option value={2}>High</option>
+                        </select>
                     </div>
                     
                 </div>
@@ -416,6 +435,13 @@ function Leads() {
                             {currentSort.propertyName === "isClosed" && !sortData.sortByStatus &&
                             <BsSortUpAlt className='leads__container-headers-icon'/>}
                         </div>   
+                        <div onClick={() => handleSortChange("sortByPotential", "projectPotential")} className='leads__container-headers-title'>
+                            <p>POTENTIAL</p>
+                            {currentSort.propertyName === "projectPotential" && sortData.sortByPotential &&
+                            <BsSortDownAlt className='leads__container-headers-icon'/>}
+                            {currentSort.propertyName === "projectPotential" && !sortData.sortByPotential &&
+                            <BsSortUpAlt className='leads__container-headers-icon'/>}
+                        </div>
                 </div>
                 <div className='cta__container'>
                 </div>

@@ -136,4 +136,14 @@ export function getToday() {
     return (`${dateArr[0]}-${month}-${day}`)
   }
 
+  export function convertNumberToPotential(number) {
+    if (number === 0) {
+        return "LOW"
+    } else if (number === 1) {
+        return "MEDIUM"
+    } else {
+        return "HIGH"
+    }
+  }
+
 

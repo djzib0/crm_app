@@ -136,7 +136,7 @@ function useDatabaseHook() {
         dateCreated: getToday(),
         nextContactDate: nextContactDate,
         // nextContactDate: 'default now + 14 days (from settings? REDUX)',
-        projectPotential: projectPotential,
+        projectPotential: Number(projectPotential),
         isSold: false,
         isClosed: false,
       })
@@ -176,7 +176,7 @@ function useDatabaseHook() {
       const snapshot =  await get(ref(database, exactItem))
       const data = await snapshot.val()
       update(ref(database, exactItem), {
-        projectPotential: potential
+        projectPotential: Number(potential)
       })
     }
 

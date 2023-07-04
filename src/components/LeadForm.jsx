@@ -148,9 +148,9 @@ function LeadForm() {
 									value={formData.projectPotential}
 									onChange={handleChange}
 									>
-							<option value='low'>Low</option>
-							<option value='medium'>Medium</option>
-							<option value='high'>High</option>
+							<option value={0}>Low</option>
+							<option value={1}>Medium</option>
+							<option value={2}>High</option>
 					</select>
 				</div>
         {companyId && <button type='submit'>Add</button>}

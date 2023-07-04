@@ -26,7 +26,6 @@ function useSortLeadsHook() {
                         [key]: !prevData[sortPropertyName]
                     }
                 } else {
-                    console.log(key, "vs", sortPropertyName )
                     return {
                         ...prevData,
                         [key]: false
@@ -37,9 +36,6 @@ function useSortLeadsHook() {
     }
 
     function sortList(arr, sortPropertyName, propertyName) {
-        console.log(arr, "arr in sortlist")
-        console.log(sortPropertyName, "sortproperty name")
-        console.log(propertyName, "PropertyName")
         // map new array with projectValue converted to a Number
         const arrWithNumbers = arr.map(item => {
             return {
