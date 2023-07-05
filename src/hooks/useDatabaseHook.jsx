@@ -28,6 +28,7 @@ const database = getDatabase(app)
 const companiesInDB = ref(database, "companiesItems")
 const clientsInDB = ref(database, "peopleItems")
 const leadsInDB = ref(database, "leadsItems")
+const leadCommentsInDB = ref(database, "leadCommentsItems")
 
 
 function useDatabaseHook() {
@@ -35,6 +36,7 @@ function useDatabaseHook() {
     const [allCompaniesData, setAllCompaniesData] = useState()
     const [allClientsData, setAllClientsData] = useState()
     const [allLeadsData, setAllLeadsData] = useState()
+    const [allLeadCommentsData, setAllLeadCommentsData] = useState()
    
     useEffect(() => {
       function fetchData() {
@@ -142,8 +144,12 @@ function useDatabaseHook() {
       })
     }
 
-    function addComment() {
-      
+    function addLeadComment(leadId, text) {
+      push(leadCommentsInDB, {
+        dateCreated: getToday(),
+        leadId: leadId,
+        comment: text
+      })
     }
 
 
@@ -254,15 +260,31 @@ function useDatabaseHook() {
       }, {onlyOnce: true})
     }
 
+    async function showAllLeadCommentsData(leadId) {
+      onValue(leadCommentsInDB, function(snapshot) {
+        let commentsArr = Object.entries(snapshot.val()).filter(item => {
+          console.log("item", item["1"].leadId)
+          return (
+            item["1"].leadId === leadId
+          )
+        
+        })
+        setAllLeadCommentsData(commentsArr)
+      }, {onlyOnce: true})
+    }
+
     return {
       addCompany, 
       updateCompany,
       addClient,
       updateClient,
       addLead,
+      addLeadComment,
+      showAllLeadCommentsData,
       allClientsData, 
       allCompaniesData,
       allLeadsData,
+      allLeadCommentsData,
       database,
       clientsInDB,
       // CRUD - Leads

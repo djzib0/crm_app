@@ -51,7 +51,10 @@ function Lead() {
   const [updateState, setUpdateState] = useState()
 
   const { 
-    allCompaniesData, 
+    allCompaniesData,
+    allLeadCommentsData,
+    showAllLeadCommentsData,
+    addLeadComment,
     changeIsClosed, 
     changeIsSold, 
     changePotential,
@@ -72,6 +75,7 @@ function Lead() {
   const [selectedLead, setSelectedLead] = useState()
   const [selectedClient, setSelectedClient] = useState()
   const [selectedCompany, setSelectedCompany] = useState()
+  const [leadComments, setLeadComments] = useState()
 
   const [newProjectValue, setNewProjectValue] = useState()
   const [confirmBtnDisplay, setConfirmBtnDisplay] = useState(false)
@@ -122,9 +126,13 @@ function Lead() {
       setSelectedClient(clientData)
       setSelectedCompany(companyData)
       setNewProjectValue(data.projectValue + "€")
+      showAllLeadCommentsData(leadId)
+
   }
   fetchLeadData()
   }, [updateState]) 
+
+  allLeadCommentsData && console.log(allLeadCommentsData[0], "są dane")
 
   async function updateData(leadId, func, event) {
     await func(leadId, event.target.value)
@@ -150,9 +158,6 @@ function Lead() {
       })
     }
   }
-
-
-
 
   if (selectedClient, selectedLead, selectedClient) {
     return (
@@ -256,7 +261,7 @@ function Lead() {
         </div>
     
         <div className='details__content-grid-element' id='lead-comments__container'>
-          Tutaj będą wiadomości
+          
         </div>
     
         <div className='details__content-grid-element'>
