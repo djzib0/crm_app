@@ -142,6 +142,13 @@ function useDatabaseHook() {
       })
     }
 
+    function addComment() {
+      
+    }
+
+
+    // CRUD functions
+
     async function changeLeadTitle(leadId, newTitle) {
       const exactItem = `leadsItems/${leadId}`
       const snapshot = await get(ref(database, exactItem))
@@ -194,7 +201,6 @@ function useDatabaseHook() {
     }
 
     async function changeProjectValue(leadId, newValue) {
-      console.log("dają do zmiany newValue", newValue)
       if (newValue) {
         const exactItem = `leadsItems/${leadId}`
         const snapshot =  await get(ref(database, exactItem))

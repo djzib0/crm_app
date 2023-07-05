@@ -13,6 +13,8 @@ import './lead.css'
 import { FaArrowLeft } from 'react-icons/fa'
 import { ImLock, ImUnlocked, ImCheckmark, ImCross} from 'react-icons/im'
 import { AiTwotoneEdit } from 'react-icons/ai'
+import { GiConfirmed } from 'react-icons/gi'
+import { GrPowerReset } from 'react-icons/gr'
 
 
 // utils import
@@ -120,9 +122,6 @@ function Lead() {
       setSelectedClient(clientData)
       setSelectedCompany(companyData)
       setNewProjectValue(data.projectValue + "€")
-      // setFormData({
-      //   projectPotential: data.projectPotential
-      // })
   }
   fetchLeadData()
   }, [updateState]) 
@@ -141,7 +140,6 @@ function Lead() {
       setUpdateState(prevData => !prevData)
       setConfirmBtnDisplay(false)
     } else {
-      // resets modal
       setModal(prevData => {
         return {
           isActive: true,
@@ -232,7 +230,17 @@ function Lead() {
                     value={newProjectValue.replace(".", ",")}
                     onChange={changeNewProjectValue}
                   />
-                  {confirmBtnDisplay ? <p onClick={() => updateValueData(leadId, changeProjectValue, newProjectValue)}>Confirm</p> : ""}
+                  <div>
+                    {confirmBtnDisplay ? <GiConfirmed onClick={() => updateValueData(leadId, changeProjectValue, newProjectValue)} /> : ""}
+                    {confirmBtnDisplay ? <GrPowerReset onClick={() => setConfirmBtnDisplay(prevData => {
+                      // disable confirm and reset button
+                      // and re-render view to hide them
+                      setUpdateState(prevData => !prevData)
+                      return (
+                      !prevData)
+                      })} /> : ""}
+                  </div>
+                  
                 </div>
                 <div className='data__container-row'>
                   <h4>Next contact:</h4>
@@ -255,7 +263,8 @@ function Lead() {
           Tutaj będą wykresy?
         </div>
         </div>
-        {modal.isActive && <Modal
+        {modal.isActive && 
+        <Modal
           messageTitle={modal.messageTitle}
           messageText={modal.messageText}
           isError={modal.isError}
