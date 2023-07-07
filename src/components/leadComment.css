@@ -1,0 +1,22 @@
+.comment__container {
+    margin: 1rem;
+    border-radius: .2rem;
+    background-color: #a8dadc;
+}
+
+.comment__container-top {
+    display: block;
+    background-color: #457b9d;
+    color: var(--color-white);
+    font-weight: 300;
+    border-top-left-radius: .2rem;
+    border-top-right-radius: .2rem;
+}
+
+
+.comment__container-top > p,
+.comment__container-bottom > p {
+    padding: .2rem;
+    margin: 0;
+    font-size: .8rem;
+}

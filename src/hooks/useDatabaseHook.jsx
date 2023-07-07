@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, Routes, Route} from 'react-router-dom'
+import LeadComment from '../components/LeadComment';
 
 // utilities import
 import { getToday } from '../components/utils/utils';
@@ -144,11 +145,11 @@ function useDatabaseHook() {
       })
     }
 
-    function addLeadComment(leadId, text) {
+    function addLeadComment(leadId, comment) {
       push(leadCommentsInDB, {
         dateCreated: getToday(),
         leadId: leadId,
-        comment: text
+        comment: comment
       })
     }
 

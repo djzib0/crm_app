@@ -222,12 +222,12 @@ input[type=number]::-webkit-inner-spin-button {
   display: flex;
   align-items: center;
   margin: .2rem .5rem;
-  width: 250px;
+  width: 100%;
 }
 
 .label-sm {
-  width: 50%;
-  font-size: .75rem;
+  width: 55%;
+  font-size: .65rem;
 }
 
 @media (prefers-color-scheme: light) {

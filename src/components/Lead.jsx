@@ -27,6 +27,7 @@ import {
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, get } from 'firebase/database'
+import LeadComment from './LeadComment';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -141,7 +142,6 @@ function Lead() {
   }
 
   async function updateValueData(leadId, func, value) {
-    
     // changing updateState to re-render DOM
     if (isNumber(value.slice(0, -1).replace(",", "."))) {
       await func(leadId, value.slice(0, -1))
@@ -159,6 +159,16 @@ function Lead() {
     }
   }
 
+  const leadCommentsArr = allLeadCommentsData && allLeadCommentsData.map(item => {
+    return (
+      <LeadComment 
+        id={item["0"]}
+        dateCreated={item["1"].dateCreated}
+        comment={item["1"].comment}
+        />
+    )
+  })
+
   if (selectedClient, selectedLead, selectedClient) {
     return (
       <div className='client__container'>
@@ -169,7 +179,7 @@ function Lead() {
             <div className='info-container-top'>
               {/* "absolute" container to fix position of icon */}
               <div className='icon-white' id='edit__btn-client-data'>
-                <Link>BACK {<FaArrowLeft />}</Link>
+                <Link onClick={() => addLeadComment(leadId, "this is a new comment")}>BACK {<FaArrowLeft />}</Link>
               </div>
               <div className='details__info-container-top-data'>
                 <h4 id='lead__title'>
@@ -261,7 +271,7 @@ function Lead() {
         </div>
     
         <div className='details__content-grid-element' id='lead-comments__container'>
-          
+          {leadCommentsArr}
         </div>
     
         <div className='details__content-grid-element'>
