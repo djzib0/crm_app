@@ -15,6 +15,7 @@ import { ImLock, ImUnlocked, ImCheckmark, ImCross} from 'react-icons/im'
 import { AiTwotoneEdit } from 'react-icons/ai'
 import { GiConfirmed } from 'react-icons/gi'
 import { GrPowerReset } from 'react-icons/gr'
+import { RiAddBoxFill, RiDeleteBin6Fill } from 'react-icons/ri'
 
 
 // utils import
@@ -61,14 +62,24 @@ function Lead() {
     changePotential,
     changeNextContactDate,
     changeProjectValue,
+    changeLeadTitle,
   } = useDatabaseHook()
 
   const {
     modalEditValue,
+    modalAddComment,
     setModalEditValue,
+    handleAddCommentModal,
     handleEditValueModal,
     closeEditValueModal,
     showEditValueModal,
+    showAddCommentModal,
+    //above to be deleted after update
+    modalData,
+    setModalData,
+    openModal,
+    closeModal,
+    resetModal,
   } = useModalHook()
 
   const { leadId } = useParams()
@@ -80,15 +91,6 @@ function Lead() {
 
   const [newProjectValue, setNewProjectValue] = useState()
   const [confirmBtnDisplay, setConfirmBtnDisplay] = useState(false)
-
-  const [modal, setModal] = useState({
-    isActive: false,
-    messageTitle: "",
-    messageText: "",
-    isError: ""
-  })
-
-
 
   function changeNewProjectValue(e) {
     const newValue = e.target.value
@@ -103,16 +105,11 @@ function Lead() {
     }
   }
 
-  function resetModal() {
-    setModal(prevData => {
-      return {
-        isActive: false,
-        messageTitle: "",
-        messageText: "",
-        isError: ""
-      }
-    })
+  function testFunction() {
+    console.log("kierwa, tutaj działa")
   }
+
+
 
   //fetching lead's data
   useEffect(() => {
@@ -133,8 +130,6 @@ function Lead() {
   fetchLeadData()
   }, [updateState]) 
 
-  allLeadCommentsData && console.log(allLeadCommentsData[0], "są dane")
-
   async function updateData(leadId, func, event) {
     await func(leadId, event.target.value)
     // changing updateState to re-render DOM
@@ -148,12 +143,13 @@ function Lead() {
       setUpdateState(prevData => !prevData)
       setConfirmBtnDisplay(false)
     } else {
-      setModal(prevData => {
+      setModalData(prevData => {
         return {
+          ...prevData,
           isActive: true,
+          modalType: "error",
           messageTitle: "Incorrect value!",
           messageText: "Please enter correct value.",
-          isError: true
         }
       })
     }
@@ -162,6 +158,7 @@ function Lead() {
   const leadCommentsArr = allLeadCommentsData && allLeadCommentsData.map(item => {
     return (
       <LeadComment 
+        key = {item["0"]}
         id={item["0"]}
         dateCreated={item["1"].dateCreated}
         comment={item["1"].comment}
@@ -179,15 +176,26 @@ function Lead() {
             <div className='info-container-top'>
               {/* "absolute" container to fix position of icon */}
               <div className='icon-white' id='edit__btn-client-data'>
-                <Link onClick={() => addLeadComment(leadId, "this is a new comment")}>BACK {<FaArrowLeft />}</Link>
+                <Link onClick={() => addLeadComment(leadId, "this is a new comment, but a little bit longer ")}>BACK {<FaArrowLeft />}</Link>
               </div>
               <div className='details__info-container-top-data'>
                 <h4 id='lead__title'>
                   {selectedLead.projectTitle}
                   <AiTwotoneEdit className='icon-btn anim-shake' id='lead__title-edit-icon'
-                  onClick={() => showEditValueModal(
-                    "Enter new lead title",
-                    "",
+                  onClick={() => setModalData(prevData => {
+                    //reset modal properties
+                    // resetModal()
+                    //open new modal with new properties
+                    return {
+                      ...prevData,
+                      isActive: true,
+                      modalType: "update",
+                      messageTitle: "Enter new lead title",
+                      elementId: leadId,
+                      value: selectedLead.projectTitle,
+                      handleFunction: testFunction
+                    }
+                  }
                   )}
                   />
                 </h4>
@@ -271,25 +279,29 @@ function Lead() {
         </div>
     
         <div className='details__content-grid-element' id='lead-comments__container'>
-          {leadCommentsArr}
+          <div>
+            Add {<RiAddBoxFill onClick={() => showAddCommentModal("Enter your comment")}/>}
+          </div>
+          <div>
+            {leadCommentsArr}
+          </div>
+
         </div>
-    
+        
         <div className='details__content-grid-element'>
           Tutaj będą wykresy?
         </div>
         </div>
-        {modal.isActive && 
+        {modalData.isActive && 
         <Modal
-          messageTitle={modal.messageTitle}
-          messageText={modal.messageText}
-          isError={modal.isError}
-          onClose={resetModal}/>}
-        {modalEditValue.isActive && selectedLead && <EditValueModal
-          closeEditValueModal={closeEditValueModal}
-          handleEditValueModal={handleEditValueModal}
-          leadId={leadId}
-          currentTitle={selectedLead.projectTitle}
-        />}
+          isActive={modalData.isActive}
+          modalType={modalData.modalType}
+          messageTitle={modalData.messageTitle}
+          messageText={modalData.messageText}
+          handleFunction={modalData.handleFunction}
+          elementId={modalData.elementId}
+          value={modalData.value}
+          onClose={closeModal}/>}
       </div>
       )
   }

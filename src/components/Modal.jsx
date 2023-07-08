@@ -1,24 +1,66 @@
-import React from 'react'
+import React, { useState } from 'react'
+import useModalHook from '../hooks/useModalHook'
+
 import { BsExclamationOctagonFill, BsFillInfoCircleFill } from 'react-icons/bs'
 
 function Modal(props) {
-  const {messageTitle, messageText, isError} = props
+  const {
+    isActive,
+    modalType,
+    messageTitle, 
+    messageText,
+    elementId,
+    value,
+    onClose,
+    handleFunction
+  } = props
+
+
+  console.log(props,"props")
+  const [formData, setFormData] = useState({
+    newValue: value
+  })
+
+  console.log(handleFunction, "handleFunction in Modal")
+    
+
+  function handleFormChange(e) {
+    const {name, value} = e.target
+    setFormData(prevData => {
+      return {
+        ...prevData,
+        [name]: value
+      }
+    })
+  }
 
   return (
     <div className='modal__container'>
       <div className={`modal__container-top ${
-        isError ? 'modal-error' : 'modal-info'
+        modalType === "error" ? 'modal-error' : 'modal-info'
       }`} >
-        {isError ? 
-        <BsExclamationOctagonFill className='modal-icon' /> 
-        : <BsFillInfoCircleFill className='modal-icon' />}
+        {modalType === "error" && <BsExclamationOctagonFill className='modal-icon' />}
+        {modalType === "info" || modalType === "update" && <BsFillInfoCircleFill className='modal-icon' />}
       </div>
       <h3 id='modal__message-text'>{messageTitle}</h3>
       <p id='modal__message-text'>
         {messageText}
       </p>
+      {modalType === "update" && <input type='text'
+             id='new-value'
+             name='newValue'
+             placeholder='Enter new value'
+             onChange={handleFormChange}
+             value={formData.newValue}
+       />}
 
-      <button className='confirm__btn' onClick={props.onClose}>OK</button>
+      {modalType === "update" && <div id='btn__container'>
+      <button className='confirm__btn' onClick={() => testFunction()}>OK</button>
+      <button className='cancel__btn' onClick={onClose}>Cancel</button>
+      </div>}
+      
+
+      {modalType != "update" && <button className='confirm__btn' onClick={onClose}>OK</button>}
     </div>
   )
 }

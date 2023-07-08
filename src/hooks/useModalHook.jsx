@@ -6,18 +6,64 @@ function useModalHook() {
     const {
         changeLeadTitle,
     } = useDatabaseHook()
-    
+
+    const [modalData, setModalData] = useState({
+        isActive: false,
+        modalType: "",
+        messageTitle: "",
+        messageText: "",
+        elementId: "",
+        newValue: "",
+        handleFunction: ""
+    })
+
+
     const [modalEditValue, setModalEditValue] = useState({
         isActive: false,
         messageTitle: "",
         messageText: "",
-        newValue: "",
+        value: "",
     })
+
+    const [modalAddComment, setModalAddComment] = useState({
+        isActive: false,
+        messageTitle: "",
+        messageText: "",
+        comment: "",
+    })
+
+    function closeModal() {
+        resetModal()
+        console.log("zamykam")
+    }
+
+    function openModal() {
+        setModalData(prevData => {
+            return {
+                ...prevData,
+                isActive: true,
+            }
+        })
+    }
+
+    function resetModal() {
+        setModalData(prevData => {
+            return {
+                isActive: false,
+                modalType: "",
+                messageTitle: "",
+                messageText: "",
+                handleFunction: "",
+                elementId: "",
+                value: "",
+            }
+        })
+    }
     
-    
+    // below function to be deleted?
     function handleEditValueModal(leadId, newValue) {
         changeLeadTitle(leadId, newValue)
-        closeEditValueModal()
+        closeModal()
     }
 
     function showEditValueModal(title, message) {
@@ -31,6 +77,22 @@ function useModalHook() {
         })
     }
 
+    function showAddCommentModal(title, message) {
+        setModalAddComment(prevData => {
+            return {
+                ...prevData,
+                isActive: true,
+                messageTitle: "",
+                messageText: "",
+                comment: "",
+            }
+        })
+    }
+
+    function handleAddCommentModal(leadId, comment) {
+        closeEditValueModal()
+    }
+
     function closeEditValueModal() {
         setModalEditValue(prevData => {
             return {
@@ -40,15 +102,31 @@ function useModalHook() {
                 newValue: "",
             }
         })
+        setModalAddComment(prevData => {
+            return {
+                isActive: false,
+                messageTitle: "",
+                messageText: "",
+                comment: "",
+            }
+        })
     }
 
 
     return {
-        modalEditValue,
-        setModalEditValue,
-        handleEditValueModal,
-        closeEditValueModal,
-        showEditValueModal
+        // modalEditValue,
+        // modalAddComment,
+        // setModalEditValue,
+        // handleEditValueModal,
+        // handleAddCommentModal,
+        // closeEditValueModal,
+        // showEditValueModal,
+        // showAddCommentModal
+        modalData,
+        setModalData,
+        closeModal,
+        openModal,
+        resetModal
     }
 }
 

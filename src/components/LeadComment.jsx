@@ -20,8 +20,6 @@ function LeadComment(props) {
     }
   }
 
-  console.log(props.comment.length, props.comment)
-
   if (props.comment) {
     return (
       <div className='comment__container'>
@@ -29,9 +27,10 @@ function LeadComment(props) {
           <p className='comment__container-date'>{props.dateCreated}</p>
         </div>
         <div className='comment__container-bottom'>
-          <p>{!showAll ? formatComment(props.comment, 50) : props.comment}</p>
-          {!showAll && props.comment.length > 50 && <p onClick={handleClickShowAll}>show more</p>}
-          {showAll && props.comment.length > 50 && <p onClick={handleClickShowAll}>show less</p>}
+          <p>{!showAll ? formatComment(props.comment, 50) : props.comment}
+          {!showAll && props.comment.length > 50 && <span onClick={handleClickShowAll}>show more</span>}
+          {showAll && <span onClick={handleClickShowAll}>show less</span>}
+          </p>
         </div>
       </div>
     )

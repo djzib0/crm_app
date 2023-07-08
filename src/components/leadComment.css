@@ -1,7 +1,7 @@
 .comment__container {
     margin: 1rem;
     border-radius: .2rem;
-    background-color: #a8dadc;
+    background-color: #b7fdff;
 }
 
 .comment__container-top {
@@ -13,10 +13,19 @@
     border-top-right-radius: .2rem;
 }
 
-
-.comment__container-top > p,
-.comment__container-bottom > p {
+.comment__container-top  p,
+.comment__container-bottom  p,
+.comment__container-bottom  span {
     padding: .2rem;
     margin: 0;
     font-size: .8rem;
+}
+
+.comment__container-bottom span {
+    color: var(--color-blue-light);
+    cursor: pointer;
+}
+
+.comment__container-bottom span:hover {
+    text-decoration: underline;
 }

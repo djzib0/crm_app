@@ -9,10 +9,10 @@ function EditValueModal(props) {
     closeEditValueModal,
     handleEditValueModal,
     leadId,
-    currentTitle} = props
+    currentText} = props
 
   const [formData, setFormData] = useState({
-    newValue: currentTitle
+    newValue: currentText
   })
 
   function handleFormChange(e) {

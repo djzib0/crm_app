@@ -68,7 +68,6 @@ function useDatabaseHook() {
     }
 
     function updateCompany(id, name, street, buildingNumber, zipCode, city) {
-      console.log("The company", id,  "has been updated")
       let exactItem = `companiesItems/${id}`
       update(ref(database, exactItem), {
         companyName: name,
@@ -108,7 +107,6 @@ function useDatabaseHook() {
                           email,
                           phoneNumber,
                           ) {
-      console.log("the client", clientId, "has been updated")
       const exactItem = `peopleItems/${clientId}`
       update(ref(database, exactItem), {
         
@@ -164,6 +162,17 @@ function useDatabaseHook() {
         projectTitle: newTitle
       })
     }
+
+    async function changeLeadTitle(leadId, newTitle) {
+      const exactItem = `leadsItems/${leadId}`
+      const snapshot = await get(ref(database, exactItem))
+      const data = await snapshot.val()
+      update(ref(database, exactItem), {
+        projectTitle: newTitle
+      })
+    }
+
+
 
     async function changeIsClosed(leadId) {
       const exactItem = `leadsItems/${leadId}`
@@ -264,7 +273,6 @@ function useDatabaseHook() {
     async function showAllLeadCommentsData(leadId) {
       onValue(leadCommentsInDB, function(snapshot) {
         let commentsArr = Object.entries(snapshot.val()).filter(item => {
-          console.log("item", item["1"].leadId)
           return (
             item["1"].leadId === leadId
           )

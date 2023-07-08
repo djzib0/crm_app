@@ -56,7 +56,6 @@ function CompanyForm(props) {
             async function fetchData() {
                 const snapshot = await get(ref(database, `companiesItems/${companyId}`))
                 const data = await snapshot.val()
-                console.log(data, 'w companyForm')
                 // set form with fetched company data
                 setFormData(prevData => {
                     return (
