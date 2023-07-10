@@ -37,9 +37,10 @@ function Modal(props) {
   return (
     <div className='modal__container'>
       <div className={`modal__container-top ${
-        modalType === "error" ? 'modal-error' : 'modal-info'
+        modalType === "error" || modalType === "delete" ? 'modal-error' : 'modal-info'
       }`} >
         {modalType === "error" && <BsExclamationOctagonFill className='modal-icon' />}
+        {modalType === "delete" && <BsExclamationOctagonFill className='modal-icon' />}
         {modalType === "info" || modalType === "update" || modalType === "add" && <BsFillInfoCircleFill className='modal-icon' />}
       </div>
       <h3 id='modal__message-text'>{messageTitle}</h3>
@@ -69,8 +70,12 @@ function Modal(props) {
       <button className='confirm__btn' onClick={() => {handleFunction(elementId, formData.newValue); onClose(); refreshPage()}}>OK</button>
       <button className='cancel__btn' onClick={onClose}>Cancel</button>
       </div>}
+      {modalType === "delete" && <div id='btn__container'>
+      <button className='confirm__btn' onClick={() => {handleFunction(elementId); onClose(); refreshPage()}}>OK</button>
+      <button className='cancel__btn' onClick={onClose}>Cancel</button>
+      </div>}
       
-      {modalType != "update" && modalType != "add" && <button className='confirm__btn' onClick={onClose}>OK</button>}
+      {modalType != "update" && modalType != "add" && modalType != "delete" && <button className='confirm__btn' onClick={onClose}>OK</button>}
     </div>
   )
 }

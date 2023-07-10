@@ -1,9 +1,24 @@
 import React, { useState } from 'react'
+import useDatabaseHook from '../hooks/useDatabaseHook'
+import useModalHook from '../hooks/useModalHook'
+import Modal from './Modal'
 import './leadComment.css'
 
-//import utils
+//import icons
+import { RiDeleteBin6Fill } from 'react-icons/ri'
 
 function LeadComment(props) {
+
+  const {deleteLeadComment} = useDatabaseHook()
+
+  const {
+    modalData,
+    setModalData,
+    openModal,
+    closeModal,
+    resetModal,
+  } = useModalHook()
+
 
   const [showAll, setShowAll] = useState(false)
   
@@ -25,6 +40,18 @@ function LeadComment(props) {
       <div className='comment__container'>
         <div className='comment__container-top'>
           <p className='comment__container-date'>{props.dateCreated}</p>
+          <RiDeleteBin6Fill onClick={() => setModalData(prevData => {
+            return {
+              ...prevData,
+              isActive: true,
+              modalType: "delete",
+              messageTitle: "Do you want to delete this comment?",
+              elementId: props.id,
+              value: "",
+              refreshPage: props.refreshPage,
+              handleFunction: deleteLeadComment
+            }
+          })}/>
         </div>
         <div className='comment__container-bottom'>
           <p>{!showAll ? formatComment(props.comment, 50) : props.comment}
@@ -32,7 +59,19 @@ function LeadComment(props) {
           {showAll && <span onClick={handleClickShowAll}>show less</span>}
           </p>
         </div>
+        {modalData.isActive && 
+        <Modal
+          isActive={modalData.isActive}
+          modalType={modalData.modalType}
+          messageTitle={modalData.messageTitle}
+          messageText={modalData.messageText}
+          handleFunction={modalData.handleFunction}
+          elementId={modalData.elementId}
+          value={modalData.value}
+          refreshPage={props.refreshPage}
+          onClose={closeModal}/>}
       </div>
+      
     )
   }
 

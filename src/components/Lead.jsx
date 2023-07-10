@@ -16,6 +16,14 @@ import { AiTwotoneEdit } from 'react-icons/ai'
 import { GiConfirmed } from 'react-icons/gi'
 import { GrPowerReset } from 'react-icons/gr'
 import { RiAddBoxFill, RiDeleteBin6Fill } from 'react-icons/ri'
+import {
+  BsSortNumericDown, 
+  BsSortNumericUpAlt,
+  BsSortAlphaDown,
+  BsSortAlphaUpAlt,
+  BsSortDownAlt,
+  BsSortUpAlt
+  } from 'react-icons/bs'
 
 
 // utils import
@@ -52,12 +60,11 @@ function Lead() {
   // this state is only to force DOM to re-render after DB is changed
   const [updateState, setUpdateState] = useState(false)
 
-  console.log(updateState, "updateState")
-
   const { 
     allCompaniesData,
     allLeadCommentsData,
     showAllLeadCommentsData,
+    setAllLeadCommentsData,
     addLeadComment,
     changeIsClosed, 
     changeIsSold, 
@@ -68,8 +75,6 @@ function Lead() {
   } = useDatabaseHook()
 
   const {
-    showAddCommentModal,
-    //above to be deleted after update
     modalData,
     setModalData,
     openModal,
@@ -82,10 +87,11 @@ function Lead() {
   const [selectedLead, setSelectedLead] = useState()
   const [selectedClient, setSelectedClient] = useState()
   const [selectedCompany, setSelectedCompany] = useState()
-  const [leadComments, setLeadComments] = useState()
+
+  const [areCommentsSorted, setAreCommentsSorted] = useState(false)
 
   const [newProjectValue, setNewProjectValue] = useState()
-  const [confirmBtnDisplay, setConfirmBtnDisplay] = useState(false)
+  const [confirmBtnDisplay, setConfirmBtnDisplay] = useState(true)
 
   function changeNewProjectValue(e) {
     const newValue = e.target.value
@@ -114,7 +120,7 @@ function Lead() {
       setSelectedCompany(companyData)
       setNewProjectValue(data.projectValue + "€")
       showAllLeadCommentsData(leadId)
-
+      sortComments()
   }
   fetchLeadData()
   }, [updateState]) 
@@ -154,6 +160,26 @@ function Lead() {
     }
   }
 
+  function sortComments() {
+    const sortedLeadComments = allLeadCommentsData && allLeadCommentsData.sort((a, b) => {
+      if (!areCommentsSorted) {
+        if (b[1].dateCreated > b[1].dateCreated) {
+            return 1
+        } else {
+            return -1
+        }
+      } else {
+        if (b[1].dateCreated > a[1].dateCreated) {
+            return 1
+        } else {
+            return -1
+        }
+      }
+    })
+    setAreCommentsSorted(prevData => !prevData)
+    setAllLeadCommentsData(sortedLeadComments)
+  }
+
   const leadCommentsArr = allLeadCommentsData && allLeadCommentsData.map(item => {
     return (
       <LeadComment 
@@ -161,9 +187,12 @@ function Lead() {
         id={item["0"]}
         dateCreated={item["1"].dateCreated}
         comment={item["1"].comment}
+        refreshPage={refreshPage}
         />
     )
   })
+
+
 
   if (selectedClient, selectedLead, selectedClient) {
     return (
@@ -291,6 +320,8 @@ function Lead() {
                 handleFunction: addLeadComment
               }
             })}/>}
+            {!areCommentsSorted && <BsSortDownAlt onClick={sortComments} />}
+            {areCommentsSorted && <BsSortUpAlt onClick={sortComments} />}
           </div>
           <div>
             {leadCommentsArr}

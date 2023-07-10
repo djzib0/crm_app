@@ -165,17 +165,6 @@ function useDatabaseHook() {
       })
     }
 
-    // async function changeLeadTitle(leadId, newTitle) {
-    //   const exactItem = `leadsItems/${leadId}`
-    //   const snapshot = await get(ref(database, exactItem))
-    //   const data = await snapshot.val()
-    //   update(ref(database, exactItem), {
-    //     projectTitle: newTitle
-    //   })
-    // }
-
-
-
     async function changeIsClosed(leadId) {
       const exactItem = `leadsItems/${leadId}`
       const snapshot =  await get(ref(database, exactItem))
@@ -229,6 +218,14 @@ function useDatabaseHook() {
       }
     }
 
+    async function deleteLeadComment(leadId) {
+      const exactItem = `leadCommentsItems/${leadId}`
+      const snapshot =  await get(ref(database, exactItem))
+      const data = await snapshot.val()
+      const prevData = data.isClosed
+      remove(ref(database, exactItem))
+    }
+
 
     async function showAllCompaniesData() {
       onValue(companiesInDB, function(snapshot) {
@@ -278,7 +275,13 @@ function useDatabaseHook() {
           return (
             item["1"].leadId === leadId
           )
-        
+        })
+        commentsArr.sort((a, b) => {
+          if (b[1].dateCreated > a[1].dateCreated) {
+            return 1
+          } else {
+            return -1
+          }
         })
         setAllLeadCommentsData(commentsArr)
       }, {onlyOnce: true})
@@ -291,7 +294,9 @@ function useDatabaseHook() {
       updateClient,
       addLead,
       addLeadComment,
+      deleteLeadComment,
       showAllLeadCommentsData,
+      setAllLeadCommentsData,
       allClientsData, 
       allCompaniesData,
       allLeadsData,
