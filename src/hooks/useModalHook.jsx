@@ -34,7 +34,6 @@ function useModalHook() {
 
     function closeModal() {
         resetModal()
-        console.log("zamykam")
     }
 
     function openModal() {
@@ -89,9 +88,6 @@ function useModalHook() {
         })
     }
 
-    function handleAddCommentModal(leadId, comment) {
-        closeEditValueModal()
-    }
 
     function closeEditValueModal() {
         setModalEditValue(prevData => {

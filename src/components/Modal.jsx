@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import useModalHook from '../hooks/useModalHook'
 
+import useDatabaseHook from '../hooks/useDatabaseHook'
+
 import { BsExclamationOctagonFill, BsFillInfoCircleFill } from 'react-icons/bs'
 
 function Modal(props) {
@@ -12,17 +14,14 @@ function Modal(props) {
     elementId,
     value,
     onClose,
-    handleFunction
+    handleFunction,
+    refreshPage,
   } = props
 
 
-  console.log(props,"props")
   const [formData, setFormData] = useState({
     newValue: value
   })
-
-  console.log(handleFunction, "handleFunction in Modal")
-    
 
   function handleFormChange(e) {
     const {name, value} = e.target
@@ -34,13 +33,14 @@ function Modal(props) {
     })
   }
 
+
   return (
     <div className='modal__container'>
       <div className={`modal__container-top ${
         modalType === "error" ? 'modal-error' : 'modal-info'
       }`} >
         {modalType === "error" && <BsExclamationOctagonFill className='modal-icon' />}
-        {modalType === "info" || modalType === "update" && <BsFillInfoCircleFill className='modal-icon' />}
+        {modalType === "info" || modalType === "update" || modalType === "add" && <BsFillInfoCircleFill className='modal-icon' />}
       </div>
       <h3 id='modal__message-text'>{messageTitle}</h3>
       <p id='modal__message-text'>
@@ -53,14 +53,24 @@ function Modal(props) {
              onChange={handleFormChange}
              value={formData.newValue}
        />}
+       {modalType === "add" && <textarea type='textarea'
+             name='newValue'
+             placeholder='Enter new comment'
+             onChange={handleFormChange}
+             value={formData.newValue}
+             id='modal__add-comment'
+       />}
 
       {modalType === "update" && <div id='btn__container'>
-      <button className='confirm__btn' onClick={() => testFunction()}>OK</button>
+      <button className='confirm__btn' onClick={() => {handleFunction(elementId, formData.newValue); onClose(); refreshPage()}}>OK</button>
+      <button className='cancel__btn' onClick={onClose}>Cancel</button>
+      </div>}
+      {modalType === "add" && <div id='btn__container'>
+      <button className='confirm__btn' onClick={() => {handleFunction(elementId, formData.newValue); onClose(); refreshPage()}}>OK</button>
       <button className='cancel__btn' onClick={onClose}>Cancel</button>
       </div>}
       
-
-      {modalType != "update" && <button className='confirm__btn' onClick={onClose}>OK</button>}
+      {modalType != "update" && modalType != "add" && <button className='confirm__btn' onClick={onClose}>OK</button>}
     </div>
   )
 }

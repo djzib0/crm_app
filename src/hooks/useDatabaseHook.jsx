@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link, Routes, Route} from 'react-router-dom'
 import LeadComment from '../components/LeadComment';
+import useModalHook from './useModalHook';
 
 // utilities import
 import { getToday } from '../components/utils/utils';
@@ -38,6 +39,7 @@ function useDatabaseHook() {
     const [allClientsData, setAllClientsData] = useState()
     const [allLeadsData, setAllLeadsData] = useState()
     const [allLeadCommentsData, setAllLeadCommentsData] = useState()
+
    
     useEffect(() => {
       function fetchData() {
@@ -163,14 +165,14 @@ function useDatabaseHook() {
       })
     }
 
-    async function changeLeadTitle(leadId, newTitle) {
-      const exactItem = `leadsItems/${leadId}`
-      const snapshot = await get(ref(database, exactItem))
-      const data = await snapshot.val()
-      update(ref(database, exactItem), {
-        projectTitle: newTitle
-      })
-    }
+    // async function changeLeadTitle(leadId, newTitle) {
+    //   const exactItem = `leadsItems/${leadId}`
+    //   const snapshot = await get(ref(database, exactItem))
+    //   const data = await snapshot.val()
+    //   update(ref(database, exactItem), {
+    //     projectTitle: newTitle
+    //   })
+    // }
 
 
 

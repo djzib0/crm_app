@@ -40,7 +40,7 @@ const firebaseConfig = {
 	projectId: "realtime-database-903af",
 	storageBucket: "realtime-database-903af.appspot.com",
 	messagingSenderId: "658938276512",
-appId: "1:658938276512:web:ee6fe1b71c842d428e37c5"
+  appId: "1:658938276512:web:ee6fe1b71c842d428e37c5"
 };
 
 // Initialize Firebase
@@ -50,7 +50,9 @@ const database = getDatabase(app)
 function Lead() {
 
   // this state is only to force DOM to re-render after DB is changed
-  const [updateState, setUpdateState] = useState()
+  const [updateState, setUpdateState] = useState(false)
+
+  console.log(updateState, "updateState")
 
   const { 
     allCompaniesData,
@@ -66,13 +68,6 @@ function Lead() {
   } = useDatabaseHook()
 
   const {
-    modalEditValue,
-    modalAddComment,
-    setModalEditValue,
-    handleAddCommentModal,
-    handleEditValueModal,
-    closeEditValueModal,
-    showEditValueModal,
     showAddCommentModal,
     //above to be deleted after update
     modalData,
@@ -105,12 +100,6 @@ function Lead() {
     }
   }
 
-  function testFunction() {
-    console.log("kierwa, tutaj działa")
-  }
-
-
-
   //fetching lead's data
   useEffect(() => {
     async function fetchLeadData() {
@@ -129,6 +118,16 @@ function Lead() {
   }
   fetchLeadData()
   }, [updateState]) 
+
+  async function refreshPage() {
+    async function fetchLeadData() {
+      const snapshot = await get(ref(database, `leadsItems/${leadId}`))
+      const data = await snapshot.val()
+      setSelectedLead(data)
+    }
+    await fetchLeadData()
+    selectedLead && setUpdateState(prevData => !prevData)
+  }
 
   async function updateData(leadId, func, event) {
     await func(leadId, event.target.value)
@@ -183,8 +182,6 @@ function Lead() {
                   {selectedLead.projectTitle}
                   <AiTwotoneEdit className='icon-btn anim-shake' id='lead__title-edit-icon'
                   onClick={() => setModalData(prevData => {
-                    //reset modal properties
-                    // resetModal()
                     //open new modal with new properties
                     return {
                       ...prevData,
@@ -193,7 +190,8 @@ function Lead() {
                       messageTitle: "Enter new lead title",
                       elementId: leadId,
                       value: selectedLead.projectTitle,
-                      handleFunction: testFunction
+                      refreshPage: refreshPage,
+                      handleFunction: changeLeadTitle
                     }
                   }
                   )}
@@ -280,7 +278,19 @@ function Lead() {
     
         <div className='details__content-grid-element' id='lead-comments__container'>
           <div>
-            Add {<RiAddBoxFill onClick={() => showAddCommentModal("Enter your comment")}/>}
+            Add {<RiAddBoxFill onClick={() => setModalData(prevData => {
+              //open new modal with new properties
+              return {
+                ...prevData,
+                isActive: true,
+                modalType: "add",
+                messageTitle: "Enter new comment",
+                elementId: leadId,
+                value: "",
+                refreshPage: refreshPage,
+                handleFunction: addLeadComment
+              }
+            })}/>}
           </div>
           <div>
             {leadCommentsArr}
@@ -301,6 +311,7 @@ function Lead() {
           handleFunction={modalData.handleFunction}
           elementId={modalData.elementId}
           value={modalData.value}
+          refreshPage={refreshPage}
           onClose={closeModal}/>}
       </div>
       )
