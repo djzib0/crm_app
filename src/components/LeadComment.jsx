@@ -6,10 +6,14 @@ import './leadComment.css'
 
 //import icons
 import { RiDeleteBin6Fill } from 'react-icons/ri'
+import { AiTwotoneEdit } from 'react-icons/ai'
 
 function LeadComment(props) {
 
-  const {deleteLeadComment} = useDatabaseHook()
+  const {
+    editLeadComment,
+    deleteLeadComment,
+  } = useDatabaseHook()
 
   const {
     modalData,
@@ -40,18 +44,33 @@ function LeadComment(props) {
       <div className='comment__container'>
         <div className='comment__container-top'>
           <p className='comment__container-date'>{props.dateCreated}</p>
-          <RiDeleteBin6Fill onClick={() => setModalData(prevData => {
-            return {
-              ...prevData,
-              isActive: true,
-              modalType: "delete",
-              messageTitle: "Do you want to delete this comment?",
-              elementId: props.id,
-              value: "",
-              refreshPage: props.refreshPage,
-              handleFunction: deleteLeadComment
-            }
-          })}/>
+          <div className='comment__container-top-btns'>
+            <AiTwotoneEdit onClick={() => setModalData(prevData => {
+              return {
+                ...prevData,
+                isActive: true,
+                modalType: "add",
+                messageTitle: "Edit your comment",
+                elementId: props.id,
+                value: props.comment,
+                refreshPage: props.refreshPage,
+                handleFunction: editLeadComment
+              }
+            })}/>
+            <RiDeleteBin6Fill onClick={() => setModalData(prevData => {
+              return {
+                ...prevData,
+                isActive: true,
+                modalType: "delete",
+                messageTitle: "Do you want to delete this comment?",
+                elementId: props.id,
+                value: "",
+                refreshPage: props.refreshPage,
+                handleFunction: deleteLeadComment
+              }
+            })}/>
+          </div>
+          
         </div>
         <div className='comment__container-bottom'>
           <p>{!showAll ? formatComment(props.comment, 50) : props.comment}

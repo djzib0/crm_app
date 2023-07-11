@@ -10,6 +10,21 @@
 #lead-comments__container {
     grid-area: messages;
     overflow: scroll;
+    transition: var(--transition);
+}
+
+#comment__container-add-icon {
+    margin-right: .5rem;
+}
+
+#comment__container-btns {
+    display: flex;
+    justify-content: flex-end;
+    margin: .5rem 1rem -.5rem 1rem;
+}
+
+#comment__container-btns .button {
+    font-size: 3rem;
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */

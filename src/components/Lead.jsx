@@ -17,10 +17,6 @@ import { GiConfirmed } from 'react-icons/gi'
 import { GrPowerReset } from 'react-icons/gr'
 import { RiAddBoxFill, RiDeleteBin6Fill } from 'react-icons/ri'
 import {
-  BsSortNumericDown, 
-  BsSortNumericUpAlt,
-  BsSortAlphaDown,
-  BsSortAlphaUpAlt,
   BsSortDownAlt,
   BsSortUpAlt
   } from 'react-icons/bs'
@@ -306,8 +302,11 @@ function Lead() {
         </div>
     
         <div className='details__content-grid-element' id='lead-comments__container'>
-          <div>
-            Add {<RiAddBoxFill onClick={() => setModalData(prevData => {
+          <div id='comment__container-btns'>
+            {<RiAddBoxFill 
+            className='icon-btn'
+            id='comment__container-add-icon'
+            onClick={() => setModalData(prevData => {
               //open new modal with new properties
               return {
                 ...prevData,

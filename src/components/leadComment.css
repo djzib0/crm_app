@@ -5,12 +5,21 @@
 }
 
 .comment__container-top {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 .2rem;
     background-color: #457b9d;
     color: var(--color-white);
     font-weight: 300;
     border-top-left-radius: .2rem;
     border-top-right-radius: .2rem;
+}
+
+.comment__container-top-btns {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .comment__container-top  p,

@@ -218,8 +218,19 @@ function useDatabaseHook() {
       }
     }
 
-    async function deleteLeadComment(leadId) {
-      const exactItem = `leadCommentsItems/${leadId}`
+    async function editLeadComment(commentId, newValue) {
+      if (newValue) {
+        const exactItem = `leadCommentsItems/${commentId}`
+        const snapshot =  await get(ref(database, exactItem))
+        const data = await snapshot.val()
+         update(ref(database, exactItem), {
+          comment: newValue
+        })
+      }
+    }
+
+    async function deleteLeadComment(commentId) {
+      const exactItem = `leadCommentsItems/${commentId}`
       const snapshot =  await get(ref(database, exactItem))
       const data = await snapshot.val()
       const prevData = data.isClosed
@@ -294,6 +305,7 @@ function useDatabaseHook() {
       updateClient,
       addLead,
       addLeadComment,
+      editLeadComment,
       deleteLeadComment,
       showAllLeadCommentsData,
       setAllLeadCommentsData,
