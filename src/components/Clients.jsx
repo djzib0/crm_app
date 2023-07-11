@@ -9,7 +9,8 @@ import './clients.css'
 import { capitalizeFirstLetter,
          formatPhoneNumber,
          isDateExceeded,
-         getClientCompanyName
+         getClientCompanyName,
+         getToday
          } from './utils/utils'
 
 
@@ -25,7 +26,8 @@ export default function Clients() {
     filterByLastName: "",
     filterByEmail: "",
     filterByPhoneNumber: "",
-    filterByCompanyName: ""
+    filterByCompanyName: "",
+    filterByShowExceeded: false,
   })
 
   let clientsArr = allClientsData && allCompaniesData && filterClients(allClientsData).map(item => {
@@ -55,11 +57,11 @@ export default function Clients() {
 
 
   function handleFilterChange(e) {
-    const {name, value} = e.target
+    const {name, value, type, checked} = e.target
     setFilterForm(prevFormData => {
       return {
         ...prevFormData,
-        [name] : value
+        [name]: type === 'checkbox' ? checked : value
       }
     })
   }
@@ -76,8 +78,19 @@ export default function Clients() {
       return company[0]
     })
 
+    // if "showExceededContactDate" state is set to true, 
+    // show only companies with exceeded contact date
 
-    let filteredArr = allClientsData.filter(client => {
+    const companiesWithExceededContactDateArr = allClientsData.filter(company => {
+      if (filterForm.filterByShowExceeded) {
+        return company[1].nextContactDate < getToday()
+      } else {
+        return company
+      }
+    })
+
+
+    let filteredArr = companiesWithExceededContactDateArr.filter(client => {
       return (
         client[1].firstName.toLowerCase().includes(filterForm.filterByFirstName.toLowerCase()) &&
         client[1].lastName.toLowerCase().includes(filterForm.filterByLastName.toLowerCase()) &&
@@ -146,6 +159,16 @@ export default function Clients() {
                         value={filterForm.filterByCompanyName}
                         onChange={handleFilterChange}
                         />
+                  </div>
+                  <div className='wrapper checkbox-wrapper'>
+                    <input 
+                          type="checkbox"
+                          id="show-exceeded"
+                          name="filterByShowExceeded"
+                          checked={filterForm.filterByShowExceeded}
+                          onChange={handleFilterChange}
+                      />
+                    <label htmlFor='show-exceeded'>Show only exceeded dates</label>
                   </div>
               </div>
             </form>

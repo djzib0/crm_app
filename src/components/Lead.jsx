@@ -87,7 +87,7 @@ function Lead() {
   const [areCommentsSorted, setAreCommentsSorted] = useState(false)
 
   const [newProjectValue, setNewProjectValue] = useState()
-  const [confirmBtnDisplay, setConfirmBtnDisplay] = useState(true)
+  const [confirmBtnDisplay, setConfirmBtnDisplay] = useState(false)
 
   function changeNewProjectValue(e) {
     const newValue = e.target.value

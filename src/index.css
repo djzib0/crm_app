@@ -230,6 +230,14 @@ input[type=number]::-webkit-inner-spin-button {
   font-size: .65rem;
 }
 
+.checkbox-wrapper {
+  /* font-size: .5rem; */
+  align-self: center;
+  display: grid;
+  grid-template-columns: 1em auto;
+  gap: 0.5em;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
