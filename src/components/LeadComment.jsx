@@ -45,7 +45,9 @@ function LeadComment(props) {
         <div className='comment__container-top'>
           <p className='comment__container-date'>{props.dateCreated}</p>
           <div className='comment__container-top-btns'>
-            <AiTwotoneEdit onClick={() => setModalData(prevData => {
+            <AiTwotoneEdit 
+            className='anim-shake'
+            onClick={() => setModalData(prevData => {
               return {
                 ...prevData,
                 isActive: true,
@@ -57,7 +59,9 @@ function LeadComment(props) {
                 handleFunction: editLeadComment
               }
             })}/>
-            <RiDeleteBin6Fill onClick={() => setModalData(prevData => {
+            <RiDeleteBin6Fill 
+            className='anim-shake'
+            onClick={() => setModalData(prevData => {
               return {
                 ...prevData,
                 isActive: true,

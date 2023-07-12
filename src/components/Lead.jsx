@@ -304,7 +304,7 @@ function Lead() {
         <div className='details__content-grid-element' id='lead-comments__container'>
           <div id='comment__container-btns'>
             {<RiAddBoxFill 
-            className='icon-btn'
+            className='icon-btn anim-shake'
             id='comment__container-add-icon'
             onClick={() => setModalData(prevData => {
               //open new modal with new properties
@@ -319,8 +319,14 @@ function Lead() {
                 handleFunction: addLeadComment
               }
             })}/>}
-            {!areCommentsSorted && <BsSortDownAlt onClick={sortComments} />}
-            {areCommentsSorted && <BsSortUpAlt onClick={sortComments} />}
+            {!areCommentsSorted && 
+            <BsSortDownAlt 
+              onClick={sortComments} 
+              className='anim-shake'/>}
+            {areCommentsSorted && 
+            <BsSortUpAlt
+              className='anim-shake'
+              onClick={sortComments} />}
           </div>
           <div>
             {leadCommentsArr}
