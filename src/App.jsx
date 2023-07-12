@@ -7,6 +7,7 @@ import useDatabaseHook from './hooks/useDatabaseHook'
 
 // import of components
 import Menu from './components/Menu'
+import Home from './components/Home'
 import Companies from './components/Companies'
 import Company from './components/Company'
 import CompanyForm from './components/CompanyForm'
@@ -28,6 +29,7 @@ function App() {
           <Menu />
         </nav>
         <Routes>
+          <Route path='/' element={<Home />} />
           <Route path='/companies' element={<Companies />} />
           <Route path="/add-company" element={<CompanyForm />} />
           <Route path="/edit-company/:companyId" element={<CompanyForm />} />
