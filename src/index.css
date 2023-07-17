@@ -1,5 +1,6 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  /* font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif; */
+  font-family:'Roboto', Arial, Helvetica, sans-serif, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -22,6 +23,8 @@
   --color-blue-lighter: #c8e8ff;
   --color-white: #ffffff;
   --color-orange: #ffbb00;
+  --color-header-dark: #4d6371;
+  --color-content-light: #cccccc;
 
   --transition: all 400ms ease;
 }

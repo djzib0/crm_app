@@ -118,14 +118,12 @@ export function getToday() {
     const year = date.getFullYear()
     const day = date.getDate()
     const month = date.getMonth()
-
-
-    console.log(formatDate(`${year}-${month + 1}-${day}`))
+    
     return (formatDate(`${year}-${month + 1}-${day}`))
   }
 
   // formats date
-  function formatDate(date) {
+  export function formatDate(date) {
     const dateArr = date.split("-")
     // if month is September or earlier, function adds
     // zero before the month number

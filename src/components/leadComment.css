@@ -1,7 +1,7 @@
 .comment__container {
     margin: 1rem;
     border-radius: .1rem;
-    background-color: #cccccc;
+    background-color: var(--color-content-light);
     border: .5px solid rgb(152, 152, 152);
 }
 
@@ -10,7 +10,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 .2rem;
-    background-color: #4d6371;
+    background-color: var(--color-header-dark);
     color: var(--color-white);
     font-weight: 500;
     border-top-left-radius: .1rem;
