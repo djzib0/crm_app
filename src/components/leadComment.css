@@ -11,11 +11,9 @@
     justify-content: space-between;
     padding: 0 .2rem;
     background-color: var(--color-header-dark);
-    color: var(--color-white);
     font-weight: 500;
     border-top-left-radius: .1rem;
     border-top-right-radius: .1rem;
-    border: .5px solid #4d6371;
 }
 
 
@@ -32,6 +30,7 @@
     padding: .2rem;
     margin: 0;
     font-size: .7rem;
+    cursor: default;
 }
 
 .comment__container-bottom span {

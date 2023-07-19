@@ -109,9 +109,6 @@ export function isNumber(data) {
     }
 }
 
-
-  
-
 // returns today's date
 export function getToday() {
     const date = new Date()
@@ -134,6 +131,10 @@ export function getToday() {
     return (`${dateArr[0]}-${month}-${day}`)
   }
 
+  // there are three potential states (Low, Medium, High)
+  // for sorting sake I had to change it to numbers,
+  // otherwise sorting was by potentail name which was not
+  // correct
   export function convertNumberToPotential(number) {
     if (number === 0) {
         return "LOW"
@@ -141,6 +142,15 @@ export function getToday() {
         return "MEDIUM"
     } else {
         return "HIGH"
+    }
+  }
+
+  // make string shorter and add three dots
+  export function makeShortStringWithDots(str, len) {
+    if (str.length > len) {
+        return str.slice(0, len) + "..."
+    } else {
+        return str
     }
   }
 

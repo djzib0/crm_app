@@ -3,7 +3,7 @@ import useDatabaseHook from '../hooks/useDatabaseHook'
 import { Link } from 'react-router-dom'
 
 //import utils
-import { getToday, formatDate } from './utils/utils'
+import { getToday, formatDate, makeShortStringWithDots } from './utils/utils'
 
 //import css
 import './home.css'
@@ -95,17 +95,17 @@ function Home() {
       if (!item[1].isClosed) {
         return item[1].nextContactDate === showShortDate(thisDay)
       }
-      
     })
     return filteredLeadsArr
   }
 
   function showLeadTasks(arr) {
     const tasksArr = arr.map(item => {
+      const leadTitle = `${item[1].projectTitle}`
       return (
-        <div key={item[0]} className='calendar__day-element'>
+        <div key={item[0]} className='calendar__day-element lead-task'>
           {<TbSquareRoundedLetterL />}
-            <Link to={`/lead/${item[0]}` }>{`${item[1].projectTitle}`}</Link>
+            <Link to={`/lead/${item[0]}` }>{makeShortStringWithDots(leadTitle, 25)}</Link>
         </div>
       )
     })
@@ -126,11 +126,12 @@ function Home() {
 
   function showClientTasks(arr) {
     const tasksArr = arr.map(item => {
+      const formattedName = ` ${item[1].title} ${item[1].firstName} ${item[1].lastName}`
       return (
-        <div key={item[0]} className='calendar__day-element'>
+        <div key={item[0]} className='calendar__day-element client-task'>
           {<TbSquareRoundedLetterC />}
             <Link to={`/client/${item[0]}` }>
-              {` ${item[1].title} ${item[1].firstName} ${item[1].lastName}`}</Link>
+              {makeShortStringWithDots(formattedName, 27)}</Link>
         </div>
       )
     })
@@ -192,7 +193,7 @@ function Home() {
           <div className='calendar__day-container'>
             <div className='calendar__day-container-date'>
               <p>Thursday</p>
-              <p>{showDateWithMonthName(currentMonday, 0)}</p>
+              <p>{showDateWithMonthName(currentMonday, 3)}</p>
             </div>
             <div className='calendar__day-container-content'>
               {allLeadsData && showLeadTasks(showDayLeadTasks(currentMonday, 3))}
@@ -228,7 +229,8 @@ function Home() {
               {allLeadsData && showLeadTasks(showDayLeadTasks(currentMonday, 6))}
               {allLeadsData && showClientTasks(showDayClientTasks(currentMonday, 6))}
             </div>
-          </div>        </div>
+          </div>        
+        </div>
         
       </div>
       <p>All leads {countedLeads}</p>
