@@ -44,8 +44,7 @@ function Leads() {
         allLeadsData, 
         allClientsData, 
         allCompaniesData, 
-        allLeadCommentsData,
-        showAllLeadCommentsData,
+        allCommentsData,
     } = useDatabaseHook()
     const { sortData, toggleSort, sortList } = useSortLeadsHook()
 
@@ -66,24 +65,7 @@ function Leads() {
     }
 
     const [filterForm, setFilterForm] = useState(filterFormEmptyData)
-
-    useEffect(() => {
-        async function fetchLeadData() {
-        //   const snapshot = await get(ref(database, `leadsItems/${leadId}`))
-        //   const data = await snapshot.val()
-        //   const clientSnapshot = await get(ref(database, `peopleItems/${data.clientId}`))
-        //   const clientData = await clientSnapshot.val()
-        //   const companySnapshot = await get(ref(database, `companiesItems/${data.companyId}`))
-        //   const companyData = await companySnapshot.val()
-        //   setSelectedLead(data)
-        //   setSelectedClient(clientData)
-        //   setSelectedCompany(companyData)
-        //   setNewProjectValue(data.projectValue + "€")
-          showAllLeadCommentsData(leadId)
-      }
-      fetchLeadData()
-      }, []) 
-    
+   
 
     function handleSortChange(sortPropertyName, propertyName, ) {
         setCurrentSort(prevData => {
@@ -107,14 +89,14 @@ function Leads() {
     }
 
     function countComments(leadId) {
-        showAllLeadCommentsData(leadId)
-        // allLeadCommentsData && console.log(allLeadCommentsData)
-        const commentsCount = allLeadCommentsData && allLeadCommentsData.filter(item => {
-            console.log(item, "item")
-            console.log(leadId === item[1].leadId)
+        //if allCommentsData is fetched ,filter it
+        const leadCommentsArr = allCommentsData && allCommentsData.filter(item => {
+            //if passed leadId is the same as the comment's leadId
+            //add it to the commentsCount array
+            return item[1].leadId === leadId
         })
-        // console.log("jwarwm tutaj", commentsCount)
-        // return commentsCount.length
+        //return count of messages with the same leadId
+        return leadCommentsArr.length
     }
 
     // functions to change visibility of filtered items
@@ -251,11 +233,8 @@ function Leads() {
         return sortedLeads
     }
 
-    allLeadCommentsData && console.log("hahah")
-
     // creating array of leads to be displayed on screen
     const leadsArr = allLeadsData && allClientsData && allCompaniesData && filterLeads().map(item => {
-        console.log(item[0])
         return (
             <div key={item[0]}>
                 <div className='leads__data-row'>
@@ -274,7 +253,7 @@ function Leads() {
                             <p>{item[1].isSold ? "YES" : "NO"}</p>
                             <p>{item[1].isClosed ? "CLOSED" : "OPEN"}</p>
                             <p>{convertNumberToPotential(item[1].projectPotential)}</p>
-                            <p>{countComments(item[0])}</p>
+                            <p>{allCommentsData && countComments(item[0])}</p>
                         </div>
                         <div className='leads__cta-container'>
                             <p>
@@ -480,12 +459,8 @@ function Leads() {
                             {currentSort.propertyName === "projectPotential" && !sortData.sortByPotential &&
                             <BsSortUpAlt className='leads__container-headers-icon'/>}
                         </div>
-                        <div onClick={() => handleSortChange("sortByCommentsCount", "commentsCount")} className='leads__container-headers-title'>
+                        <div className='leads__container-headers-title'>
                             <p>COMMENTS</p>
-                            {currentSort.propertyName === "commentsCount" && sortData.sortByCommentsCount &&
-                            <BsSortDownAlt className='leads__container-headers-icon'/>}
-                            {currentSort.propertyName === "commentsCount" && !sortData.sortByCommentsCount &&
-                            <BsSortUpAlt className='leads__container-headers-icon'/>}
                         </div>
                 </div>
                 <div className='cta__container'>

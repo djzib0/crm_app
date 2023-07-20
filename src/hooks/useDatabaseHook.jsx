@@ -38,6 +38,7 @@ function useDatabaseHook() {
     const [allCompaniesData, setAllCompaniesData] = useState()
     const [allClientsData, setAllClientsData] = useState()
     const [allLeadsData, setAllLeadsData] = useState()
+    const [allCommentsData, setAllCommentsData] = useState()
     const [allLeadCommentsData, setAllLeadCommentsData] = useState()
 
    
@@ -54,9 +55,14 @@ function useDatabaseHook() {
         const data = showAllLeadsData()
       }
 
+      function fetchCommentsData() {
+        const data = showAllCommentsData()
+      }
+
     fetchData()
     fetchClientsData()
     fetchLeadsData()
+    fetchCommentsData()
     }, [])
 
     function addCompany(name, street, buildingNumber, zipCode, city) {
@@ -298,6 +304,20 @@ function useDatabaseHook() {
       }, {onlyOnce: true})
     }
 
+    async function showAllCommentsData() {
+      onValue(leadCommentsInDB, function(snapshot) {
+        let commentsArr = Object.entries(snapshot.val()).map(item => {
+          return (
+            {
+              ...item
+            }
+          )
+        
+        })
+        setAllCommentsData(commentsArr)
+      }, {onlyOnce: true})
+    }
+
     return {
       addCompany, 
       updateCompany,
@@ -308,10 +328,12 @@ function useDatabaseHook() {
       editLeadComment,
       deleteLeadComment,
       showAllLeadCommentsData,
+      setAllCommentsData,
       setAllLeadCommentsData,
       allClientsData, 
       allCompaniesData,
       allLeadsData,
+      allCommentsData,
       allLeadCommentsData,
       database,
       clientsInDB,
@@ -326,6 +348,3 @@ function useDatabaseHook() {
 }
 
 export default useDatabaseHook
-
-  
-

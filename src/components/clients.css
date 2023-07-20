@@ -19,7 +19,7 @@
 .clients__container-headers,
 .clients__container-data {
     display: grid;
-    grid-template-columns: .35fr 1fr 1fr 1.5fr 1fr 1fr 1fr;
+    grid-template-columns: .35fr 1fr 1fr 1.5fr 1fr 1fr 1fr 1fr;
     font-size: .65rem;
     align-items: center;
     padding: .2rem;

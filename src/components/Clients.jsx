@@ -19,7 +19,10 @@ import { HiExclamationCircle, HiCheckCircle } from 'react-icons/hi'
 
 export default function Clients() {
 
-  const { allClientsData, allCompaniesData } = useDatabaseHook()
+  const { 
+    allClientsData, 
+    allCompaniesData, 
+    allLeadsData } = useDatabaseHook()
 
   const [filterForm, setFilterForm] = useState({
     filterByFirstName: "",
@@ -45,6 +48,7 @@ export default function Clients() {
                 ${allClientsData && isDateExceeded(item[1].nextContactDate, 14) != true ? 'green-mark' : 'red-mark' }`}>
                   {item[1].nextContactDate} {isDateExceeded(item[1].nextContactDate, 14) != true ? <HiCheckCircle /> : <HiExclamationCircle /> }
                 </div>
+                <div>{allLeadsData && countLeads(item[0])}</div>
               </Link>
               <div className='clients__cta-container'>
                   <Link className='edit-btn btn-small'>EDIT</Link>
@@ -102,7 +106,15 @@ export default function Clients() {
     return filteredArr
   }
 
-  
+  function countLeads(clientId) {
+    // if allLeadsData is fetched, filter it
+    const clientLeadsArr = allLeadsData && allLeadsData.filter(item => {
+      //if passed clientId is the same as the lead's clientId
+      //add it to the array
+      return item[1].clientId === clientId && !item[1].isClosed
+    })
+    return clientLeadsArr.length
+  }
 
   return (
     <section>
@@ -182,6 +194,7 @@ export default function Clients() {
             <p>TEL</p>
             <p>COMPANY</p>
             <p>NEXT CONTACT</p>
+            <p>OPEN LEADS</p>
           </div>
           <div className='cta__container'>
             <p></p>
