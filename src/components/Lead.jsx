@@ -27,6 +27,7 @@ import {
 	capitalizeFirstLetter,
 	formatPhoneNumber,
   isNumber,
+  getToday,
 } from './utils/utils'
 
 // Import the functions you need from the SDKs you need
@@ -62,6 +63,7 @@ function Lead() {
     showAllLeadCommentsData,
     setAllLeadCommentsData,
     addLeadComment,
+    addTask,
     changeIsClosed, 
     changeIsSold, 
     changePotential,
@@ -335,7 +337,20 @@ function Lead() {
         </div>
         
         <div className='details__content-grid-element'>
-          Tutaj będą wykresy?
+          <button onClick={() => setModalData(prevData => {
+            //open new modal with new properties
+            return {
+              ...prevData,
+              isActive: true,
+              modalType: "add-task",
+              messageTitle: "Enter new task title",
+              elementId: leadId,
+              value: "",
+              refreshPage: refreshPage,
+              handleFunction: addTask
+            }
+          }
+          )}>Add task</button>
         </div>
         </div>
         {modalData.isActive && 
@@ -348,7 +363,11 @@ function Lead() {
           elementId={modalData.elementId}
           value={modalData.value}
           refreshPage={refreshPage}
-          onClose={closeModal}/>}
+          onClose={closeModal}
+          //props with data to add in DB
+          leadId={leadId}
+          clientId=""
+          />}
       </div>
       )
   }

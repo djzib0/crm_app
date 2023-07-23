@@ -408,8 +408,9 @@ input[type=number]::-webkit-inner-spin-button {
   margin: .7rem 0;
 }
 
-#modal__add-comment {
-  width: 20rem;
+.modal__textarea {
+  display: flex;
+  width: 350px;
   height: 12rem;
   padding: .8rem;
   resize: none;

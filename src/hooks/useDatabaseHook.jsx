@@ -31,6 +31,7 @@ const companiesInDB = ref(database, "companiesItems")
 const clientsInDB = ref(database, "peopleItems")
 const leadsInDB = ref(database, "leadsItems")
 const leadCommentsInDB = ref(database, "leadCommentsItems")
+const tasksInDB = ref(database, "tasksItems")
 
 
 function useDatabaseHook() {
@@ -40,6 +41,7 @@ function useDatabaseHook() {
     const [allLeadsData, setAllLeadsData] = useState()
     const [allCommentsData, setAllCommentsData] = useState()
     const [allLeadCommentsData, setAllLeadCommentsData] = useState()
+    const [allTasksData, setAllTasksData] = useState()
 
    
     useEffect(() => {
@@ -151,11 +153,30 @@ function useDatabaseHook() {
       })
     }
 
-    function addLeadComment(leadId, comment) {
+    function addLeadComment(date, leadId, comment, contactDate) {
+
       push(leadCommentsInDB, {
-        dateCreated: getToday(),
+        dateCreated: date,
         leadId: leadId,
-        comment: comment
+        comment: comment,
+        nextContactDate: contactDate,
+      })
+    }
+
+    function addTask(
+      clientId,
+      leadId,
+      title,
+      dateCreated,
+      deadlineDate,
+    ) {
+      push(tasksInDB, {
+        clientId: clientId,
+        leadId: leadId,
+        title: title,
+        dateCreated: dateCreated,
+        deadlineDate: deadlineDate,
+        isClosed: false,
       })
     }
 
@@ -327,6 +348,7 @@ function useDatabaseHook() {
       addLeadComment,
       editLeadComment,
       deleteLeadComment,
+      addTask,
       showAllLeadCommentsData,
       setAllCommentsData,
       setAllLeadCommentsData,
@@ -335,6 +357,7 @@ function useDatabaseHook() {
       allLeadsData,
       allCommentsData,
       allLeadCommentsData,
+      allTasksData,
       database,
       clientsInDB,
       // CRUD - Leads
