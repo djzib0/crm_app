@@ -158,13 +158,12 @@ function useDatabaseHook() {
       })
     }
 
-    function addLeadComment(date, leadId, comment, contactDate) {
+    function addLeadComment(leadId, comment) {
 
       push(leadCommentsInDB, {
-        dateCreated: date,
+        dateCreated: getToday(),
         leadId: leadId,
         comment: comment,
-        nextContactDate: contactDate,
       })
     }
 
@@ -184,6 +183,15 @@ function useDatabaseHook() {
         isClosed: false,
       })
     }
+
+    async function editTaskTitle(taskId, newTitle) {
+      const exactItem = `tasksItems/${taskId}`
+      const snapshot = await get(ref(database, exactItem))
+      const data = await snapshot.val()
+      update(ref(database, exactItem), {
+        title: newTitle
+      })
+    } 
 
 
     // CRUD functions
@@ -346,7 +354,7 @@ function useDatabaseHook() {
 
     async function showAllTasksData() {
       onValue(tasksInDB, function(snapshot) {
-        let commentsArr = Object.entries(snapshot.val()).map(item => {
+        let tasksArr = Object.entries(snapshot.val()).map(item => {
           return (
             {
               ...item
@@ -354,7 +362,7 @@ function useDatabaseHook() {
           )
         
         })
-        setAllTasksData(commentsArr)
+        setAllTasksData(tasksArr)
       }, {onlyOnce: true})
     }
 
@@ -368,9 +376,11 @@ function useDatabaseHook() {
       editLeadComment,
       deleteLeadComment,
       addTask,
+      editTaskTitle,
       showAllLeadCommentsData,
       setAllCommentsData,
       setAllLeadCommentsData,
+      showAllTasksData,
       allClientsData, 
       allCompaniesData,
       allLeadsData,
