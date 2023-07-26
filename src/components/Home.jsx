@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import useDatabaseHook from '../hooks/useDatabaseHook'
+import useModalHook from '../hooks/useModalHook'
+import Modal from './Modal'
 import { Link } from 'react-router-dom'
 
 //import utils
@@ -14,9 +16,12 @@ import {
   TbSquareRoundedChevronLeftFilled, TbSquareRoundedChevronRightFilled 
  } from 'react-icons/tb'
  import { RiDeleteBin6Fill } from 'react-icons/ri'
- import { AiTwotoneEdit } from 'react-icons/ai'
+ import { AiTwotoneEdit, AiOutlineCheck } from 'react-icons/ai'
 
 function Home() {
+
+  // this state is only to force DOM to re-render after DB is changed
+  const [updateState, setUpdateState] = useState(false)
 
   const [currentMonday, setCurrentMonday] = useState(getCurrentWeekMondayDate())
 
@@ -25,7 +30,15 @@ function Home() {
     allClientsData,
     allLeadsData,
     allTasksData,
+    showAllTasksData,
+    editTaskTitle,
   } = useDatabaseHook()
+
+  const {
+    modalData,
+    setModalData,
+    closeModal,
+  } = useModalHook()
 
   function countAllLeads(leadsArr) {
     return leadsArr.length
@@ -38,6 +51,25 @@ function Home() {
     return newArr.length
   }
 
+  useEffect(() => {
+    // to update/refresh the page, I need to 
+    // fetch data and then change state. It will cause 
+    // the refresh of page with updated, fetched data
+    async function refresh() {
+      let data = await showAllTasksData()
+    }
+    refresh()
+  }, [updateState])
+
+  function refreshPage() {
+    setUpdateState(prevData => !prevData)
+  }
+
+  async function updateData(elementId, func, event) {
+    await func(elementId, event.target.value)
+    // changing updateState to re-render DOM
+    setUpdateState(prevData => !prevData)
+  }
 
   // **************
   //move below functions to utils and import to this component
@@ -164,7 +196,24 @@ function Home() {
             {<TbSquareRoundedLetterL />}
             <Link to={`` }>
                 {item[1].title}</Link>
-            <div className='test-hover'> {<AiTwotoneEdit />}</div>
+            <div className='cta__hoverable-icons-container'> 
+              {<AiTwotoneEdit className='cta__hoverable-icon'
+              onClick={() => setModalData(prevData => {
+                //open new modal with new properties
+                return {
+                  ...prevData,
+                  isActive: true,
+                  modalType: "update",
+                  messageTitle: "Enter new task title",
+                  elementId: item[0], //item[0] is a task id
+                  value: item[1].title,
+                  refreshPage: refreshPage,
+                  handleFunction: editTaskTitle
+                }
+              })} />}
+              {<AiOutlineCheck className='cta__hoverable-icon' />}
+              {<RiDeleteBin6Fill className='cta__hoverable-icon' />}
+            </div>
           </div>
         )
       // else if has clientId display as a Client task
@@ -299,6 +348,21 @@ function Home() {
       <p>All leads {countedLeads}</p>
       <p>Sold leads {countedSoldLeads}</p>
       <p>Sold percentage {countedSoldPercentage}%</p>
+      {modalData.isActive && 
+        <Modal
+          isActive={modalData.isActive}
+          modalType={modalData.modalType}
+          messageTitle={modalData.messageTitle}
+          messageText={modalData.messageText}
+          handleFunction={modalData.handleFunction}
+          elementId={modalData.elementId}
+          value={modalData.value}
+          refreshPage={() => refreshPage()}
+          onClose={closeModal}
+          //props with data to add in DB
+          leadId=""
+          clientId=""
+          />}
     </div>
   )
 }

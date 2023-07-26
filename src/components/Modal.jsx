@@ -117,15 +117,12 @@ function Modal(props) {
         <button className='confirm__btn' onClick={() => {handleFunction(elementId); onClose(); refreshPage()}}>OK</button>
         <button className='cancel__btn' onClick={onClose}>Cancel</button>
         </div>}
-        {modalType === "add-task" && 
+        {modalType === "add-comment" && 
         <div id='btn__container'>
           <button className='confirm__btn'
           onClick={() => {handleFunction(
-            props.clientId,
             props.leadId,
-            formData.newValue,
-            formData.today,
-            formData.date);
+            formData.newValue);
             onClose(); refreshPage()}}
             disabled={isDisabled}
             >OK</button>

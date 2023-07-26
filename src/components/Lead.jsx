@@ -74,9 +74,7 @@ function Lead() {
   const {
     modalData,
     setModalData,
-    openModal,
     closeModal,
-    resetModal,
   } = useModalHook()
 
   const { leadId } = useParams()
@@ -318,7 +316,7 @@ function Lead() {
                 value: "",
                 refreshPage: refreshPage,
                 handleFunction: addLeadComment
-              }
+              };
             })}/>}
             {!areCommentsSorted && 
             <BsSortDownAlt 
