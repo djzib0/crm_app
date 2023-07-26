@@ -61,10 +61,15 @@ function useDatabaseHook() {
         const data = showAllCommentsData()
       }
 
+      function fetchTasksData() {
+        const data = showAllTasksData()
+      }
+
     fetchData()
     fetchClientsData()
     fetchLeadsData()
     fetchCommentsData()
+    fetchTasksData()
     }, [])
 
     function addCompany(name, street, buildingNumber, zipCode, city) {
@@ -336,6 +341,20 @@ function useDatabaseHook() {
         
         })
         setAllCommentsData(commentsArr)
+      }, {onlyOnce: true})
+    }
+
+    async function showAllTasksData() {
+      onValue(tasksInDB, function(snapshot) {
+        let commentsArr = Object.entries(snapshot.val()).map(item => {
+          return (
+            {
+              ...item
+            }
+          )
+        
+        })
+        setAllTasksData(commentsArr)
       }, {onlyOnce: true})
     }
 

@@ -74,7 +74,7 @@ button {
 }
 
 button:hover {
-  border-color: #646cff;
+  opacity: 85%;
 }
 
 button:focus,
@@ -138,7 +138,8 @@ button:focus-visible {
 }
 
 .confirm__btn, 
-.cancel__btn {
+.cancel__btn,
+.confirm__btn:disabled {
   width: 100px;
   height: 30px;
   display: flex;
@@ -152,9 +153,16 @@ button:focus-visible {
   background-color: var(--color-orange);
 }
 
+.confirm__btn:disabled {
+  /* background-color: gray; */
+  opacity: 30%;
+}
+
 .cancel__btn {
   background-color: var(--color-incorrect-red);
 }
+
+
 
 /* Form styles */
 form {

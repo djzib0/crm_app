@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import useDatabaseHook from '../hooks/useDatabaseHook';
-
+import Modal from './Modal';
+import useModalHook from '../hooks/useModalHook';
 
 // react-router components import
 import { Link } from 'react-router-dom';
@@ -42,13 +43,22 @@ const database = getDatabase(app)
 
 function Client() {
 
+  // this state is only to force DOM to re-render after DB is changed
+  const [updateState, setUpdateState] = useState(false)
+
   //client's Id taken from useParams
   const {clientId} = useParams()
 
   const [selectedClient, setSelectedClient] = useState()
   const [selectedCompany, setSelectedCompany] = useState()
 
-  const { allCompaniesData } = useDatabaseHook()
+  const { allCompaniesData, addTask } = useDatabaseHook()
+
+  const {
+    modalData,
+    setModalData,
+    closeModal,
+  } = useModalHook()
 
   //fetching client's data
   useEffect(() => {
@@ -62,6 +72,10 @@ function Client() {
     }
     fetchData()
   }, [])
+
+  function refreshPage() {
+    setUpdateState(prevData => !prevData)
+  }
 
 
   if (selectedClient, selectedCompany) {
@@ -92,13 +106,41 @@ function Client() {
           </div>
   
           <div className='details__content-grid-element'>
-            Tutaj będą nadchodzące eventy
+          <button onClick={() => setModalData(prevData => {
+            //open new modal with new properties
+            return {
+              ...prevData,
+              isActive: true,
+              modalType: "add-task",
+              messageTitle: "Enter new task title",
+              elementId: clientId,
+              value: "",
+              refreshPage: refreshPage,
+              handleFunction: addTask
+            }
+          }
+          )}>Add task</button>
           </div>
   
           <div className='details__content-grid-element'>
             Tutaj będą wykresy?
           </div>
         </div>
+        {modalData.isActive && 
+        <Modal
+          isActive={modalData.isActive}
+          modalType={modalData.modalType}
+          messageTitle={modalData.messageTitle}
+          messageText={modalData.messageText}
+          handleFunction={modalData.handleFunction}
+          elementId={modalData.elementId}
+          value={modalData.value}
+          refreshPage={refreshPage}
+          onClose={closeModal}
+          //props with data to add in DB
+          leadId=""
+          clientId={clientId}
+          />}
       </div>
     )
   }

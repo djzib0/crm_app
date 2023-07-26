@@ -28,14 +28,20 @@ function Modal(props) {
   })
 
   const [isDisabled, setIsDisabled] = useState(true)
+  const [showInputError, setShowInputError] = useState(false)
+  const [showDateError, setShowDateError] = useState(false)
 
   useEffect(() => {
-    if (formData.newValue != "") {
+    // if input for newValue is empty or contains only white
+    // spaces, the button remains disabled
+    // checks data input, if it's not chosen
+    // the button remains disabled
+
+    // checks input after "trimming" white spaces
+    if (formData.newValue.trim() && formData.date) {
       setIsDisabled(false)
-      console.log("jestem tutaj", isDisabled, formData.newValue)
     } else {
       setIsDisabled(true)
-      console.log("jestem tutaj1", isDisabled, formData.newValue)
     }
   }, [formData])
 
@@ -97,10 +103,8 @@ function Modal(props) {
             required
           /> 
         </div>
-  
         }
         
-
         {modalType === "update" && <div id='btn__container'>
         <button className='confirm__btn' onClick={() => {handleFunction(elementId, formData.newValue); onClose(); refreshPage()}}>OK</button>
         <button className='cancel__btn' onClick={onClose}>Cancel</button>
@@ -115,7 +119,8 @@ function Modal(props) {
         </div>}
         {modalType === "add-task" && 
         <div id='btn__container'>
-          <button className='confirm__btn' onClick={() => {handleFunction(
+          <button className='confirm__btn'
+          onClick={() => {handleFunction(
             props.clientId,
             props.leadId,
             formData.newValue,

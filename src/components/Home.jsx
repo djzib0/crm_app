@@ -10,9 +10,11 @@ import './home.css'
 
 //import icons 
 import { 
-  TbSquareRoundedLetterL, TbSquareRoundedLetterC,
+  TbSquareRoundedLetterL, TbSquareRoundedLetterC, TbSquareRoundedLetterO,
   TbSquareRoundedChevronLeftFilled, TbSquareRoundedChevronRightFilled 
  } from 'react-icons/tb'
+ import { RiDeleteBin6Fill } from 'react-icons/ri'
+ import { AiTwotoneEdit } from 'react-icons/ai'
 
 function Home() {
 
@@ -21,7 +23,8 @@ function Home() {
   const {
     allCompaniesData,
     allClientsData,
-    allLeadsData
+    allLeadsData,
+    allTasksData,
   } = useDatabaseHook()
 
   function countAllLeads(leadsArr) {
@@ -138,6 +141,58 @@ function Home() {
     return tasksArr
   }
 
+  function showDayOtherTasks(date, delta) {
+    let thisDay = new Date(date)
+    // set date by given date + delta, if delta = 0 means it's monday of 
+    // current week.
+    thisDay = new Date(thisDay.setDate(thisDay.getDate() + delta))
+    // return only tasks from the given day
+    const filteredArr = allTasksData && allTasksData.filter(item => {
+      return item[1].deadlineDate === showShortDate(thisDay)
+    })
+    return filteredArr
+  }
+
+  function showOtherTasks(arr) {
+
+
+    const tasksArr = arr.map(item => {
+      // if leadId has value display as a Lead task
+      if (item[1].leadId) {
+        return (
+          <div key={item[0]} className='calendar__day-element lead-task'>
+            {<TbSquareRoundedLetterL />}
+            <Link to={`` }>
+                {item[1].title}</Link>
+            <div className='test-hover'> {<AiTwotoneEdit />}</div>
+          </div>
+        )
+      // else if has clientId display as a Client task
+      } else if (item[1].clientId ){
+        return (
+          <div key={item[0]} className='calendar__day-element client-task'>
+            {<TbSquareRoundedLetterC />}
+            <Link to={`` }>
+                {item[1].title}</Link>
+          </div>
+        )
+      // if there is no leadId or clientId, it means
+      // it's the "other" task
+      } else {
+        return (
+          <div key={item[0]} className='calendar__day-element other-task'>
+            {<TbSquareRoundedLetterO />}
+            <Link to={`` }>
+                {item[1].title}</Link>
+          </div>
+        )
+      }
+
+    })
+    return tasksArr
+  }
+
+
   const countedLeads = allLeadsData && countAllLeads(allLeadsData)
   const countedSoldLeads = allLeadsData && countSoldLeads(allLeadsData)
   const countedSoldPercentage = countPercentage(countedSoldLeads, countedLeads)
@@ -168,6 +223,7 @@ function Home() {
             <div className='calendar__day-container-content'>
               {allLeadsData && showLeadTasks(showDayLeadTasks(currentMonday, 0))}
               {allLeadsData && showClientTasks(showDayClientTasks(currentMonday, 0))}
+              {allTasksData && showOtherTasks(showDayOtherTasks(currentMonday, 0))}
             </div>
           </div>
           <div className='calendar__day-container'>
@@ -178,6 +234,8 @@ function Home() {
             <div className='calendar__day-container-content'>
               {allLeadsData && showLeadTasks(showDayLeadTasks(currentMonday, 1))}
               {allLeadsData && showClientTasks(showDayClientTasks(currentMonday, 1))}
+              {allTasksData && showOtherTasks(showDayOtherTasks(currentMonday, 1))}
+              
             </div>
           </div>
           <div className='calendar__day-container'>
@@ -188,6 +246,7 @@ function Home() {
             <div className='calendar__day-container-content'>
               {allLeadsData && showLeadTasks(showDayLeadTasks(currentMonday, 2))}
               {allLeadsData && showClientTasks(showDayClientTasks(currentMonday, 2))}
+              {allTasksData && showOtherTasks(showDayOtherTasks(currentMonday, 2))}
             </div>
           </div>
           <div className='calendar__day-container'>
@@ -198,6 +257,7 @@ function Home() {
             <div className='calendar__day-container-content'>
               {allLeadsData && showLeadTasks(showDayLeadTasks(currentMonday, 3))}
               {allLeadsData && showClientTasks(showDayClientTasks(currentMonday, 3))}
+              {allTasksData && showOtherTasks(showDayOtherTasks(currentMonday, 3))}
             </div>
           </div>
           <div className='calendar__day-container'>
@@ -208,9 +268,10 @@ function Home() {
             <div className='calendar__day-container-content'>
               {allLeadsData && showLeadTasks(showDayLeadTasks(currentMonday, 4))}
               {allLeadsData && showClientTasks(showDayClientTasks(currentMonday, 4))}
+              {allTasksData && showOtherTasks(showDayOtherTasks(currentMonday, 4))}
             </div>
           </div>
-          <div className='calendar__day-container weekend'>
+          <div className='calendar__day-container-weekend'>
             <div className='calendar__day-container-date'>
               <p>Saturday</p>
               <p>{showDateWithMonthName(currentMonday, 5)}</p>
@@ -218,6 +279,7 @@ function Home() {
             <div className='calendar__day-container-content'>
               {allLeadsData && showLeadTasks(showDayLeadTasks(currentMonday, 5))}
               {allLeadsData && showClientTasks(showDayClientTasks(currentMonday, 5))}
+              {allTasksData && showOtherTasks(showDayOtherTasks(currentMonday, 5))}
             </div>
           </div>          
           <div className='calendar__day-container weekend'>
@@ -228,6 +290,7 @@ function Home() {
             <div className='calendar__day-container-content'>
               {allLeadsData && showLeadTasks(showDayLeadTasks(currentMonday, 6))}
               {allLeadsData && showClientTasks(showDayClientTasks(currentMonday, 6))}
+              {allTasksData && showOtherTasks(showDayOtherTasks(currentMonday, 6))}
             </div>
           </div>        
         </div>
