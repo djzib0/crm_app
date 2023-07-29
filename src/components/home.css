@@ -19,6 +19,28 @@
     margin: 0 .5rem;
 }
 
+.calendar__legend,
+.calendar__legend-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: .6rem 0;
+    font-size: .7rem;
+    height: 15px;
+    border-radius: .3rem;
+    cursor: default;
+}
+
+.calendar__legend-container {
+    padding: .2rem .5rem;
+    margin-right: 1rem;
+}
+
+.calendar__legend p {
+    display: inline;
+    margin-left: .5rem;
+}
+
 .calendar__week-container {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -47,9 +69,9 @@
     padding: 0 .2rem;
     background-color: var(--color-header-dark);
     height: 50px;
-    /* color: var(--color-white); */
     text-align: center;
     text-transform: uppercase;
+    cursor: default;
 }
 
 .calendar__day-container-date > p {
@@ -79,20 +101,32 @@
 }
 
 .client-task {
-    background-color: #e4c1f9;
+    background-color: var(--color-client-task);
 }
 
 .lead-task {
-    background-color: #d0f4de;
+    background-color: var(--color-lead-task);
 }
+
+.client-other-task {
+    background-color: var(--color-client-other-task);
+} 
+
+.lead-other-task {
+    background-color: var(--color-lead-other-task);
+} 
 
 .client-task,
-.lead-task {
+.lead-task,
+.client-other-task,
+.lead-other-task,
+.other-task {
     position: relative;
 }
 
-.client-task:hover .cta__hoverable-icons-container,
-.lead-task:hover .cta__hoverable-icons-container {
+.client-other-task:hover .cta__hoverable-icons-tooltip,
+.lead-other-task:hover .cta__hoverable-icons-tooltip,
+.other-task:hover .cta__hoverable-icons-tooltip {
     display: flex;
     opacity: 100%;
     z-index: 100;
@@ -100,16 +134,24 @@
     font-size: .7rem;
 }
 
-.cta__hoverable-icons-container {
+.cta__hoverable-icons-tooltip {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     opacity: 0%;
     position: absolute;
-    right: -68px;
+    bottom: -25px;
+    left: auto;
+    right: auto;
+}
+
+.cta__hoverable-icons-container {
+    display: flex;
+    opacity: 100%;
     background-color: var(--color-white);
-    font-size: 0px;
-    padding: 2px;
+    font-size: .7rem;
+    padding: 5px;
     border: 1px solid #000000;
     border-radius: 2px;
     box-shadow: 1px 1px 5px #989898;
@@ -120,6 +162,14 @@
     margin: 0 4px;
     border-radius: 50%;
     padding: .1rem;
+}
+
+.up-arrow {
+    width: 0; 
+    height: 0; 
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    border-bottom: 3px solid black;
 }
 
 .cta__hoverable-icon:hover {

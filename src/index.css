@@ -27,6 +27,13 @@
   --color-header-dark: #b5e2fa;
   --color-content-light: #f5f5f5;
 
+  /* tasks colors */
+  --color-client-task: #e4c1f9;
+  --color-lead-task: #d0f4de;
+  --color-client-other-task: #ffba08;
+  --color-lead-other-task: #00f5d4;
+  --color-other-task: #e5989b;
+
   --transition: all 400ms ease;
 }
 

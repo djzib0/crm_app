@@ -141,7 +141,8 @@ function Home() {
   }
 
   function showLeadTasks(arr) {
-
+    // create array with items to display them in weekly view
+    // contains only leads "next contact date"
     const tasksArr = arr.map(item => {
       const leadTitle = `${item[1].projectTitle}`
       return (
@@ -167,6 +168,8 @@ function Home() {
   }
 
   function showClientTasks(arr) {
+    // create array with items to display them in weekly view
+    // contains only client "next contact date"
     const tasksArr = arr.map(item => {
       const formattedName = ` ${item[1].title} ${item[1].firstName} ${item[1].lastName}`
       return (
@@ -193,88 +196,95 @@ function Home() {
   }
 
   function showOtherTasks(arr) {
-
-
+    // create array with items to display them in weekly view
+    // contains tasks added in clients or leads view, and tasks
+    // in general, not related with any component
     const tasksArr = arr.map(item => {
       // if leadId has value display as a Lead task
       if (item[1].leadId) {
         return (
-          <div key={item[0]} className='calendar__day-element lead-task'>
+          <div key={item[0]} className='calendar__day-element lead-other-task'>
             {<TbSquareRoundedLetterL />}
             {<TbSquareRoundedLetterO />}
             <Link to={`lead/${item[1].leadId}` }>
                  {makeShortStringWithDots(item[1].title, 24)}</Link>
-            <div className='cta__hoverable-icons-container'> 
-              {<AiTwotoneEdit className='cta__hoverable-icon'
-              onClick={() => setModalData(prevData => {
-                //open new modal with new properties
-                return {
-                  ...prevData,
-                  isActive: true,
-                  modalType: "update",
-                  messageTitle: "Enter new task title",
-                  elementId: item[0], //item[0] is a task id
-                  value: item[1].title,
-                  refreshPage: refreshPage,
-                  handleFunction: editTaskTitle
-                }
-              })} />}
-              {<AiOutlineCheck className='cta__hoverable-icon'
-              onClick={() => setModalData(prevData => {
-                //open new modal with new properties
-                return {
-                  ...prevData,
-                  isActive: true,
-                  modalType: "question",
-                  messageTitle: "Do you want to close this task?",
-                  elementId: item[0], //item[0] is a task id
-                  value: item[1].title,
-                  refreshPage: refreshPage,
-                  handleFunction: closeTask
-                }
-              })}  />}
-              {<RiDeleteBin6Fill className='cta__hoverable-icon' />}
+            <div className='cta__hoverable-icons-tooltip'>
+              <div className='up-arrow'></div>
+              <div className='cta__hoverable-icons-container'>
+                {<AiTwotoneEdit className='cta__hoverable-icon'
+                onClick={() => setModalData(prevData => {
+                  //open new modal with new properties
+                  return {
+                    ...prevData,
+                    isActive: true,
+                    modalType: "update",
+                    messageTitle: "Enter new task title",
+                    elementId: item[0], //item[0] is a task id
+                    value: item[1].title,
+                    refreshPage: refreshPage,
+                    handleFunction: editTaskTitle
+                  }
+                })} />}
+                {<AiOutlineCheck className='cta__hoverable-icon'
+                onClick={() => setModalData(prevData => {
+                  //open new modal with new properties
+                  return {
+                    ...prevData,
+                    isActive: true,
+                    modalType: "question",
+                    messageTitle: "Do you want to close this task?",
+                    elementId: item[0], //item[0] is a task id
+                    value: item[1].title,
+                    refreshPage: refreshPage,
+                    handleFunction: closeTask
+                  }
+                })}  />}
+                {<RiDeleteBin6Fill className='cta__hoverable-icon' />}
+              </div>
             </div>
           </div>
         )
       // else if has clientId display as a Client task
       } else if (item[1].clientId ){
         return (
-          <div key={item[0]} className='calendar__day-element client-task'>
+          <div key={item[0]} className='calendar__day-element client-other-task'>
             {<TbSquareRoundedLetterC />}
             {<TbSquareRoundedLetterO />}
             <Link to={`client/${item[1].clientId}` }>
                 {makeShortStringWithDots(item[1].title, 24)}</Link>
-            <div className='cta__hoverable-icons-container'> 
-              {<AiTwotoneEdit className='cta__hoverable-icon'
-              onClick={() => setModalData(prevData => {
-                //open new modal with new properties
-                return {
-                  ...prevData,
-                  isActive: true,
-                  modalType: "update",
-                  messageTitle: "Enter new task title",
-                  elementId: item[0], //item[0] is a client id
-                  value: item[1].title,
-                  refreshPage: refreshPage,
-                  handleFunction: editTaskTitle
-                }
-              })} />}
-              {<AiOutlineCheck className='cta__hoverable-icon'
-              onClick={() => setModalData(prevData => {
-                //open new modal with new properties
-                return {
-                  ...prevData,
-                  isActive: true,
-                  modalType: "question",
-                  messageTitle: "Do you want to close this task?",
-                  elementId: item[0], //item[0] is a client id
-                  value: item[1].title,
-                  refreshPage: refreshPage,
-                  handleFunction: closeTask
-                }
-              })}  />}
-              {<RiDeleteBin6Fill className='cta__hoverable-icon' />}
+              <div className='cta__hoverable-icons-tooltip'>
+                <div className='up-arrow'></div>
+                <div className='cta__hoverable-icons-container'>
+                  {<AiTwotoneEdit className='cta__hoverable-icon'
+                  onClick={() => setModalData(prevData => {
+                    //open new modal with new properties
+                    return {
+                      ...prevData,
+                      isActive: true,
+                      modalType: "update",
+                      messageTitle: "Enter new task title",
+                      elementId: item[0], //item[0] is a client id
+                      value: item[1].title,
+                      refreshPage: refreshPage,
+                      handleFunction: editTaskTitle
+                    }
+                  })} />}
+                  {<AiOutlineCheck className='cta__hoverable-icon'
+                  onClick={() => setModalData(prevData => {
+                    //open new modal with new properties
+                    return {
+                      ...prevData,
+                      isActive: true,
+                      modalType: "question",
+                      messageTitle: "Do you want to close this task?",
+                      elementId: item[0], //item[0] is a client id
+                      value: item[1].title,
+                      refreshPage: refreshPage,
+                      handleFunction: closeTask
+                    }
+                  })}  />}
+                  {<RiDeleteBin6Fill className='cta__hoverable-icon' />}
+                </div>
             </div>
           </div>
         )
@@ -294,10 +304,13 @@ function Home() {
     return tasksArr
   }
 
-
   const countedLeads = allLeadsData && countAllLeads(allLeadsData)
   const countedSoldLeads = allLeadsData && countSoldLeads(allLeadsData)
   const countedSoldPercentage = countPercentage(countedSoldLeads, countedLeads)
+
+  // ******************************************************
+  // ********************* DOM render *********************
+  // ******************************************************
 
   return (
     <div>
@@ -315,7 +328,34 @@ function Home() {
             <TbSquareRoundedChevronRightFilled />
           </div>
         </div>
-        
+
+        {/* ----==== CALENDAR LEGEND ====---- */}
+        <div className='calendar__legend'>
+          <h1 className='calendar__legend-container'>LEGEND:</h1>
+          <div className='calendar__legend-container client-task'>
+            {<TbSquareRoundedLetterC />} 
+            <p>CLIENT CONTACT</p>
+          </div>
+          <div className='calendar__legend-container lead-task'>
+            {<TbSquareRoundedLetterL />} 
+            <p>LEAD CONTACT</p>
+          </div>
+          <div className='calendar__legend-container client-other-task'>
+            {<TbSquareRoundedLetterC />}
+            {<TbSquareRoundedLetterO />}
+            <p>CLIENT TASK</p>
+          </div>
+          <div className='calendar__legend-container lead-other-task'>
+            {<TbSquareRoundedLetterL />}
+            {<TbSquareRoundedLetterO />}
+            <p>LEAD TASK</p>
+          </div>
+          <div className='calendar__legend-container other-task'>
+            {<TbSquareRoundedLetterO />}
+            <p>OTHER TASK</p>
+          </div>
+        </div>
+        {/* ----==== WEEKLY CALENDAR ====---- */}
         <div className='calendar__week-container'>
           <div className='calendar__day-container'>
             <div className='calendar__day-container-date'>
