@@ -90,17 +90,23 @@ function Home() {
     const monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun",
       "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
     ]
+    //set a new date
     const date = new Date(dateToChange)
+    //convert year to String (to make a slice at the end)
     const year = String(date.getFullYear())
-    const day = date.getDate() + delta
+    // set new Date
+    const newDate = new Date(date.setDate(date.getDate() + delta))
+    // convert month number to descriptive name
     const month = monthNames[date.getMonth()]
-    return `${day} ${month} ${year.slice(2)}`
+  
+    return `${newDate.getDate()} ${month} ${year.slice(2)}`
   }
 
   function showShortDate(dateToChange) {
     const date = new Date(dateToChange)
     const year = date.getFullYear()
     const day = date.getDate()
+    console.log(day, "day in showShortDate")
     const month = date.getMonth()
     
     return (formatDate(`${year}-${month + 1}-${day}`))
