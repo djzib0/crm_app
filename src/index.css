@@ -3,6 +3,7 @@
   font-family:'Roboto', Arial, Helvetica, sans-serif, sans-serif;
   line-height: 1.5;
   font-weight: 400;
+  background-color: whitesmoke;
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
@@ -42,7 +43,8 @@ body {
   padding: 0;
   background-color: whitesmoke;
   color: #353535;
-  min-width: 320px;
+  /* min-width: 320px; */
+  /* overflow: hidden; */
   min-height: 100vh;
   box-sizing: border-box;
 }

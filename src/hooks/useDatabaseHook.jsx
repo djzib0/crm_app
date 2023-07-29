@@ -79,6 +79,7 @@ function useDatabaseHook() {
           companyAddressBuildingNumber: buildingNumber,
           companyAddressZipCode: zipCode,
           companyAddressCity: city,
+          isDeleted: false,
         })
     }
 
@@ -112,6 +113,7 @@ function useDatabaseHook() {
         phoneNumber: phoneNumber,
         lastContactDate: lastContactDate,
         nextContactDate: nextContactDate,
+        isDeleted: false,
       } )
     }
 
@@ -155,6 +157,7 @@ function useDatabaseHook() {
         projectPotential: Number(projectPotential),
         isSold: false,
         isClosed: false,
+        isDeleted: false,
       })
     }
 
@@ -181,18 +184,9 @@ function useDatabaseHook() {
         dateCreated: dateCreated,
         deadlineDate: deadlineDate,
         isClosed: false,
+        isDeleted: false,
       })
     }
-
-    async function editTaskTitle(taskId, newTitle) {
-      const exactItem = `tasksItems/${taskId}`
-      const snapshot = await get(ref(database, exactItem))
-      const data = await snapshot.val()
-      update(ref(database, exactItem), {
-        title: newTitle
-      })
-    } 
-
 
     // CRUD functions
 
@@ -277,6 +271,35 @@ function useDatabaseHook() {
       remove(ref(database, exactItem))
     }
 
+    async function editTaskTitle(taskId, newTitle) {
+      const exactItem = `tasksItems/${taskId}`
+      const snapshot = await get(ref(database, exactItem))
+      const data = await snapshot.val()
+      update(ref(database, exactItem), {
+        title: newTitle
+      })
+    }
+
+    async function closeTask(taskId) {
+      const exactItem = `tasksItems/${taskId}`
+      const snapshot = await get(ref(database, exactItem))
+      const data = await snapshot.val()
+      update(ref(database, exactItem), {
+        isClosed: true
+      })
+    }
+
+    async function deleteTask(taskId) {
+      const exactItem = `tasksItems/${taskId}`
+      const snapshot = await get(ref(database, exactItem))
+      const data = await snapshot.val()
+      update(ref(database, exactItem), {
+        isDeleted: true
+      })
+    }
+
+
+    // FETCHING DB data
 
     async function showAllCompaniesData() {
       onValue(companiesInDB, function(snapshot) {
@@ -376,7 +399,6 @@ function useDatabaseHook() {
       editLeadComment,
       deleteLeadComment,
       addTask,
-      editTaskTitle,
       showAllLeadCommentsData,
       setAllCommentsData,
       setAllLeadCommentsData,
@@ -396,6 +418,8 @@ function useDatabaseHook() {
       changePotential,
       changeNextContactDate,
       changeProjectValue,
+      editTaskTitle,
+      closeTask,
     }
 }
 

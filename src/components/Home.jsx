@@ -32,6 +32,7 @@ function Home() {
     allTasksData,
     showAllTasksData,
     editTaskTitle,
+    closeTask,
   } = useDatabaseHook()
 
   const {
@@ -106,7 +107,6 @@ function Home() {
     const date = new Date(dateToChange)
     const year = date.getFullYear()
     const day = date.getDate()
-    console.log(day, "day in showShortDate")
     const month = date.getMonth()
     
     return (formatDate(`${year}-${month + 1}-${day}`))
@@ -141,6 +141,7 @@ function Home() {
   }
 
   function showLeadTasks(arr) {
+
     const tasksArr = arr.map(item => {
       const leadTitle = `${item[1].projectTitle}`
       return (
@@ -186,7 +187,7 @@ function Home() {
     thisDay = new Date(thisDay.setDate(thisDay.getDate() + delta))
     // return only tasks from the given day
     const filteredArr = allTasksData && allTasksData.filter(item => {
-      return item[1].deadlineDate === showShortDate(thisDay)
+      return item[1].deadlineDate === showShortDate(thisDay) && !item[1].isClosed
     })
     return filteredArr
   }
@@ -200,8 +201,9 @@ function Home() {
         return (
           <div key={item[0]} className='calendar__day-element lead-task'>
             {<TbSquareRoundedLetterL />}
-            <Link to={`` }>
-                {item[1].title}</Link>
+            {<TbSquareRoundedLetterO />}
+            <Link to={`lead/${item[1].leadId}` }>
+                 {makeShortStringWithDots(item[1].title, 24)}</Link>
             <div className='cta__hoverable-icons-container'> 
               {<AiTwotoneEdit className='cta__hoverable-icon'
               onClick={() => setModalData(prevData => {
@@ -217,7 +219,20 @@ function Home() {
                   handleFunction: editTaskTitle
                 }
               })} />}
-              {<AiOutlineCheck className='cta__hoverable-icon' />}
+              {<AiOutlineCheck className='cta__hoverable-icon'
+              onClick={() => setModalData(prevData => {
+                //open new modal with new properties
+                return {
+                  ...prevData,
+                  isActive: true,
+                  modalType: "question",
+                  messageTitle: "Do you want to close this task?",
+                  elementId: item[0], //item[0] is a task id
+                  value: item[1].title,
+                  refreshPage: refreshPage,
+                  handleFunction: closeTask
+                }
+              })}  />}
               {<RiDeleteBin6Fill className='cta__hoverable-icon' />}
             </div>
           </div>
@@ -227,8 +242,40 @@ function Home() {
         return (
           <div key={item[0]} className='calendar__day-element client-task'>
             {<TbSquareRoundedLetterC />}
-            <Link to={`` }>
-                {item[1].title}</Link>
+            {<TbSquareRoundedLetterO />}
+            <Link to={`client/${item[1].clientId}` }>
+                {makeShortStringWithDots(item[1].title, 24)}</Link>
+            <div className='cta__hoverable-icons-container'> 
+              {<AiTwotoneEdit className='cta__hoverable-icon'
+              onClick={() => setModalData(prevData => {
+                //open new modal with new properties
+                return {
+                  ...prevData,
+                  isActive: true,
+                  modalType: "update",
+                  messageTitle: "Enter new task title",
+                  elementId: item[0], //item[0] is a client id
+                  value: item[1].title,
+                  refreshPage: refreshPage,
+                  handleFunction: editTaskTitle
+                }
+              })} />}
+              {<AiOutlineCheck className='cta__hoverable-icon'
+              onClick={() => setModalData(prevData => {
+                //open new modal with new properties
+                return {
+                  ...prevData,
+                  isActive: true,
+                  modalType: "question",
+                  messageTitle: "Do you want to close this task?",
+                  elementId: item[0], //item[0] is a client id
+                  value: item[1].title,
+                  refreshPage: refreshPage,
+                  handleFunction: closeTask
+                }
+              })}  />}
+              {<RiDeleteBin6Fill className='cta__hoverable-icon' />}
+            </div>
           </div>
         )
       // if there is no leadId or clientId, it means
@@ -326,7 +373,7 @@ function Home() {
               {allTasksData && showOtherTasks(showDayOtherTasks(currentMonday, 4))}
             </div>
           </div>
-          <div className='calendar__day-container-weekend'>
+          <div className='calendar__day-container weekend'>
             <div className='calendar__day-container-date'>
               <p>Saturday</p>
               <p>{showDateWithMonthName(currentMonday, 5)}</p>

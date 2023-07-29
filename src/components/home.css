@@ -84,9 +84,14 @@
 
 .lead-task {
     background-color: #d0f4de;
+}
+
+.client-task,
+.lead-task {
     position: relative;
 }
 
+.client-task:hover .cta__hoverable-icons-container,
 .lead-task:hover .cta__hoverable-icons-container {
     display: flex;
     opacity: 100%;

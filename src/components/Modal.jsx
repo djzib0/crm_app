@@ -34,7 +34,7 @@ function Modal(props) {
   useEffect(() => {
     // if input for newValue is empty or contains only white
     // spaces, the button remains disabled
-    // checks data input, if it's not chosen
+    // checks date input, if it's not chosen
     // the button remains disabled
 
     // checks input after "trimming" white spaces
@@ -64,7 +64,7 @@ function Modal(props) {
         }`} >
           {modalType === "error" && <BsExclamationOctagonFill className='modal-icon' />}
           {modalType === "delete" && <BsExclamationOctagonFill className='modal-icon' />}
-          {modalType === "info" || modalType === "update" || modalType === "add" && <BsFillInfoCircleFill className='modal-icon' />}
+          {modalType === "info" || modalType === "update" || modalType === "add" || modalType === "question" && <BsFillInfoCircleFill className='modal-icon' />}
         </div>
         <h3 id='modal__message-text'>{messageTitle}</h3>
         <p id='modal__message-text'>
@@ -113,7 +113,7 @@ function Modal(props) {
         <button className='confirm__btn' onClick={() => {handleFunction(elementId, formData.newValue); onClose(); refreshPage()}}>OK</button>
         <button className='cancel__btn' onClick={onClose}>Cancel</button>
         </div>}
-        {modalType === "delete" && <div id='btn__container'>
+        {modalType === "delete" || modalType === "question" && <div id='btn__container'>
         <button className='confirm__btn' onClick={() => {handleFunction(elementId); onClose(); refreshPage()}}>OK</button>
         <button className='cancel__btn' onClick={onClose}>Cancel</button>
         </div>}
@@ -128,8 +128,22 @@ function Modal(props) {
             >OK</button>
           <button className='cancel__btn' onClick={onClose}>Cancel</button>
         </div>}
+        {modalType === "add-task" && 
+        <div id='btn__container'>
+          <button className='confirm__btn'
+          onClick={() => {handleFunction(
+            props.clientId,
+            props.leadId,
+            formData.newValue,
+            getToday(),
+            formData.date);
+            onClose(); refreshPage()}}
+            disabled={isDisabled}
+            >OK</button>
+          <button className='cancel__btn' onClick={onClose}>Cancel</button>
+        </div>}
       
-      {modalType != "update" && modalType != "add" && modalType != "delete" && modalType != "add-task" && <button className='confirm__btn' onClick={onClose}>OK</button>}
+      {modalType != "update" && modalType != "add" && modalType != "delete" && modalType != "add-task" && modalType != "question" && <button className='confirm__btn' onClick={onClose}>OK</button>}
     </div>
   )
 }
