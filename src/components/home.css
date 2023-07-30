@@ -4,7 +4,6 @@
     align-items: center;
     margin-top: 2rem;
     margin-bottom: 1rem;
-
 }
 
 .calendar__nav-item {
@@ -25,20 +24,24 @@
     justify-content: flex-start;
     align-items: center;
     margin: .6rem 0;
-    font-size: .7rem;
-    height: 15px;
+    font-size: .5rem;
+    height: 8px;
     border-radius: .3rem;
     cursor: default;
 }
 
 .calendar__legend-container {
-    padding: .2rem .5rem;
+    padding: .2rem .3rem;
     margin-right: 1rem;
+}
+
+.calendar__legend-icon {
+    margin-left: 0px;
 }
 
 .calendar__legend p {
     display: inline;
-    margin-left: .5rem;
+    margin-left: .1rem;
 }
 
 .calendar__week-container {

@@ -184,7 +184,6 @@ function useDatabaseHook() {
         dateCreated: dateCreated,
         deadlineDate: deadlineDate,
         isClosed: false,
-        isDeleted: false,
       })
     }
 
@@ -293,9 +292,7 @@ function useDatabaseHook() {
       const exactItem = `tasksItems/${taskId}`
       const snapshot = await get(ref(database, exactItem))
       const data = await snapshot.val()
-      update(ref(database, exactItem), {
-        isDeleted: true
-      })
+      remove(ref(database, exactItem))
     }
 
 
@@ -420,6 +417,7 @@ function useDatabaseHook() {
       changeProjectValue,
       editTaskTitle,
       closeTask,
+      deleteTask,
     }
 }
 

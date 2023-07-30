@@ -33,6 +33,7 @@ function Home() {
     showAllTasksData,
     editTaskTitle,
     closeTask,
+    deleteTask,
   } = useDatabaseHook()
 
   const {
@@ -238,8 +239,21 @@ function Home() {
                     refreshPage: refreshPage,
                     handleFunction: closeTask
                   }
-                })}  />}
-                {<RiDeleteBin6Fill className='cta__hoverable-icon' />}
+                })} />}
+                {<RiDeleteBin6Fill className='cta__hoverable-icon'
+                onClick={() => setModalData(prevData => {
+                  //open new modal with new properties
+                  return {
+                    ...prevData,
+                    isActive: true,
+                    modalType: "delete",
+                    messageTitle: "Do you want to delete this task?",
+                    elementId: item[0], //item[0] is a task id
+                    value: item[1].title,
+                    refreshPage: refreshPage,
+                    handleFunction: deleteTask,
+                  }
+                })} />}
               </div>
             </div>
           </div>
@@ -252,39 +266,52 @@ function Home() {
             {<TbSquareRoundedLetterO />}
             <Link to={`client/${item[1].clientId}` }>
                 {makeShortStringWithDots(item[1].title, 24)}</Link>
-              <div className='cta__hoverable-icons-tooltip'>
-                <div className='up-arrow'></div>
-                <div className='cta__hoverable-icons-container'>
-                  {<AiTwotoneEdit className='cta__hoverable-icon'
-                  onClick={() => setModalData(prevData => {
-                    //open new modal with new properties
-                    return {
-                      ...prevData,
-                      isActive: true,
-                      modalType: "update",
-                      messageTitle: "Enter new task title",
-                      elementId: item[0], //item[0] is a client id
-                      value: item[1].title,
-                      refreshPage: refreshPage,
-                      handleFunction: editTaskTitle
-                    }
-                  })} />}
-                  {<AiOutlineCheck className='cta__hoverable-icon'
-                  onClick={() => setModalData(prevData => {
-                    //open new modal with new properties
-                    return {
-                      ...prevData,
-                      isActive: true,
-                      modalType: "question",
-                      messageTitle: "Do you want to close this task?",
-                      elementId: item[0], //item[0] is a client id
-                      value: item[1].title,
-                      refreshPage: refreshPage,
-                      handleFunction: closeTask
-                    }
-                  })}  />}
-                  {<RiDeleteBin6Fill className='cta__hoverable-icon' />}
-                </div>
+            <div className='cta__hoverable-icons-tooltip'>
+              <div className='up-arrow'></div>
+              <div className='cta__hoverable-icons-container'>
+                {<AiTwotoneEdit className='cta__hoverable-icon'
+                onClick={() => setModalData(prevData => {
+                  //open new modal with new properties
+                  return {
+                    ...prevData,
+                    isActive: true,
+                    modalType: "update",
+                    messageTitle: "Enter new task title",
+                    elementId: item[0], //item[0] is a task id
+                    value: item[1].title,
+                    refreshPage: refreshPage,
+                    handleFunction: editTaskTitle
+                  }
+                })} />}
+                {<AiOutlineCheck className='cta__hoverable-icon'
+                onClick={() => setModalData(prevData => {
+                  //open new modal with new properties
+                  return {
+                    ...prevData,
+                    isActive: true,
+                    modalType: "question",
+                    messageTitle: "Do you want to close this task?",
+                    elementId: item[0], //item[0] is a task id
+                    value: item[1].title,
+                    refreshPage: refreshPage,
+                    handleFunction: closeTask
+                  }
+                })}  />}
+                {<RiDeleteBin6Fill className='cta__hoverable-icon'
+                onClick={() => setModalData(prevData => {
+                  //open new modal with new properties
+                  return {
+                    ...prevData,
+                    isActive: true,
+                    modalType: "delete",
+                    messageTitle: "Do you want to delete this task?",
+                    elementId: item[0], //item[0] is a task id
+                    value: item[1].title,
+                    refreshPage: refreshPage,
+                    handleFunction: deleteTask,
+                  }
+                })} />}
+              </div>
             </div>
           </div>
         )
@@ -296,6 +323,54 @@ function Home() {
             {<TbSquareRoundedLetterO />}
             <Link to={`` }>
                 {item[1].title}</Link>
+                <div className='cta__hoverable-icons-tooltip'>
+              <div className='up-arrow'></div>
+              <div className='cta__hoverable-icons-container'>
+                {<AiTwotoneEdit className='cta__hoverable-icon'
+                onClick={() => setModalData(prevData => {
+                  //open new modal with new properties
+                  return {
+                    ...prevData,
+                    isActive: true,
+                    modalType: "update",
+                    messageTitle: "Enter new task title",
+                    elementId: item[0], //item[0] is a task id
+                    value: item[1].title,
+                    refreshPage: refreshPage,
+                    handleFunction: editTaskTitle
+                  }
+                })} />}
+                {<AiOutlineCheck className='cta__hoverable-icon'
+                onClick={() => setModalData(prevData => {
+                  //open new modal with new properties
+                  return {
+                    ...prevData,
+                    isActive: true,
+                    modalType: "question",
+                    messageTitle: "Do you want to close this task?",
+                    elementId: item[0], //item[0] is a client id
+                    value: item[1].title,
+                    refreshPage: refreshPage,
+                    handleFunction: closeTask
+                  }
+                })}  />}
+                {<RiDeleteBin6Fill className='cta__hoverable-icon'
+                onClick={() => setModalData(prevData => {
+                  //open new modal with new properties
+                  return {
+                    ...prevData,
+                    isActive: true,
+                    modalType: "delete",
+                    messageTitle: "Do you want to delete this task?",
+                    elementId: item[0], //item[0] is a task id
+                    value: item[1].title,
+                    refreshPage: refreshPage,
+                    handleFunction: deleteTask,
+                  }
+                })} />}
+              </div>
+            </div>
+                
           </div>
         )
       }
@@ -333,25 +408,25 @@ function Home() {
         <div className='calendar__legend'>
           <h1 className='calendar__legend-container'>LEGEND:</h1>
           <div className='calendar__legend-container client-task'>
-            {<TbSquareRoundedLetterC />} 
+            {<TbSquareRoundedLetterC className='calendar__legend-icon'/>} 
             <p>CLIENT CONTACT</p>
           </div>
           <div className='calendar__legend-container lead-task'>
-            {<TbSquareRoundedLetterL />} 
+            {<TbSquareRoundedLetterL className='calendar__legend-icon'/>} 
             <p>LEAD CONTACT</p>
           </div>
           <div className='calendar__legend-container client-other-task'>
-            {<TbSquareRoundedLetterC />}
+            {<TbSquareRoundedLetterC className='calendar__legend-icon'/>}
             {<TbSquareRoundedLetterO />}
             <p>CLIENT TASK</p>
           </div>
           <div className='calendar__legend-container lead-other-task'>
-            {<TbSquareRoundedLetterL />}
+            {<TbSquareRoundedLetterL className='calendar__legend-icon'/>}
             {<TbSquareRoundedLetterO />}
             <p>LEAD TASK</p>
           </div>
           <div className='calendar__legend-container other-task'>
-            {<TbSquareRoundedLetterO />}
+            {<TbSquareRoundedLetterO className='calendar__legend-icon'/>}
             <p>OTHER TASK</p>
           </div>
         </div>

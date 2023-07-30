@@ -113,7 +113,11 @@ function Modal(props) {
         <button className='confirm__btn' onClick={() => {handleFunction(elementId, formData.newValue); onClose(); refreshPage()}}>OK</button>
         <button className='cancel__btn' onClick={onClose}>Cancel</button>
         </div>}
-        {modalType === "delete" || modalType === "question" && <div id='btn__container'>
+        {modalType === "delete" && <div id='btn__container'>
+        <button className='confirm__btn' onClick={() => {handleFunction(elementId); onClose(); refreshPage()}}>OK</button>
+        <button className='cancel__btn' onClick={onClose}>Cancel</button>
+        </div>}
+        {modalType === "question" && <div id='btn__container'>
         <button className='confirm__btn' onClick={() => {handleFunction(elementId); onClose(); refreshPage()}}>OK</button>
         <button className='cancel__btn' onClick={onClose}>Cancel</button>
         </div>}
