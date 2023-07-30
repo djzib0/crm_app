@@ -134,14 +134,23 @@
     font-size: .7rem;
 }
 
+.client-other-task:hover .cta__hoverable-icon,
+.lead-other-task:hover .cta__hoverable-icon,
+.other-task:hover .cta__hoverable-icon {
+    font-size: .7rem;
+    transition: var(--transition);
+}
+
 .cta__hoverable-icons-tooltip {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    font-size: 0px;
+    height: 0px;
     opacity: 0%;
     position: absolute;
-    bottom: -25px;
+    bottom: -11px;
     left: auto;
     right: auto;
 }
@@ -162,6 +171,7 @@
     margin: 0 4px;
     border-radius: 50%;
     padding: .1rem;
+    font-size: 0px;
 }
 
 .up-arrow {
