@@ -10,6 +10,7 @@ import {MdFactory} from 'react-icons/md'
 import {MdPerson} from 'react-icons/md'
 import {MdListAlt} from 'react-icons/md'
 import {MdHome} from 'react-icons/md'
+import {BiTask} from 'react-icons/bi'
 
 export default function Menu() {
   return (
@@ -33,6 +34,11 @@ export default function Menu() {
               className='menu-element-container projects'>
             <p className='menu-element-description '>Leads</p>
             <MdListAlt className='menu-element-bg-icon'/>
+        </Link>
+        <Link to='/tasks'
+              className='menu-element-container tasks'>
+            <p className='menu-element-description '>Tasks</p>
+            <BiTask className='menu-element-bg-icon'/>
         </Link>
     </div>
   )

@@ -30,7 +30,7 @@
 }
 
 .clients__container-data:hover {
-    background-color: var(--color-gray-light);
+    background-color: var(--color-dark);
 }
 
 .clients__cta-container {

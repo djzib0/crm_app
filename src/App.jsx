@@ -17,12 +17,12 @@ import ClientForm from './components/ClientForm'
 import Leads from './components/Leads'
 import LeadForm from './components/LeadForm'
 import Lead from './components/Lead'
+import Tasks from './components/Tasks'
 
 function App() {
 
   const {allCompaniesData} = useDatabaseHook()
 
-  
   return (
       <div className='container'>
         <nav className='navbar menu-top'>
@@ -35,14 +35,15 @@ function App() {
           <Route path="/edit-company/:companyId" element={<CompanyForm />} />
           <Route path="/company/:id" element={<Company />} />
           <Route path="/add-client/:companyId" element={<ClientForm />} />
-          <Route path='edit-client/:clientId' element={<ClientForm />} />
-          <Route path='clients' element={<Clients />} />
-          <Route path='client/:clientId' element={<Client />}/>
-          <Route path='leads' element={<Leads />} />
-          <Route path='add-lead/:clientId' element={<LeadForm />} />
-          <Route path='lead/:leadId' element={<Lead />} />
+          <Route path='/edit-client/:clientId' element={<ClientForm />} />
+          <Route path='/clients' element={<Clients />} />
+          <Route path='/client/:clientId' element={<Client />}/>
+          <Route path='/leads' element={<Leads />} />
+          <Route path='/add-lead/:clientId' element={<LeadForm />} />
+          <Route path='/lead/:leadId' element={<Lead />} />
+          <Route path='/tasks' element={<Tasks />} />
         </Routes>
-
+        <footer>&nbsp;</footer>
       </div>
   )
 }

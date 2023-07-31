@@ -9,7 +9,7 @@ import useDatabaseHook from '../hooks/useDatabaseHook';
 import './lead.css'
 
 // icons import
-import { FaArrowLeft } from 'react-icons/fa'
+import { AiFillLeftCircle } from 'react-icons/ai'
 import { ImLock, ImUnlocked, ImCheckmark, ImCross} from 'react-icons/im'
 import { AiTwotoneEdit } from 'react-icons/ai'
 import { GiConfirmed } from 'react-icons/gi'
@@ -198,9 +198,12 @@ function Lead() {
           <div className='info-container details__content-grid-element'>
             <div className='info-container-top'>
               {/* "absolute" container to fix position of icon */}
-              <div className='icon-white' id='edit__btn-client-data'>
-                <Link onClick=''>BACK {<FaArrowLeft />}</Link>
-              </div>
+              <Link to='../leads'>
+                <div className='go-back__container'>
+                  {<AiFillLeftCircle />} 
+                  <p>BACK</p>
+                </div>
+              </Link>
               <div className='details__info-container-top-data'>
                 <h4 id='lead__title'>
                   {selectedLead.projectTitle}

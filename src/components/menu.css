@@ -40,6 +40,10 @@
     background-color: #ee964b;
 }
 
+.menu-element-container.tasks {
+    background-color: #2a9d8f;
+}
+
 .menu-element-bg-icon {
     position: relative;
     scale: 300%;

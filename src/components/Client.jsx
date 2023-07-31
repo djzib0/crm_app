@@ -12,6 +12,7 @@ import './client.css'
 
 // icons import
 import { TiEdit } from 'react-icons/ti'
+import { AiFillLeftCircle } from 'react-icons/ai'
 
 // utils import
 import { getClientCompanyName,
@@ -85,8 +86,14 @@ function Client() {
         <div className='details__content-container' id='client-details__content-container'>
           <div className='info-container details__content-grid-element'>
             <div className='info-container-top'>
-  
+
               {/* "absolute" container to fix position of icon */}
+              <Link to='../clients'>
+                <div className='go-back__container'>
+                  {<AiFillLeftCircle />} 
+                  <p>BACK</p>
+                </div>
+              </Link>
               <div className='icon-white' id='edit__btn-client-data'>
                 <Link to={`/edit-client/${clientId}`} >{<TiEdit />}</Link>
               </div>

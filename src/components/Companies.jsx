@@ -31,8 +31,8 @@ function Companies() {
         } = item[1]
 
         return (
-            <div key={item[0]} className='container company__container headers hover'>
-                <Link className='container company__container-data headers' to={`/company/${item[0]}`}>
+            <div key={item[0]} className='company__container hover'>
+                <Link className='company__container-data' to={`/company/${item[0]}`}>
                     <p>{companyName}</p>
                     <p>{companyAddressStreet} {companyAddressBuildingNumber} {companyAddressZipCode} {companyAddressCity}</p>
                     <p>{countedClients[item[0]] > 0 ? countedClients[item[0]] : 0 }</p>
@@ -111,7 +111,7 @@ function Companies() {
 
  
     return (
-        <div>
+        <div className='container'>
             <div className='filter__form'>
                 <p>Filter by:</p>
                 <form>
@@ -138,9 +138,9 @@ function Companies() {
 
             <Link to="/add-company" className='link-btn'>ADD COMPANY</Link>
 
-            <div className='container'>
-                <div className='container company__container headers' id='headers'>
-                    <div className='container company__container-data'>
+            <div className=''>
+                <div className=' company__container headers' id='headers'>
+                    <div className='company__container-data'>
                         <p>Company name</p>
                         <p>Company address</p>
                         <p>No of clients</p>

@@ -3,7 +3,6 @@
   font-family:'Roboto', Arial, Helvetica, sans-serif, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  background-color: whitesmoke;
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
@@ -45,15 +44,20 @@ a:hover {
   color: var(--font-color-dark);
 }
 
-body {
-  margin: 0 auto;
-  padding: 0;
+#root {
   background-color: whitesmoke;
+}
+
+body {
+  background-color: red;
+  margin: 0 auto;
   color: #353535;
-  /* min-width: 320px; */
-  /* overflow: hidden; */
-  min-height: 100vh;
-  box-sizing: border-box;
+  box-sizing: content-box;
+  overflow: scroll;
+}
+
+.container {
+  margin-top: 0;
 }
 
 h1 {
@@ -375,6 +379,22 @@ input[type=number]::-webkit-inner-spin-button {
 #edit__btn-client-data:hover {
   font-size: 1.2rem;
   scale: 120%;
+}
+
+/* go back container */
+.go-back__container {
+  display: flex;
+  position: absolute;
+  top: -.7rem;
+  left: .5rem;
+  justify-content: center;
+  align-items: center;
+  font-size: .8rem;
+  transition: var(--transition);
+}
+
+.go-back__container:hover {
+  scale: 110%
 }
 
 /* modal */
