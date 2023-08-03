@@ -85,8 +85,21 @@
 
 .calendar__day-container-content {
     background-color: var(--color-content-light);
-    font-size: .55rem;
+    font-size: .5rem;
     min-height: 200px;
+}
+
+.calendar__task-icons-container {
+    display: flex;
+    justify-content: flex-start;
+    width: auto;
+}
+
+.calendar__task-icon {
+    margin-left: 0px;
+    font-size: .6rem;
+    padding: 0;
+    margin: 0;
 }
 
 .calendar__day-element {

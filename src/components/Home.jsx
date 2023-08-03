@@ -148,8 +148,10 @@ function Home() {
       const leadTitle = `${item[1].projectTitle}`
       return (
         <div key={item[0]} className='calendar__day-element lead-task'>
-          {<TbSquareRoundedLetterL />}
-            <Link to={`/lead/${item[0]}` }>{makeShortStringWithDots(leadTitle, 25)}</Link>
+          <div className='calendar__task-icons-container'>
+            {<TbSquareRoundedLetterL className='calendar__task-icon' />}
+          </div>
+            <Link to={`/lead/${item[0]}` }>{makeShortStringWithDots(leadTitle, 54)}</Link>
         </div>
       )
     })
@@ -175,9 +177,11 @@ function Home() {
       const formattedName = ` ${item[1].title} ${item[1].firstName} ${item[1].lastName}`
       return (
         <div key={item[0]} className='calendar__day-element client-task'>
-          {<TbSquareRoundedLetterC />}
+          <div className='calendar__task-icons-container'>
+            {<TbSquareRoundedLetterC className='calendar__task-icon'/>}
+          </div>
             <Link to={`/client/${item[0]}` }>
-              {makeShortStringWithDots(formattedName, 27)}</Link>
+              {makeShortStringWithDots(formattedName, 54)}</Link>
         </div>
       )
     })
@@ -205,10 +209,12 @@ function Home() {
       if (item[1].leadId) {
         return (
           <div key={item[0]} className='calendar__day-element lead-other-task'>
-            {<TbSquareRoundedLetterL />}
-            {<TbSquareRoundedLetterO />}
+            <div className='calendar__task-icons-container'>
+              {<TbSquareRoundedLetterL className='calendar__task-icon' />}
+              {<TbSquareRoundedLetterO className='calendar__task-icon' />}
+            </div>
             <Link to={`lead/${item[1].leadId}` }>
-                 {makeShortStringWithDots(item[1].title, 24)}</Link>
+                 {makeShortStringWithDots(item[1].title, 54)}</Link>
             <div className='cta__hoverable-icons-tooltip'>
               <div className='up-arrow'></div>
               <div className='cta__hoverable-icons-container'>
@@ -262,10 +268,12 @@ function Home() {
       } else if (item[1].clientId ){
         return (
           <div key={item[0]} className='calendar__day-element client-other-task'>
-            {<TbSquareRoundedLetterC />}
-            {<TbSquareRoundedLetterO />}
+            <div className='calendar__task-icons-container'>
+              {<TbSquareRoundedLetterC className='calendar__task-icon' />}
+              {<TbSquareRoundedLetterO className='calendar__task-icon' />}
+            </div>
             <Link to={`client/${item[1].clientId}` }>
-                {makeShortStringWithDots(item[1].title, 24)}</Link>
+                {makeShortStringWithDots(item[1].title, 54)}</Link>
             <div className='cta__hoverable-icons-tooltip'>
               <div className='up-arrow'></div>
               <div className='cta__hoverable-icons-container'>
@@ -320,7 +328,9 @@ function Home() {
       } else {
         return (
           <div key={item[0]} className='calendar__day-element other-task'>
-            {<TbSquareRoundedLetterO />}
+            <div className='calendar__task-icons-container'>
+              {<TbSquareRoundedLetterO className='calendar__task-icon' />}
+            </div>
             <Link to={`` }>
                 {item[1].title}</Link>
                 <div className='cta__hoverable-icons-tooltip'>
