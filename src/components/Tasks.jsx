@@ -14,8 +14,27 @@ function Tasks() {
 
   const { 
     allTasksData,
+    allClientsData,
+    allLeadsData,
     addTask,
    } = useDatabaseHook()
+
+  
+  const [filterForm, setFilterForm] = useState({
+    filterByTitle: "",
+    filterByClient: "",
+    filterByLead: "",
+  })
+
+  function handleFilterChange(e) {
+    const {name, value, type, checked} = e.target
+    setFilterForm(prevFormData => {
+      return {
+        ...prevFormData,
+        [name]: type === 'checkbox' ? checked : value
+      }
+    })
+  }
 
   function filterTasks(arr) {
     let filteredArr = []
@@ -76,9 +95,72 @@ function Tasks() {
     // Must be a more efficient way to filter those items without 
     // iterating through the whole array for each task type
     // BUT HOW???
-    return filteredArr
+
+    // set new array with client id and formatted fullName
+    const clientsFullNameArr = allClientsData && allClientsData.map(client => {
+      return {
+          clientId: client[0],
+          clientFullName: client[1].firstName + " " + client[1].lastName
+      }
+    })
+  
+    // set new array with clients matching form input 
+    // and their clientId
+    const filteredClientsArr = clientsFullNameArr.filter(client => {
+      return client.clientFullName.toLowerCase().includes(filterForm.filterByClient.toLowerCase())
+    })
+
+    // set new array only with the id's of matching clients
+    // if leadItem.clientId is in below array, it will be displayed
+    let filteredClientsId = []
+
+    if (filterForm.filterByClient) {
+      filteredClientsId = filteredClientsArr.map(item => {
+        return item.clientId
+    })
+    } else {
+      filteredClientsId.push("")
+    }
+
+
+    const filteredLeadsArr = allLeadsData && allLeadsData.filter(lead => {
+      console.log("lead", lead)
+      return lead[1].projectTitle.toLowerCase().includes(filterForm.filterByLead.toLowerCase())
+    })
+
+    console.log(filteredLeadsArr, "filtered leads")
+
+    let filteredLeadsId = []
+
+    if (filterForm.filterByLead) {
+      console.log("jestem tutaj")
+      filteredLeadsId = filteredLeadsArr.map(item => {
+        console.log(item[0], "item")
+        return item[0]
+      })
+    } else {
+      filteredLeadsId.push("")
+    }
+
+    console.log(filteredLeadsId)
+
+
+    
+    
+
+    let filteredByFormArr = filteredArr.filter(task => {
+      return (
+        task[1].title.toLowerCase().includes(filterForm.filterByTitle.toLocaleLowerCase()) &&
+        filteredClientsId.includes(task[1].clientId) &&
+        filteredLeadsId.includes(task[1].leadId)
+      )
+    })
+
+    return filteredByFormArr
   }
 
+  // remove below function, it was only to make a single task 
+  // in database
   function addTaskTemporary() {
     addTask(
       "",
@@ -99,7 +181,47 @@ function Tasks() {
 
   return (
     <div className='container'>
-      <div className='filter__form'>
+    {/* ********* FILTER FORM ******** */}
+    <div className='filter__form'>
+            <p>Filter by:</p>
+            <form>
+              <div className='form__clients wrapper'>
+                  <div className='wrapper'>
+                    <input type='text'
+                        className='input__client task-title'
+                        id='task-title'
+                        name='filterByTitle'
+                        placeholder='Title'
+                        value={filterForm.filterByTitle}
+                        onChange={handleFilterChange}
+                        />
+                  </div>
+                  <div className='wrapper'>
+                    <input type='text'
+                        className='input__client task-client'
+                        id='task-client'
+                        name='filterByClient'
+                        placeholder='Client name'
+                        value={filterForm.filterByClient}
+                        onChange={handleFilterChange}
+                        />
+                  </div>
+                  <div className='wrapper'>
+                    <input type='text'
+                        className='input__client task-lead'
+                        id='task-lead'
+                        name='filterByLead'
+                        placeholder='Lead title'
+                        value={filterForm.filterByLead}
+                        onChange={handleFilterChange}
+                        />
+                  </div>
+              
+              </div>
+            </form>
+        </div>
+
+      <div className=''>
         {/* <button onClick={addTaskTemporary}>Add "Other task"</button> */}
         {tasksArr}
       </div>
