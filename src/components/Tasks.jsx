@@ -2,15 +2,28 @@ import React, { useState } from 'react'
 import { useActionData } from 'react-router-dom'
 import useDatabaseHook from '../hooks/useDatabaseHook'
 
+import './tasks.css'
+
 //import utils
 import { getToday } from './utils/utils'
 
+//import icons
+import { 
+  TbSquareRoundedLetterL, TbSquareRoundedLetterC, TbSquareRoundedLetterO,
+  TbSquareRoundedChevronLeftFilled, TbSquareRoundedChevronRightFilled 
+ } from 'react-icons/tb'
+ import { BiShow, BiHide } from 'react-icons/bi'
+ 
 function Tasks() {
 
   const [showClientTasks, setShowClientTasks] = useState(true)
   const [showLeadTasks, setShowLeadTasks] = useState(true)
   const [showOtherTasks, setShowOtherTasks] = useState(true)
   const [showClosedTasks, setShowClosedTasks] = useState(false)
+
+  function handleShowClientsTasks() {
+    setShowClientTasks(prevData => !prevData)
+  }
 
   const { 
     allTasksData,
@@ -118,42 +131,37 @@ function Tasks() {
       filteredClientsId = filteredClientsArr.map(item => {
         return item.clientId
     })
-    } else {
-      filteredClientsId.push("")
     }
 
-
+    // set new array with leads matching form input 
     const filteredLeadsArr = allLeadsData && allLeadsData.filter(lead => {
-      console.log("lead", lead)
       return lead[1].projectTitle.toLowerCase().includes(filterForm.filterByLead.toLowerCase())
     })
 
-    console.log(filteredLeadsArr, "filtered leads")
-
+    // set new array which will keep only id's matching 
+    // filterForm.filterByLead input
     let filteredLeadsId = []
 
     if (filterForm.filterByLead) {
-      console.log("jestem tutaj")
       filteredLeadsId = filteredLeadsArr.map(item => {
-        console.log(item[0], "item")
         return item[0]
       })
-    } else {
-      filteredLeadsId.push("")
-    }
-
-    console.log(filteredLeadsId)
-
-
-    
-    
-
+    } 
+   
     let filteredByFormArr = filteredArr.filter(task => {
-      return (
-        task[1].title.toLowerCase().includes(filterForm.filterByTitle.toLocaleLowerCase()) &&
-        filteredClientsId.includes(task[1].clientId) &&
-        filteredLeadsId.includes(task[1].leadId)
-      )
+      if (filterForm.filterByClient.length) {
+        return (
+          task[1].title.toLowerCase().includes(filterForm.filterByTitle.toLocaleLowerCase()) &&
+          filteredClientsId.includes(task[1].clientId)
+        )
+      } else if (filterForm.filterByLead.length) {
+        return (
+          task[1].title.toLowerCase().includes(filterForm.filterByTitle.toLocaleLowerCase()) &&
+          filteredLeadsId.includes(task[1].leadId)
+        )
+      } else if (filterForm.filterByTitle.length >= 0) {
+        return task[1].title.toLowerCase().includes(filterForm.filterByTitle.toLocaleLowerCase())
+      }
     })
 
     return filteredByFormArr
@@ -182,44 +190,77 @@ function Tasks() {
   return (
     <div className='container'>
     {/* ********* FILTER FORM ******** */}
-    <div className='filter__form'>
-            <p>Filter by:</p>
-            <form>
-              <div className='form__clients wrapper'>
-                  <div className='wrapper'>
-                    <input type='text'
-                        className='input__client task-title'
-                        id='task-title'
-                        name='filterByTitle'
-                        placeholder='Title'
-                        value={filterForm.filterByTitle}
-                        onChange={handleFilterChange}
-                        />
-                  </div>
-                  <div className='wrapper'>
-                    <input type='text'
-                        className='input__client task-client'
-                        id='task-client'
-                        name='filterByClient'
-                        placeholder='Client name'
-                        value={filterForm.filterByClient}
-                        onChange={handleFilterChange}
-                        />
-                  </div>
-                  <div className='wrapper'>
-                    <input type='text'
-                        className='input__client task-lead'
-                        id='task-lead'
-                        name='filterByLead'
-                        placeholder='Lead title'
-                        value={filterForm.filterByLead}
-                        onChange={handleFilterChange}
-                        />
-                  </div>
-              
+      <div className='tasks__filter-container'>
+        <div className='filter__task-form'>
+          <p>Filter by:</p>
+          <form>
+            <div className='form__clients wrapper'>
+              <div className='wrapper'>
+                <input type='text'
+                    className='input__client task-title'
+                    id='task-title'
+                    name='filterByTitle'
+                    placeholder='Title'
+                    value={filterForm.filterByTitle}
+                    onChange={handleFilterChange}
+                    />
               </div>
-            </form>
+              <div className='wrapper'>
+                <input type='text'
+                    className='input__client task-client'
+                    id='task-client'
+                    name='filterByClient'
+                    placeholder='Client name'
+                    value={filterForm.filterByClient}
+                    onChange={handleFilterChange}
+                    />
+              </div>
+              <div className='wrapper'>
+                <input type='text'
+                    className='input__client task-lead'
+                    id='task-lead'
+                    name='filterByLead'
+                    placeholder='Lead title'
+                    value={filterForm.filterByLead}
+                    onChange={handleFilterChange}
+                    />
+              </div>
+            </div>
+          </form>
+        </div> 
+        {/* ----==== TASKS VISIBILITY FORM ====---- */}
+        <div className='calendar__legend'>
+          <div className='calendar__legend-container client-other-task cursor-pointer'
+               onClick={() => setShowClientTasks(prevData => !prevData)}
+          >
+            {<TbSquareRoundedLetterC className='calendar__legend-icon'/>}
+            {<TbSquareRoundedLetterO className='calendar__legend-icon'/>}
+            <p>CLIENT TASK</p>
+            {showClientTasks && <BiShow className='visibility-icon' />}
+            {!showClientTasks && <BiHide className='visibility-icon' />}
+          </div>
+
+          <div className='calendar__legend-container lead-other-task cursor-pointer'
+               onClick={() => setShowLeadTasks(prevData => !prevData)}
+          >
+            {<TbSquareRoundedLetterL className='calendar__legend-icon'/>}
+            {<TbSquareRoundedLetterO className='calendar__legend-icon'/>}
+            <p>LEAD TASK</p>
+            {showLeadTasks && <BiShow className='visibility-icon' />}
+            {!showLeadTasks && <BiHide className='visibility-icon' />}
+          </div>
+
+          <div className='calendar__legend-container other-task cursor-pointer'
+               onClick={() => setShowOtherTasks(prevData => !prevData)}
+          >
+            {<TbSquareRoundedLetterO className='calendar__legend-icon'/>}
+            <p>OTHER TASK</p>
+            {showOtherTasks && <BiShow className='visibility-icon' />}
+            {!showOtherTasks && <BiHide className='visibility-icon' />}
+
+          </div>
         </div>
+      </div>
 
       <div className=''>
         {/* <button onClick={addTaskTemporary}>Add "Other task"</button> */}

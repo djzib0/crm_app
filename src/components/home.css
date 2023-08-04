@@ -31,12 +31,12 @@
 }
 
 .calendar__legend-container {
-    padding: .2rem .3rem;
+    padding: .2rem .2rem;
     margin-right: 1rem;
 }
 
 .calendar__legend-icon {
-    margin-left: 0px;
+    font-size: .6rem;
 }
 
 .calendar__legend p {

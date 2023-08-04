@@ -427,12 +427,12 @@ function Home() {
           </div>
           <div className='calendar__legend-container client-other-task'>
             {<TbSquareRoundedLetterC className='calendar__legend-icon'/>}
-            {<TbSquareRoundedLetterO />}
+            {<TbSquareRoundedLetterO className='calendar__legend-icon'/>}
             <p>CLIENT TASK</p>
           </div>
           <div className='calendar__legend-container lead-other-task'>
             {<TbSquareRoundedLetterL className='calendar__legend-icon'/>}
-            {<TbSquareRoundedLetterO />}
+            {<TbSquareRoundedLetterO className='calendar__legend-icon'/>}
             <p>LEAD TASK</p>
           </div>
           <div className='calendar__legend-container other-task'>
