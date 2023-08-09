@@ -37,6 +37,8 @@ function Tasks() {
     filterByTitle: "",
     filterByClient: "",
     filterByLead: "",
+    filterByStartDate: "",
+    filterByEndDate: "",
   })
 
   function handleFilterChange(e) {
@@ -190,76 +192,103 @@ function Tasks() {
   return (
     <div className='container'>
     {/* ********* FILTER FORM ******** */}
-      <div className='tasks__filter-container'>
-        <div className='filter__task-form'>
-          <p>Filter by:</p>
-          <form>
-            <div className='form__clients wrapper'>
-              <div className='wrapper'>
-                <input type='text'
-                    className='input__client task-title'
-                    id='task-title'
-                    name='filterByTitle'
-                    placeholder='Title'
-                    value={filterForm.filterByTitle}
-                    onChange={handleFilterChange}
-                    />
-              </div>
-              <div className='wrapper'>
-                <input type='text'
-                    className='input__client task-client'
-                    id='task-client'
-                    name='filterByClient'
-                    placeholder='Client name'
-                    value={filterForm.filterByClient}
-                    onChange={handleFilterChange}
-                    />
-              </div>
-              <div className='wrapper'>
-                <input type='text'
-                    className='input__client task-lead'
-                    id='task-lead'
-                    name='filterByLead'
-                    placeholder='Lead title'
-                    value={filterForm.filterByLead}
-                    onChange={handleFilterChange}
-                    />
-              </div>
-            </div>
-          </form>
-        </div> 
-        {/* ----==== TASKS VISIBILITY FORM ====---- */}
-        <div className='calendar__legend'>
-          <div className='calendar__legend-container client-other-task cursor-pointer'
-               onClick={() => setShowClientTasks(prevData => !prevData)}
-          >
-            {<TbSquareRoundedLetterC className='calendar__legend-icon'/>}
-            {<TbSquareRoundedLetterO className='calendar__legend-icon'/>}
-            <p>CLIENT TASK</p>
-            {showClientTasks && <BiShow className='visibility-icon' />}
-            {!showClientTasks && <BiHide className='visibility-icon' />}
+        <div className='tasks__filter-container'>
+          <div className='tasks__filter-container-left'>
+            <p>Filter by:</p>
           </div>
+          <div className='tasks__filter-container-right'>
+            <form>
+              <div className='form__inputs-container form-grid-3-cols'>
+                <div className='input-wrapper'>
+                  <input type='text'
+                      className='input-width-100 height-1-8'
+                      id='task-title'
+                      name='filterByTitle'
+                      placeholder='Title'
+                      value={filterForm.filterByTitle}
+                      onChange={handleFilterChange}
+                      />
+                </div>
+                <div className='input-wrapper'>
+                  <input type='text'
+                      className='input-width-100 height-1-8'
+                      id='task-client'
+                      name='filterByClient'
+                      placeholder='Client name'
+                      value={filterForm.filterByClient}
+                      onChange={handleFilterChange}
+                      />
+                </div>
+                <div className='input-wrapper'>
+                  <input type='text'
+                      className='input-width-100 height-1-8'
+                      id='task-lead'
+                      name='filterByLead'
+                      placeholder='Lead title'
+                      value={filterForm.filterByLead}
+                      onChange={handleFilterChange}
+                      />
+                </div>
+                <div className='input-wrapper input-wrapper-label'>
+                        <label className='label-sm' htmlFor='start-date'>Date &gt;</label>
+                        <input type='date'
+                        className='input-width-100 height-1-8'
+                        id='start-date'
+                        name='filterByDateCreated'
+                        placeholder='0'
+                        min={0}
+                        value={filterForm.filterByStartDate}
+                        onChange={handleFilterChange}
+                        />
+                </div>
+                <div className='input-wrapper input-wrapper-label'>
+                        <label className='label-sm' htmlFor='end-date'>Date &lt;</label>
+                        <input type='date'
+                        className='input-width-100 height-1-8'
+                        id='end-date'
+                        name='filterByDateCreated'
+                        placeholder='0'
+                        min={0}
+                        value={filterForm.filterByEndDate}
+                        onChange={handleFilterChange}
+                        />
+                </div>
+                {/* ----==== TASKS VISIBILITY FORM ====---- */}
+                  <div className='filter-btns__container'>
+                    <div className='filter-btn__container'>
+                      <button  type='button' className='show-hide-btn no-border-btn filter-btn'
+                            onClick={() => setShowClientTasks(prevData => !prevData)}
+                        >
+                          <p>CLIENTS TASKS</p>
+                          {showClientTasks && <BiShow className='visibility-icon' />}
+                          {!showClientTasks && <BiHide className='visibility-icon' />}
+                        </button>
+                    </div>
+                    <div className='filter-btn__container'>
+                      <button type='button' className='show-hide-btn no-border-btn filter-btn'
+                          onClick={() => setShowLeadTasks(prevData => !prevData)}
+                      >
+                        <p>LEADS TASKS</p>
+                        {showLeadTasks && <BiShow className='visibility-icon' />}
+                        {!showLeadTasks && <BiHide className='visibility-icon' />}
+                      </button>
+                    </div>
 
-          <div className='calendar__legend-container lead-other-task cursor-pointer'
-               onClick={() => setShowLeadTasks(prevData => !prevData)}
-          >
-            {<TbSquareRoundedLetterL className='calendar__legend-icon'/>}
-            {<TbSquareRoundedLetterO className='calendar__legend-icon'/>}
-            <p>LEAD TASK</p>
-            {showLeadTasks && <BiShow className='visibility-icon' />}
-            {!showLeadTasks && <BiHide className='visibility-icon' />}
-          </div>
+                    <div className='filter-btn__container'>
+                      <button type='button' className='show-hide-btn no-border-btn filter-btn'
+                          onClick={() => setShowOtherTasks(prevData => !prevData)}
+                      >
+                        <p>OTHER TASKS</p>
+                        {showOtherTasks && <BiShow className='visibility-icon' />}
+                        {!showOtherTasks && <BiHide className='visibility-icon' />}
+                      </button>
+                    </div>
+                  </div>
+              </div>
+            </form>
+            
 
-          <div className='calendar__legend-container other-task cursor-pointer'
-               onClick={() => setShowOtherTasks(prevData => !prevData)}
-          >
-            {<TbSquareRoundedLetterO className='calendar__legend-icon'/>}
-            <p>OTHER TASK</p>
-            {showOtherTasks && <BiShow className='visibility-icon' />}
-            {!showOtherTasks && <BiHide className='visibility-icon' />}
-
-          </div>
-        </div>
+          </div>         
       </div>
 
       <div className=''>

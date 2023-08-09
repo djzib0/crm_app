@@ -50,11 +50,6 @@
     box-sizing: border-box; 
 }
 
-.filter__form input:focus,
-.filter__form select:focus {
-    outline: none;
-}
-
 .filter__form label {
     margin-right: .5rem;
 }

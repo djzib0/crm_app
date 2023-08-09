@@ -346,25 +346,29 @@ function Leads() {
                         />
                     </div>
                     <div className='filter-btns__container'>
-                        <div className='filter-btn__container'>
-                            <div className='filter-btn'>
-                                <button type='button' className='show-hide-btn no-border-btn' onClick={handleShowSoldChange}>{filterForm.filterShowSold ? "HIDE SOLD" : "SHOW SOLD"}</button>
-                                {filterForm.filterShowSold ? <BiShow onClick={handleShowSoldChange} /> : <BiHide onClick={handleShowSoldChange} />}
-                            </div>
-                            <div className='filter-btn'>
-                                <button type='button' className='show-hide-btn no-border-btn' onClick={handleShowNotSoldChange}>{filterForm.filterShowNotSold ? "HIDE NOT SOLD" : "SHOW NOT SOLD"}</button>
-                                {filterForm.filterShowNotSold ? <BiShow onClick={handleShowNotSoldChange}/> : <BiHide onClick={handleShowNotSoldChange}/>}
-                            </div>
+                        <div className='filter-btn__container' onClick={(handleShowSoldChange)}>
+                            <button type='button' className='show-hide-btn no-border-btn filter-btn'>
+                                {filterForm.filterShowSold ? <p>HIDE SOLD</p> : <p>SHOW SOLD</p>}
+                                {filterForm.filterShowSold ? <BiShow className='visibility-icon'/> : <BiHide className='visibility-icon'/>}
+                            </button>
                         </div>
-                        <div className='filter-btn__container'>
-                            <div className='filter-btn'>
-                                <button type='button' className='show-hide-btn no-border-btn' onClick={handleShowOpenChange}>{filterForm.filterShowOpen ? "HIDE OPEN" : "SHOW OPEN"}</button>
-                                {filterForm.filterShowOpen ? <BiShow onClick={handleShowOpenChange} /> : <BiHide onClick={handleShowOpenChange} />}
-                            </div>
-                            <div className='filter-btn'>
-                                <button type='button' className='show-hide-btn no-border-btn' onClick={handleShowClosedChange}>{filterForm.filterShowClosed ? "HIDE CLOSED" : "SHOW CLOSED"}</button>
-                                {filterForm.filterShowClosed ? <BiShow onClick={handleShowClosedChange}/> : <BiHide onClick={handleShowClosedChange}/>}
-                            </div>
+                        <div className='filter-btn__container' onClick={handleShowNotSoldChange}>
+                            <button type='button' className='show-hide-btn no-border-btn filter-btn'>
+                            {filterForm.filterShowNotSold ? <p>HIDE NOT SOLD</p> : <p>SHOW NOT SOLD"</p>}
+                            {filterForm.filterShowNotSold ? <BiShow className='visibility-icon'/> : <BiHide className='visibility-icon'/>}
+                            </button>
+                        </div>
+                        <div className='filter-btn__container' onClick={handleShowOpenChange}>
+                            <button type='button' className='show-hide-btn no-border-btn filter-btn'>
+                            {filterForm.filterShowOpen ? <p>HIDE OPEN</p> : <p>SHOW OPEN</p>}
+                            {filterForm.filterShowOpen ? <BiShow className='visibility-icon'/> : <BiHide className='visibility-icon'/>}
+                            </button>
+                        </div>
+                        <div className='filter-btn__container' onClick={handleShowClosedChange}>
+                            <button type='button' className='show-hide-btn no-border-btn filter-btn'>
+                            {filterForm.filterShowClosed ? <p>HIDE CLOSED</p> : <p>SHOW CLOSED</p>}
+                            {filterForm.filterShowClosed ? <BiShow className='visibility-icon' /> : <BiHide className='visibility-icon'/>}
+                            </button>
                         </div>
                     </div>
                     <div className='input-wrapper'>

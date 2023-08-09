@@ -48,23 +48,4 @@
     scale: 150%;
 }
 
-.filter-btns__container,
-.filter-btn__container,
-.filter-btn {
-    display: flex;
-    flex-direction: column;
-}
-
-.filter-btn__container {
-    flex-direction: row;
-}
-
-.filter-btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: .5rem;
-    width: 100px;
-}
-
 

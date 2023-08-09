@@ -1,13 +1,13 @@
 .tasks__filter-container {
     display: flex;
-    flex-direction: column;
 }
 
-.visibility-icon {
-    background-color: whitesmoke;
-    font-size: .8rem;
-    margin-left: .2rem;
-    /* border: 1px solid black; */
-    border-radius: .2rem;
-    margin-right: -.15rem;
+.tasks__filter-container-left {
+    display: flex;
+}
+
+.tasks__filter-container-right {
+    display: grid;
+    width: 95%;
+    gap: 10px;
 }
