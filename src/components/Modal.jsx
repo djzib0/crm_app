@@ -6,6 +6,66 @@ import useDatabaseHook from '../hooks/useDatabaseHook'
 import { BsExclamationOctagonFill, BsFillInfoCircleFill } from 'react-icons/bs'
 import { getToday } from './utils/utils'
 
+
+// INSTRUCTION - HOW TO USE MODAL COMPONENT!
+// 1. Import Modal and useModalHook in the component
+// -------------------------------------------
+// 2. Add below code in component
+
+// const {
+//   modalData,
+//   setModalData,
+//   closeModal,
+// } = useModalHook()
+
+// {modalData.isActive && 
+//   <Modal
+//     isActive={modalData.isActive}
+//     modalType={modalData.modalType}
+//     messageTitle={modalData.messageTitle}
+//     messageText={modalData.messageText}
+//     handleFunction={modalData.handleFunction}
+//     elementId={modalData.elementId}
+//     value={modalData.value}
+//     refreshPage={() => refreshPage()}
+//     onClose={closeModal}
+//     //props with data to add in DB
+//     leadId=""
+//     clientId=""
+//     />}
+// ------------------------------------------------
+// 3. Add useEffect, state, and function to refresh the page
+
+// useEffect(() => {
+//   // to update/refresh the page, I need to 
+//   // fetch data and then change state. It will cause 
+//   // the refresh of page with updated, fetched data
+//   async function refresh() {
+//     let data = await showAllTasksData()
+//   }
+//   refresh()
+// }, [updateState])
+
+// function refreshPage() {
+//   setUpdateState(prevData => !prevData)
+// }
+// ------------------------------------
+// 4. set onClick function as below example:
+// onClick={() => setModalData(prevData => {
+//   //open new modal with new properties
+//   return {
+//     ...prevData,
+//     isActive: true,
+//     modalType: "delete",
+//     messageTitle: "Do you want to delete this task?",
+//     elementId: item[0], //item[0] is a task id
+//     value: item[1].title,
+//     refreshPage: refreshPage,
+//     handleFunction: deleteTask,
+//   }
+// })} />}
+
+
 function Modal(props) {
   const {
     isActive,

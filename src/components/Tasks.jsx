@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import Modal from './Modal'
+import useModalHook from '../hooks/useModalHook'
 import { useActionData } from 'react-router-dom'
 import useDatabaseHook from '../hooks/useDatabaseHook'
 
@@ -12,9 +14,13 @@ import {
   TbSquareRoundedLetterL, TbSquareRoundedLetterC, TbSquareRoundedLetterO,
   TbSquareRoundedChevronLeftFilled, TbSquareRoundedChevronRightFilled 
  } from 'react-icons/tb'
+ import { ImCheckmark } from 'react-icons/im'
  import { BiShow, BiHide } from 'react-icons/bi'
  
 function Tasks() {
+
+  // this state is only to force DOM to re-render after DB is changed
+  const [updateState, setUpdateState] = useState(false)
 
   const [showClientTasks, setShowClientTasks] = useState(true)
   const [showLeadTasks, setShowLeadTasks] = useState(true)
@@ -29,10 +35,31 @@ function Tasks() {
     allTasksData,
     allClientsData,
     allLeadsData,
+    showAllTasksData,
     addTask,
+    closeTask,
    } = useDatabaseHook()
 
-  
+   const {
+    modalData,
+    setModalData,
+    closeModal,
+  } = useModalHook()
+
+  useEffect(() => {
+    // to update/refresh the page, I need to 
+    // fetch data and then change state. It will cause 
+    // the refresh of page with updated, fetched data
+    async function refresh() {
+      let data = await showAllTasksData()
+    }
+    refresh()
+  }, [updateState])
+
+  function refreshPage() {
+    setUpdateState(prevData => !prevData)
+  }
+
   const [filterForm, setFilterForm] = useState({
     filterByTitle: "",
     filterByClient: "",
@@ -183,8 +210,29 @@ function Tasks() {
 
   const tasksArr = allTasksData && filterTasks(allTasksData).map(item => {
     return (
-      <div key={item[0]}>
-        <p>{[item[1].title]}</p>
+      <div key={item[0]} className='task-list__container clients__data-row'>
+        <p>{item[1].title}</p>
+        <p>{item[1].dateCreated}</p>
+        <p>{item[1].deadlineDate}</p>
+        {item[1].leadId && <button className='edit-btn'>SHOW LEAD</button>}
+        {item[1].clientId && <button className='edit-btn'>SHOW CLIENT</button>}
+        {!item[1].leadId && !item[1].clientId && <p className='center-text'>N/A</p>}
+        <button className='icon-btn btn-small'
+        onClick={() => setModalData(prevData => {
+          //open new modal with new properties
+          return {
+            ...prevData,
+            isActive: true,
+            modalType: "question",
+            messageTitle: "Do you want to close this task?",
+            elementId: item[0], //item[0] is a task id
+            value: item[1].title,
+            refreshPage: refreshPage,
+            handleFunction: closeTask,
+          }
+        })}>
+          <ImCheckmark className='anim-shake' />
+        </button>
       </div>
     )
   })
@@ -283,18 +331,61 @@ function Tasks() {
                         {!showOtherTasks && <BiHide className='visibility-icon' />}
                       </button>
                     </div>
+
+                    <div className='filter-btn__container'>
+                      <button type='button' className='show-hide-btn no-border-btn filter-btn'
+                          onClick={() => setShowClosedTasks(prevData => !prevData)}
+                      >
+                        <p>CLOSED TASKS</p>
+                        {showClosedTasks && <BiShow className='visibility-icon' />}
+                        {!showClosedTasks && <BiHide className='visibility-icon' />}
+                      </button>
+                    </div>
                   </div>
               </div>
             </form>
-            
-
           </div>         
       </div>
+      <div className='grid-3-of-4'>
+        
+        <div className='details__content-grid-element'>
+          <div className='content-header__container'>
+            <p className='center-text content-header'>TASKS</p>
+          </div>
+          <div className='data__container'>
+            <div className='task-list__container clients__container-headers'>
+              <p>TITLE</p>
+              <p>DATE CREATED</p>
+              <p>DEADLINE DATE</p>
+              <p className='center-text'>OWNER</p>
+              <p></p>
+            </div>
+            {tasksArr}
+          </div>
 
-      <div className=''>
-        {/* <button onClick={addTaskTemporary}>Add "Other task"</button> */}
-        {tasksArr}
+        </div>
+
+        <div className='details__content-grid-element'>
+          <div className='content-header__container'>
+            <p className='center-text content-header'>STATS</p>
+          </div>
+        </div>
       </div>
+      {modalData.isActive && 
+      <Modal
+        isActive={modalData.isActive}
+        modalType={modalData.modalType}
+        messageTitle={modalData.messageTitle}
+        messageText={modalData.messageText}
+        handleFunction={modalData.handleFunction}
+        elementId={modalData.elementId}
+        value={modalData.value}
+        refreshPage={() => refreshPage()}
+        onClose={closeModal}
+        //props with data to add in DB
+        leadId=""
+        clientId=""
+        />}
     </div>
   )
 }

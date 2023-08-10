@@ -11,3 +11,10 @@
     width: 95%;
     gap: 10px;
 }
+
+.task-list__container {
+    display: grid;
+    grid-template-columns: 35% 15% 15% 20% 10%;
+    font-size: .65em;
+    align-items: center;
+}

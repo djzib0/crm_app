@@ -234,7 +234,7 @@ function Lead() {
               </div>
             </div>
     
-            <div className='data__container'>
+            <div className='data__container grid-2x-1fr'>
 
               <div className='data__container-column-50-left'>
                 <div className='data__container-row'>
