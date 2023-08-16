@@ -332,7 +332,7 @@ function Home() {
               {<TbSquareRoundedLetterO className='calendar__task-icon' />}
             </div>
             <Link to={`` }>
-                {item[1].title}</Link>
+                {makeShortStringWithDots(item[1].title, 54)}</Link>
                 <div className='cta__hoverable-icons-tooltip'>
               <div className='up-arrow'></div>
               <div className='cta__hoverable-icons-container'>

@@ -119,7 +119,7 @@ export default function Clients() {
   return (
     <section>
         <div className='filter__form'>
-            <p>Filter by:</p>
+            <small>Filter by:</small>
             <form>
               <div className='form__clients wrapper'>
                   <div className='wrapper'>

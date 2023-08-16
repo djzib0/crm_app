@@ -272,11 +272,11 @@ function Leads() {
         <div>
             <div className='filter__form'>
             <div className='filter__form-container-left'>
-                <p>Filter by:</p>
+                <small>FILTER BY:</small>
                 <button 
                     onClick={() => setFilterForm(filterFormEmptyData)}
                     type='button' 
-                    className='filter-btn edit-btn no-border-btn'>CLEAR FORM</button>
+                    className=' edit-btn'>CLEAR FORM</button>
             </div>
 
             <form>

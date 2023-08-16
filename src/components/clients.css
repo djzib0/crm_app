@@ -1,9 +1,11 @@
 .clients__data-row {
-    border-bottom: 1px solid var(--color-gray-light);
+    border-bottom: .5px solid var(--color-gray-light);
+    cursor: default;
 }
 
 .clients__data-row:hover {
-    background-color: var(--color-gray-light);
+    background-color: var(--color-green-light);
+    border-bottom: .5px solid var(--color-green-light);
 }
 
 .clients-container {
