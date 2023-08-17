@@ -154,4 +154,43 @@ export function getToday() {
     }
   }
 
+  export function isInDatesRange(startDate, endDate, date) {
+    // check if date is in range
+
+    // case 1 - startDate and endDate are chosen
+    // return true if date is in range
+    if ( startDate != "" && endDate != "" ) {
+      if (date > startDate && date < endDate) {
+        return true
+      } else {
+        return false
+      }
+    // case 2 - there are no chosen dates
+    // in this case function returns true
+    } else if (startDate != "" && endDate != "") {
+      return true
+    // case 3 - startDate is empty, endDate is chosen
+    } else if (startDate === "" && endDate != "") {
+      // if task date is earlier than endDate
+      // return true, otherwise it's older and return false
+      if (date < endDate) {
+        return true
+      } else {
+        return false
+      }
+    // case 4 - endDate is empty, startDate is chosen
+    } else if ( endDate === ""  && startDate != "") {
+      // if task date is older than startDate
+      // return true, otherwise it's earlier and return false
+      if (date > startDate) {
+        return true
+      } else {
+        return false
+      }
+    } 
+    else {
+      return true
+    }
+  }
+
 

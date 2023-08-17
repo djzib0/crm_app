@@ -224,7 +224,7 @@ function Home() {
                   return {
                     ...prevData,
                     isActive: true,
-                    modalType: "update",
+                    modalType: "add",
                     messageTitle: "Enter new task title",
                     elementId: item[0], //item[0] is a task id
                     value: item[1].title,
@@ -283,7 +283,7 @@ function Home() {
                   return {
                     ...prevData,
                     isActive: true,
-                    modalType: "update",
+                    modalType: "add",
                     messageTitle: "Enter new task title",
                     elementId: item[0], //item[0] is a task id
                     value: item[1].title,
@@ -342,7 +342,7 @@ function Home() {
                   return {
                     ...prevData,
                     isActive: true,
-                    modalType: "update",
+                    modalType: "add",
                     messageTitle: "Enter new task title",
                     elementId: item[0], //item[0] is a task id
                     value: item[1].title,

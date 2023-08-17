@@ -3,11 +3,16 @@ import Modal from './Modal'
 import useModalHook from '../hooks/useModalHook'
 import { useActionData } from 'react-router-dom'
 import useDatabaseHook from '../hooks/useDatabaseHook'
+import { Link } from 'react-router-dom'
 
 import './tasks.css'
 
 //import utils
-import { getToday } from './utils/utils'
+import { 
+  getToday, 
+  makeShortStringWithDots,
+  isInDatesRange,
+ } from './utils/utils'
 
 //import icons
 import { 
@@ -16,6 +21,7 @@ import {
  } from 'react-icons/tb'
  import { ImCheckmark } from 'react-icons/im'
  import { BiShow, BiHide } from 'react-icons/bi'
+ import { AiTwotoneEdit } from 'react-icons/ai'
  
 function Tasks() {
 
@@ -38,6 +44,7 @@ function Tasks() {
     showAllTasksData,
     addTask,
     closeTask,
+    editTaskTitle,
    } = useDatabaseHook()
 
    const {
@@ -132,6 +139,8 @@ function Tasks() {
           filteredArr.push(item)
         }
       })
+    } else if (true) {
+      filteredArr.push(item)
     }
 
     // Must be a more efficient way to filter those items without 
@@ -181,58 +190,82 @@ function Tasks() {
       if (filterForm.filterByClient.length) {
         return (
           task[1].title.toLowerCase().includes(filterForm.filterByTitle.toLocaleLowerCase()) &&
-          filteredClientsId.includes(task[1].clientId)
+          filteredClientsId.includes(task[1].clientId) &&
+          isInDatesRange(
+            filterForm.filterByStartDate,
+            filterForm.filterByEndDate,
+            task[1].dateCreated
+            )
         )
       } else if (filterForm.filterByLead.length) {
         return (
           task[1].title.toLowerCase().includes(filterForm.filterByTitle.toLocaleLowerCase()) &&
-          filteredLeadsId.includes(task[1].leadId)
+          filteredLeadsId.includes(task[1].leadId) &&
+          isInDatesRange(
+            filterForm.filterByStartDate,
+            filterForm.filterByEndDate,
+            task[1].dateCreated
+            )
         )
       } else if (filterForm.filterByTitle.length >= 0) {
-        return task[1].title.toLowerCase().includes(filterForm.filterByTitle.toLocaleLowerCase())
+        return task[1].title.toLowerCase().includes(filterForm.filterByTitle.toLocaleLowerCase()) &&        isInDatesRange(
+          filterForm.filterByStartDate,
+          filterForm.filterByEndDate,
+          task[1].dateCreated
+          )
       }
     })
 
     return filteredByFormArr
   }
 
-  // remove below function, it was only to make a single task 
-  // in database
-  function addTaskTemporary() {
-    addTask(
-      "",
-      "",
-      "Automatically added Other Task",
-      getToday(),
-      "2023-08-02"
-    )
-  }
-
   const tasksArr = allTasksData && filterTasks(allTasksData).map(item => {
     return (
       <div key={item[0]} className='task-list__container clients__data-row'>
-        <p>{item[1].title}</p>
+        <p>{makeShortStringWithDots(item[1].title, 100)}</p>
         <p>{item[1].dateCreated}</p>
         <p>{item[1].deadlineDate}</p>
-        {item[1].leadId && <button className='edit-btn'>SHOW LEAD</button>}
-        {item[1].clientId && <button className='edit-btn'>SHOW CLIENT</button>}
+        {item[1].leadId && <Link className='cta__container' to={`/lead/${item[1].leadId}`}><button className='edit-btn'>SHOW LEAD</button></Link>}
+        {item[1].clientId && <Link className='cta__container' to ={`/client/${item[1].clientId}`}><button className='edit-btn'>SHOW CLIENT</button></Link>}
         {!item[1].leadId && !item[1].clientId && <p className='center-text'>N/A</p>}
-        <button className='icon-btn btn-small'
-        onClick={() => setModalData(prevData => {
-          //open new modal with new properties
-          return {
-            ...prevData,
-            isActive: true,
-            modalType: "question",
-            messageTitle: "Do you want to close this task?",
-            elementId: item[0], //item[0] is a task id
-            value: item[1].title,
-            refreshPage: refreshPage,
-            handleFunction: closeTask,
-          }
-        })}>
-          <ImCheckmark className='anim-shake' />
-        </button>
+        <div className='cta__container'>
+          <button className='btn-small'
+          disabled={item[1].isClosed}
+          onClick={() => setModalData(prevData => {
+            //open new modal with new properties
+            return {
+              ...prevData,
+              isActive: true,
+              modalType: "add",
+              messageTitle: "",
+              elementId: item[0], //item[0] is a task id
+              value: item[1].title,
+              refreshPage: refreshPage,
+              handleFunction: editTaskTitle,
+            }
+          })}>
+            <AiTwotoneEdit className='anim-shake' />
+          </button>
+          <button className='btn-small'
+          disabled={item[1].isClosed}
+          onClick={() => setModalData(prevData => {
+            //open new modal with new properties
+            return {
+              ...prevData,
+              isActive: true,
+              modalType: "question",
+              messageTitle: "Do you want to close this task?",
+              elementId: item[0], //item[0] is a task id
+              value: item[1].title,
+              refreshPage: refreshPage,
+              handleFunction: closeTask,
+            }
+          })}>
+            <ImCheckmark className='anim-shake' />
+          </button>
+          {item[1].isClosed && <small className='red-text'>CLOSED</small>}
+        </div>
+        
       </div>
     )
   })
@@ -282,7 +315,7 @@ function Tasks() {
                         <input type='date'
                         className='input-width-100 height-1-8'
                         id='start-date'
-                        name='filterByDateCreated'
+                        name='filterByStartDate'
                         placeholder='0'
                         min={0}
                         value={filterForm.filterByStartDate}
@@ -294,7 +327,7 @@ function Tasks() {
                         <input type='date'
                         className='input-width-100 height-1-8'
                         id='end-date'
-                        name='filterByDateCreated'
+                        name='filterByEndDate'
                         placeholder='0'
                         min={0}
                         value={filterForm.filterByEndDate}

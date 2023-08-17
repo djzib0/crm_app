@@ -117,19 +117,6 @@ button:focus-visible {
   color: #535bf2;
 }
 
-/* .edit-btn {
-  border: 1px solid #353535;
-  background-color: whitesmoke;
-  border-radius: .2rem;
-  width: 100px;
-  height: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
-} */
-
-
 /* Style copied from https://getcssscan.com/css-buttons-examples */
 
 /* CSS */
@@ -177,8 +164,19 @@ button:focus-visible {
 
 /* END OF COPIED STYLE */
 
-.btn-small {
-  font-size: .7rem;
+.btn-small,
+.btn-small-disabled {
+  font-size: .6rem;
+  display: flex;
+  width: auto;
+  height: 1rem;
+  align-items: center;
+  background-color: transparent;
+}
+
+.btn-small-disabled {
+  transition: none !important;
+  background-color: red;;
 }
 
 .no-border-btn {
@@ -398,6 +396,9 @@ p {
   justify-content: center; */
 }
 
+.red-text {
+  color: var(--color-incorrect-red)
+}
 
 /* END of new form styles */
 
@@ -565,6 +566,15 @@ p {
   scale: 110%
 }
 
+.cta__container {
+  display: flex;
+  align-items: center;
+}
+.cta__container p{
+  margin: 0 .2rem;
+  cursor: pointer;
+}
+
 /* modal */
 .modal__container {
   position: fixed;
@@ -628,7 +638,7 @@ p {
 }
 
 .anim-shake:hover {
-  scale: 120%;
+  scale: 140%;
   animation-name: tilt-shaking;
   animation-duration: 2s;
   text-shadow: 10px 5px 5px #0095ff;
