@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Modal from './Modal'
 import useModalHook from '../hooks/useModalHook'
-import { useActionData } from 'react-router-dom'
 import useDatabaseHook from '../hooks/useDatabaseHook'
 import { Link } from 'react-router-dom'
 
@@ -12,6 +11,7 @@ import {
   getToday, 
   makeShortStringWithDots,
   isInDatesRange,
+  getTasksStats,
  } from './utils/utils'
 
 //import icons
@@ -67,13 +67,15 @@ function Tasks() {
     setUpdateState(prevData => !prevData)
   }
 
-  const [filterForm, setFilterForm] = useState({
+  const filterFormEmptyData = {
     filterByTitle: "",
     filterByClient: "",
     filterByLead: "",
     filterByStartDate: "",
     filterByEndDate: "",
-  })
+  }
+
+  const [filterForm, setFilterForm] = useState(filterFormEmptyData)
 
   function handleFilterChange(e) {
     const {name, value, type, checked} = e.target
@@ -185,7 +187,7 @@ function Tasks() {
         return item[0]
       })
     } 
-   
+
     let filteredByFormArr = filteredArr.filter(task => {
       if (filterForm.filterByClient.length) {
         return (
@@ -194,7 +196,7 @@ function Tasks() {
           isInDatesRange(
             filterForm.filterByStartDate,
             filterForm.filterByEndDate,
-            task[1].dateCreated
+            task[1].deadlineDate
             )
         )
       } else if (filterForm.filterByLead.length) {
@@ -204,14 +206,14 @@ function Tasks() {
           isInDatesRange(
             filterForm.filterByStartDate,
             filterForm.filterByEndDate,
-            task[1].dateCreated
+            task[1].deadlineDate
             )
         )
       } else if (filterForm.filterByTitle.length >= 0) {
         return task[1].title.toLowerCase().includes(filterForm.filterByTitle.toLocaleLowerCase()) &&        isInDatesRange(
           filterForm.filterByStartDate,
           filterForm.filterByEndDate,
-          task[1].dateCreated
+          task[1].deadlineDate
           )
       }
     })
@@ -270,13 +272,20 @@ function Tasks() {
     )
   })
 
+  // prepare the data for statistics displayed on the page
+  const taskStats = allTasksData && getTasksStats(allTasksData)
+
   return (
     <div className='container'>
     {/* ********* FILTER FORM ******** */}
         <div className='tasks__filter-container'>
-          <div className='tasks__filter-container-left'>
-            <p>Filter by:</p>
-          </div>
+            <div className='filter__form-container-left'>
+                <small>FILTER BY:</small>
+                <button 
+                    onClick={() => setFilterForm(filterFormEmptyData)}
+                    type='button' 
+                    className=' edit-btn'>CLEAR FORM</button>
+            </div>
           <div className='tasks__filter-container-right'>
             <form>
               <div className='form__inputs-container form-grid-3-cols'>
@@ -402,7 +411,26 @@ function Tasks() {
           <div className='content-header__container'>
             <p className='center-text content-header'>STATS</p>
           </div>
+          <div className='stats__container data__container'>
+            <div className='stats__container-item'>
+              <p className='stats__container-item-title'>ALL TASKS:</p>
+              <p>{taskStats ? taskStats.numberOfAllTasks : ""}</p>
+            </div>
+            <div className='stats__container-item'>
+              <p className='stats__container-item-title'>OPEN TASKS:</p>
+              <p>{taskStats ? taskStats.numberOfAllOpenTasks : ""}</p>
+            </div>
+            <div className='stats__container-item'>
+              <p className='stats__container-item-title'>FINISHED TASKS:</p>
+              <p>{taskStats ? taskStats.numberOfAllClosedTasks : ""}</p>
+            </div>
+            <div className='stats__container-item'>
+              <p className='stats__container-item-title'>EXCEEDED TASKS:</p>
+              <p>{taskStats ? taskStats.numberOfExceeded : ""}</p>
+            </div>
+          </div>
         </div>
+
       </div>
       {modalData.isActive && 
       <Modal

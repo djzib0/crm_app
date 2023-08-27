@@ -440,6 +440,7 @@ p {
   background-color: white;
   border-radius: 3px;
   border: 1px solid var(--color-gray-light);
+  height: fit-content;
 }
 
 .grid-3-of-4 {
@@ -550,6 +551,27 @@ p {
   scale: 120%;
 }
 
+/* stats container */
+.stats__container {
+  font-size: .6rem;
+  overflow: hidden;
+}
+
+.stats__container-item:first-child {
+  margin-top: .2rem;
+}
+
+.stats__container-item {
+  display: flex;
+  justify-content: center;
+}
+
+
+
+.stats__container-item-title {
+  width: 100px;
+}
+
 /* go back container */
 .go-back__container {
   display: flex;
@@ -628,6 +650,7 @@ p {
   height: 12rem;
   padding: .8rem;
   resize: none;
+  font-family:'Roboto', Arial, Helvetica, sans-serif, sans-serif;
 }
 
 /* animations */

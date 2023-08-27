@@ -25,6 +25,10 @@ function Home() {
 
   const [currentMonday, setCurrentMonday] = useState(getCurrentWeekMondayDate())
 
+  // state to show how many tasks are in previous weeks and following weeks
+  const [previousTasksNumber, setPreviousTasksNumber] = useState(0)
+  const [nextTasksNumber, setNextTasksNumber] = useState(0)
+
   const {
     allCompaniesData,
     allClientsData,
@@ -60,6 +64,8 @@ function Home() {
     async function refresh() {
       let data = await showAllTasksData()
     }
+    countPreviousTasks()
+    countNextTasks()
     refresh()
   }, [updateState])
 
@@ -72,6 +78,35 @@ function Home() {
     // changing updateState to re-render DOM
     setUpdateState(prevData => !prevData)
   }
+
+  // shows how many open tasks are in the previous weeks
+  function countPreviousTasks() {
+    let counter = 0;
+    let monday = showShortDate(currentMonday)
+    if (allTasksData) {
+      for (let item of allTasksData) {
+        if (!item[1].isClosed && item[1].deadlineDate < monday) {
+          counter++;
+        }
+      }
+    }
+    setPreviousTasksNumber(prevData => counter);
+  }
+
+    // shows how many open tasks are in the next weeks
+    function countNextTasks() {
+      let counter = 0;
+      let monday = showShortDate(currentMonday)
+      if (allTasksData) {
+        for (let item of allTasksData) {
+          if (!item[1].isClosed && item[1].deadlineDate > monday) {
+            counter++;
+          }
+        }
+      }
+      setNextTasksNumber(prevData => counter);
+    }
+
 
   // **************
   //move below functions to utils and import to this component
@@ -119,12 +154,18 @@ function Home() {
     let nextMonday = new Date(monday)
     nextMonday = new Date(nextMonday.setDate(nextMonday.getDate() + 7))
     setCurrentMonday(prevData => nextMonday)
+    countPreviousTasks()
+    countNextTasks()
+    refreshPage()
   }
 
   function showPreviousWeek(monday) {
     let previousMonday = new Date(monday)
     previousMonday = new Date(previousMonday.setDate(previousMonday.getDate() - 7))
     setCurrentMonday(prevData => previousMonday)
+    countPreviousTasks()
+    countNextTasks()
+    refreshPage()
   }
 
   function showDayLeadTasks(date, delta) {
@@ -404,12 +445,14 @@ function Home() {
           <div className='calendar__nav-item' onClick={() => showPreviousWeek(currentMonday)}>
             <TbSquareRoundedChevronLeftFilled />
             <p>PREV WEEK</p>
+            <p className='tasks-counter__container'>{previousTasksNumber}</p>
           </div>
 
           <p className='calendar__nav-item'> - </p>
 
           <div className='calendar__nav-item' onClick={() => showNextWeek(currentMonday)}>
-          <p>NEXT WEEK</p>
+            <p>NEXT WEEK </p>
+            <p className='tasks-counter__container'>{nextTasksNumber} </p>
             <TbSquareRoundedChevronRightFilled />
           </div>
         </div>

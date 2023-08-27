@@ -98,7 +98,7 @@ function Modal(props) {
     // the button remains disabled
 
     // checks input after "trimming" white spaces
-    if (formData.newValue.trim() && formData.date) {
+    if (formData.newValue && formData.newValue.trim() && formData.date) {
       setIsDisabled(false)
     } else {
       setIsDisabled(true)

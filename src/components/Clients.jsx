@@ -24,14 +24,17 @@ export default function Clients() {
     allCompaniesData, 
     allLeadsData } = useDatabaseHook()
 
-  const [filterForm, setFilterForm] = useState({
+  const filterFormEmptyData = {
     filterByFirstName: "",
     filterByLastName: "",
     filterByEmail: "",
     filterByPhoneNumber: "",
     filterByCompanyName: "",
     filterByShowExceeded: false,
-  })
+
+  }
+
+  const [filterForm, setFilterForm] = useState(filterFormEmptyData)
 
   let clientsArr = allClientsData && allCompaniesData && filterClients(allClientsData).map(item => {
     return (
@@ -119,7 +122,13 @@ export default function Clients() {
   return (
     <section>
         <div className='filter__form'>
-            <small>Filter by:</small>
+            <div className='filter__form-container-left'>
+                <small>FILTER BY:</small>
+                <button 
+                    onClick={() => setFilterForm(filterFormEmptyData)}
+                    type='button' 
+                    className=' edit-btn'>CLEAR FORM</button>
+            </div>
             <form>
               <div className='form__clients wrapper'>
                   <div className='wrapper'>

@@ -12,11 +12,29 @@
     justify-content: center;
     cursor: pointer;
     margin: 0 .3rem;
+    position: relative;
 }
 
 .calendar__nav-item > p {
     margin: 0 .5rem;
 }
+
+.tasks-counter__container {
+    background-color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 5px;
+    font-size: .5rem;
+    font-weight: 700;
+    height: .8rem;
+    color: var(--color-white);
+    border-radius: 15px;
+    position: absolute;
+    right: -12px;
+    top: -0px;
+}
+
 
 .calendar__legend,
 .calendar__legend-container {

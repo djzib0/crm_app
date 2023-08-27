@@ -167,7 +167,7 @@ export function getToday() {
       }
     // case 2 - there are no chosen dates
     // in this case function returns true
-    } else if (startDate != "" && endDate != "") {
+    } else if (startDate === "" && endDate === "") {
       return true
     // case 3 - startDate is empty, endDate is chosen
     } else if (startDate === "" && endDate != "") {
@@ -191,6 +191,37 @@ export function getToday() {
     else {
       return true
     }
+  }
+
+  export function getTasksStats(arr) {
+    let numberOfAllTasks = 0
+    let numberOfAllClosedTasks = 0
+    let numberOfAllOpenTasks = 0;
+    let numberOfExceeded = 0
+
+    for (let item of arr) {
+      numberOfAllTasks++;
+      // if task is closed add 1 to counter of closed tasks
+      if (item[1].isClosed) {
+        numberOfAllClosedTasks++;
+      } else {
+        numberOfAllOpenTasks++;
+      }
+      // if task is not closed and date is exceeded
+      // add one to number of tasks with exceeded date
+      if (!item[1].isClosed && item[1].deadlineDate < getToday()) {
+        numberOfExceeded++;
+      }
+    }
+
+    let stats = {
+      numberOfAllTasks: numberOfAllTasks,
+      numberOfAllClosedTasks: numberOfAllClosedTasks,
+      numberOfAllOpenTasks: numberOfAllOpenTasks,
+      numberOfExceeded: numberOfExceeded,
+    }
+
+    return stats
   }
 
 
