@@ -210,7 +210,7 @@ function Tasks() {
             )
         )
       } else if (filterForm.filterByTitle.length >= 0) {
-        return task[1].title.toLowerCase().includes(filterForm.filterByTitle.toLocaleLowerCase()) &&        isInDatesRange(
+        return task[1].title.toLowerCase().includes(filterForm.filterByTitle.toLocaleLowerCase()) && isInDatesRange(
           filterForm.filterByStartDate,
           filterForm.filterByEndDate,
           task[1].deadlineDate

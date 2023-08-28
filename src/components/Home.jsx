@@ -25,10 +25,6 @@ function Home() {
 
   const [currentMonday, setCurrentMonday] = useState(getCurrentWeekMondayDate())
 
-  // state to show how many tasks are in previous weeks and following weeks
-  const [previousTasksNumber, setPreviousTasksNumber] = useState(0)
-  const [nextTasksNumber, setNextTasksNumber] = useState(0)
-
   const {
     allCompaniesData,
     allClientsData,
@@ -39,6 +35,11 @@ function Home() {
     closeTask,
     deleteTask,
   } = useDatabaseHook()
+
+  // state to show how many tasks are in previous weeks and following weeks
+  const [previousTasksNumber, setPreviousTasksNumber] = useState()
+  const [nextTasksNumber, setNextTasksNumber] = useState()
+
 
   const {
     modalData,
@@ -64,10 +65,10 @@ function Home() {
     async function refresh() {
       let data = await showAllTasksData()
     }
-    countPreviousTasks()
-    countNextTasks()
     refresh()
-  }, [updateState])
+
+    setCurrentMonday(prevData => getCurrentWeekMondayDate())
+  }, [])
 
   function refreshPage() {
     setUpdateState(prevData => !prevData)
@@ -90,22 +91,22 @@ function Home() {
         }
       }
     }
-    setPreviousTasksNumber(prevData => counter);
+    return counter
   }
 
-    // shows how many open tasks are in the next weeks
-    function countNextTasks() {
-      let counter = 0;
-      let monday = showShortDate(currentMonday)
-      if (allTasksData) {
-        for (let item of allTasksData) {
-          if (!item[1].isClosed && item[1].deadlineDate > monday) {
-            counter++;
-          }
+  // shows how many open tasks are in the next weeks
+  function countNextTasks() {
+    let counter = 0;
+    let monday = showShortDate(currentMonday)
+    if (allTasksData) {
+      for (let item of allTasksData) {
+        if (!item[1].isClosed && (item[1].deadlineDate) > monday) {
+          counter++;
         }
       }
-      setNextTasksNumber(prevData => counter);
     }
+    return counter
+  }
 
 
   // **************
@@ -445,14 +446,14 @@ function Home() {
           <div className='calendar__nav-item' onClick={() => showPreviousWeek(currentMonday)}>
             <TbSquareRoundedChevronLeftFilled />
             <p>PREV WEEK</p>
-            <p className='tasks-counter__container'>{previousTasksNumber}</p>
+            <p className='tasks-counter__container'>{countPreviousTasks()}</p>
           </div>
 
           <p className='calendar__nav-item'> - </p>
 
           <div className='calendar__nav-item' onClick={() => showNextWeek(currentMonday)}>
             <p>NEXT WEEK </p>
-            <p className='tasks-counter__container'>{nextTasksNumber} </p>
+            <p className='tasks-counter__container'>{countNextTasks()} </p>
             <TbSquareRoundedChevronRightFilled />
           </div>
         </div>
