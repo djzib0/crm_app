@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import useDatabaseHook from '../hooks/useDatabaseHook';
 import Modal from './Modal';
+import GoBack from './GoBack';
 import useModalHook from '../hooks/useModalHook';
 
 // react-router components import
@@ -86,18 +87,11 @@ function Client() {
         <div className='details__content-container' id='client-details__content-container'>
           <div className='info-container details__content-grid-element'>
             <div className='info-container-top'>
-
-              {/* "absolute" container to fix position of icon */}
-              <Link to='../clients'>
-                <div className='go-back__container'>
-                  {<AiFillLeftCircle />} 
-                  <p>BACK</p>
-                </div>
+              <GoBack />
+              <Link to={`/edit-client/${clientId}`} id='edit__btn-client-data'>
+                {<TiEdit />}
               </Link>
-              <div className='icon-white' id='edit__btn-client-data'>
-                <Link to={`/edit-client/${clientId}`} >{<TiEdit />}</Link>
-              </div>
-  
+
               {/* replace below code with an <img> */}
               <div className='details__avatar-img'></div> 
               <div className='details__info-container-top-data'>

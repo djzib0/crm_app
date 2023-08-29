@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import Modal from './Modal';
+import GoBack from './GoBack';
 import useModalHook from '../hooks/useModalHook';
 import useDatabaseHook from '../hooks/useDatabaseHook';
 
@@ -198,12 +199,7 @@ function Lead() {
           <div className='info-container details__content-grid-element'>
             <div className='info-container-top'>
               {/* "absolute" container to fix position of icon */}
-              <Link to='../leads'>
-                <div className='go-back__container'>
-                  {<AiFillLeftCircle />} 
-                  <p>BACK</p>
-                </div>
-              </Link>
+              <GoBack />
               <div className='details__info-container-top-data'>
                 <h4 id='lead__title'>
                   {selectedLead.projectTitle}
